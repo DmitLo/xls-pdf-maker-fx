@@ -85,7 +85,28 @@ public class WebPayPaymentService_test3 {
             System.out.println("Файл сгенерирован: " + tempHtmlFile.getAbsolutePath());
             System.out.println("Открываем системный браузер...");
             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                Desktop.getDesktop().browse(tempHtmlFile.toURI());
+
+
+                //Desktop.getDesktop().browse(tempHtmlFile.toURI());
+
+                try {
+                    // Стандартный вызов Java 11
+                    Desktop.getDesktop().browse(tempHtmlFile.toURI());
+                } catch (Throwable t) {
+                    // Перехватываем Throwable, чтобы поймать нативный краш Objective-C в старых версиях Java 11
+                    System.err.println("Java Desktop.browse() дал сбой на этой версии macOS. Запуск обходного пути...");
+
+                    try {
+                        // Резервный вариант: вызываем нативную команду macOS напрямую через терминал
+                        String[] cmd = {"open", tempHtmlFile.toURI().toString()};
+                        Runtime.getRuntime().exec(cmd);
+                    } catch (java.io.IOException ioException) {
+                        System.err.println("Не удалось открыть файл через системную команду 'open'");
+                        ioException.printStackTrace();
+                    }
+                }
+
+
             } else {
                 System.err.println("Ошибка: Среда выполнения не поддерживает открытие браузера.");
             }

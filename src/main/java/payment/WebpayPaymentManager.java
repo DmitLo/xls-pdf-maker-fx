@@ -120,7 +120,25 @@ public class WebpayPaymentManager {
 
             // 3. Открываем файл в системном браузере по умолчанию
             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                Desktop.getDesktop().browse(tempFile.toURI());
+                
+                try {
+                    // Стандартный вызов Java 11
+                    Desktop.getDesktop().browse(tempFile.toURI());
+                } catch (Throwable t) {
+                    // Перехватываем Throwable, чтобы поймать нативный краш Objective-C в старых версиях Java 11
+                    System.err.println("Java Desktop.browse() дал сбой на этой версии macOS. Запуск обходного пути...");
+
+                    try {
+                        // Резервный вариант: вызываем нативную команду macOS напрямую через терминал
+                        String[] cmd = {"open", tempFile.toURI().toString()};
+                        Runtime.getRuntime().exec(cmd);
+                    } catch (java.io.IOException ioException) {
+                        System.err.println("Не удалось открыть файл через системную команду 'open'");
+                        ioException.printStackTrace();
+                    }
+                }
+
+
                 System.out.println("Страница успешно открыта в браузере: " + tempFile.getAbsolutePath());
             } else {
                 System.out.println("Класс Desktop не поддерживается в данной системе.");
