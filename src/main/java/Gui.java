@@ -46,7 +46,7 @@ public class Gui {
 
 
         String[] petStrings = {"Объединить XLS", "Выделить материалы",
-                "Выделить оборудование", "Разбить PDF", "Объединить PDF"};
+                "Выделить оборудование", "Разбить PDF", "Объединить PDF", "Вставить подпись в XLS"};
         //Create the combo box, select item at index 4.
         //Indices start at 0, so 1 specifies the pig.
         petList = new JComboBox<>(petStrings);
@@ -98,6 +98,10 @@ public class Gui {
         button2.addActionListener(new ButtonHandlerUnionPdf(frame, textFieldResult, textArea));
         //Разбиение PDF
         button2.addActionListener(new ButtonHandlerSplittingPdf(frame, textFieldResult, textArea));
+        //Добавление подписи в XLS
+        button2.addActionListener(new ButtonHandlerInsertImage(frame, textFieldResult, textArea));
+        //Добавление подписи в PDF
+
     }
 
 }
