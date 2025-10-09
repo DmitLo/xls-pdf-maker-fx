@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,15 @@ public class ButtonHandlerInsertImage implements ActionListener {
 //
 //            //шкала
             ProgBar.progress();
+
+
+        try {
+            ReadFromExcelTest.readFromExcelTest("textArea");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
+
 //
 //            //получение списка файлов
 //            List<String> strings = textArea.getText().lines().collect(Collectors.toList());
