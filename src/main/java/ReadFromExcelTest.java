@@ -2,7 +2,9 @@ import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -176,30 +178,59 @@ public class ReadFromExcelTest {
 
                 ///
 
-                List<String> read1 = new ArrayList<>(0);
-                List<String> read2 = new ArrayList<>(0);
-                List<String> read3 = new ArrayList<>(0);
-                List<String> read4 = new ArrayList<>(0);
-                List<String> read5 = new ArrayList<>(0);
-                List<String> read6 = new ArrayList<>(0);
-                List<String> read7 = new ArrayList<>(0);
 
-                List<Read> read = new ArrayList<>();
-                Read read11 = new Read(read1);
-                Read read22 = new Read(read2);
-                Read read33 = new Read(read3);
-                Read read44 = new Read(read4);
-                Read read55 = new Read(read5);
-                Read read66 = new Read(read6);
-                Read read77 = new Read(read7);
+//                public class ReadExcelXls {
+//                    public static void main(String[] args) {
+//                        String filePath = "путь_к_вашему_файлу.xls"; // Укажите путь к вашему файлу
+//                        try (FileInputStream fis = new FileInputStream(filePath);
+//                             Workbook workbook = new HSSFWorkbook(fis)) { // Используем HSSFWorkbook для .xls
 
-                read.add(read11);
-                read.add(read22);
-                read.add(read33);
-                read.add(read44);
-                read.add(read55);
-                read.add(read66);
-                read.add(read77);
+                Sheet sheetRead = sourceWb.getSheetAt(i); // Получаем первый лист (индексация с 0)
+                for (int j = 0; j < totalColumnsWithData; j++) {
+                    for (int k = 0; k < totalRowsWithData; k++) {
+
+
+                        Row row = sheet.getRow(k); // Получаем первую строку (индексация с 0)
+                        Cell cell = row.getCell(j); // Получаем первую ячейку в первой строке (A1)
+
+                        if (cell != null) {
+                            // Получаем строковое значение ячейки
+                            String cellValue = cell.getStringCellValue();
+                            System.out.println("Значение ячейки: " + cell + " " + cellValue);
+                        }
+
+                    }
+                }
+
+
+
+
+
+//
+//        List<String> read1 = new ArrayList<>(0);
+//                List<String> read2 = new ArrayList<>(0);
+//                List<String> read3 = new ArrayList<>(0);
+//                List<String> read4 = new ArrayList<>(0);
+//                List<String> read5 = new ArrayList<>(0);
+//                List<String> read6 = new ArrayList<>(0);
+//                List<String> read7 = new ArrayList<>(0);
+//
+//                List<Read> read = new ArrayList<>();
+//                Read read11 = new Read(read1);
+//                Read read22 = new Read(read2);
+//                Read read33 = new Read(read3);
+//                Read read44 = new Read(read4);
+//                Read read55 = new Read(read5);
+//                Read read66 = new Read(read6);
+//                Read read77 = new Read(read7);
+//
+//                read.add(read11);
+//                read.add(read22);
+//                read.add(read33);
+//                read.add(read44);
+//                read.add(read55);
+//                read.add(read66);
+//                read.add(read77);
 
                 ///
 
