@@ -36,7 +36,7 @@ public class ButtonHandlerInsertImage implements ActionListener {
             }
 
             //шкала
-            ProgBar.progress();
+            //ProgBar.progress();
         }
     }
 }

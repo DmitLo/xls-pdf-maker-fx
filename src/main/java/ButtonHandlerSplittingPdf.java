@@ -41,7 +41,7 @@ public class ButtonHandlerSplittingPdf implements ActionListener {
                 exception.printStackTrace();
             }
             //шкала
-            ProgBar.progress();
+            //ProgBar.progress();
         }
     }
 }

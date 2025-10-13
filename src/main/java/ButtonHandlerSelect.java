@@ -48,7 +48,7 @@ public class ButtonHandlerSelect implements ActionListener {
             }
 
             //шкала
-            ProgBar.progress();
+            //ProgBar.progress();
 
         }
     }

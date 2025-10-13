@@ -36,7 +36,7 @@ public class ButtonHandlerInsertStamp implements ActionListener {
             }
 
             //шкала
-            ProgBar.progress();
+            //ProgBar.progress();
         }
     }
 }

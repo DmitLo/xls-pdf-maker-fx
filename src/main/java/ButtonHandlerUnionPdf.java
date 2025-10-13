@@ -42,7 +42,7 @@ public class ButtonHandlerUnionPdf implements ActionListener {
                 exception.printStackTrace();
             }
             //шкала
-            ProgBar.progress();
+            //ProgBar.progress();
         }
     }
 }
