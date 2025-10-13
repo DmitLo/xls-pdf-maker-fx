@@ -5,7 +5,7 @@ import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
- * Вывод изображения
+ * Вставка изображения в ячейку
  */
 public class PasteImage {
 

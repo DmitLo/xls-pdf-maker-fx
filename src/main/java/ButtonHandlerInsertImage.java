@@ -28,7 +28,7 @@ public class ButtonHandlerInsertImage implements ActionListener {
         //получение списка файлов
         List<String> strings = textArea.getText().lines().collect(Collectors.toList());
         try {
-            ReadFromExcelTest.readFromExcelTest(strings.get(0), textFieldResult.getText());
+            ReadFromExcelInsertImage.readFromExcelTest(strings.get(0), textFieldResult.getText());
         } catch (Exception exception) {
             exception.printStackTrace();
         }
