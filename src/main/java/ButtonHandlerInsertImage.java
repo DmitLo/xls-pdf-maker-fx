@@ -22,19 +22,21 @@ public class ButtonHandlerInsertImage implements ActionListener {
         String title = frame.getTitle();
         System.out.println(title);
 
-        //шкала
-        ProgBar.progress();
+        if (title.equals("Вставить подпись в XLS")) {
+            System.out.println("action occurred for checking");
+            //шкала
+            ProgBar.progress();
 
-        //получение списка файлов
-        List<String> strings = textArea.getText().lines().collect(Collectors.toList());
-        try {
-            ReadFromExcelInsertImage.readFromExcelTest(strings.get(0), textFieldResult.getText());
-        } catch (Exception exception) {
-            exception.printStackTrace();
+            //получение списка файлов
+            List<String> strings = textArea.getText().lines().collect(Collectors.toList());
+            try {
+                ReadFromExcelInsertImage.readFromExcelImage(strings.get(0), textFieldResult.getText());
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+
+            //шкала
+            ProgBar.progress();
         }
-
-        //шкала
-        ProgBar.progress();
-
     }
 }

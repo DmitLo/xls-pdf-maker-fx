@@ -12,8 +12,8 @@ import java.io.IOException;
  */
 
 public class ReadFromExcelInsertImage {
-    // public static List<Read> readFromExcelTest(String file) throws IOException {
-    public static void readFromExcelTest(String fileInput, String fileOutput) throws IOException {
+    // public static List<Read> readFromExcelImage(String file) throws IOException {
+    public static void readFromExcelImage(String fileInput, String fileOutput) throws IOException {
 
         String leadName = "Руководитель организации";
         String engineerName = "Главный";
@@ -22,11 +22,11 @@ public class ReadFromExcelInsertImage {
         String checkName = "Проверил";
         String noName = "/  /";
 
-        String imagePathLead = "lead.png";
-        String imagePathEngineer = "engineer.png";
-        String imagePathEngineerOffice = "engineer.png";
-        String imagePathMade = "lead.png";
-        String imagePathCheck = "lead.png";
+        String imagePathLead = "./lead.png";
+        String imagePathEngineer = "./engineer.png";
+        String imagePathEngineerOffice = "./engineer.png";
+        String imagePathMade = "./lead.png";
+        String imagePathCheck = "./lead.png";
 
         //внешний список для теста
         //List<List<Object>> listOfLists = new ArrayList<>();
