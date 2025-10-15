@@ -1,4 +1,3 @@
-import com.aspose.cells.Cells;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -11,6 +10,7 @@ import java.awt.*;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
+
 import java.awt.print.PrinterJob;
 import java.io.FileInputStream;
 
@@ -20,7 +20,7 @@ import java.io.FileInputStream;
 
 public class AdvancedExcelPrinter implements Printable {
 
-    private HSSFWorkbook workbook;
+    private final HSSFWorkbook workbook;
 
     public AdvancedExcelPrinter(String filePath) throws Exception {
         FileInputStream fis = new FileInputStream(filePath);
@@ -37,14 +37,14 @@ public class AdvancedExcelPrinter implements Printable {
         g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
         //
-        HSSFSheet sourceSheet = workbook.getSheetAt(pageIndex); // Получаем исходный лист
+        HSSFSheet sourceSheet = workbook.getSheetAt(pageIndex); // Получаем исходный лист от 1 до последнего
 
         //количество заполненных строк и столбцов в документе
         Sheet sheet = workbook.getSheetAt(pageIndex); // Получаем первый лист
 
         // Подсчет строк
         int lastRowNum = sheet.getLastRowNum(); // Получаем индекс последней строки (с данными)
-        int totalRowsWithData = lastRowNum + 1; // Общее количество строк с данными
+        int totalRowsWithData = lastRowNum + 1; // Общее количество строк с данными!
 
         // Подсчет столбцов
         // Чтобы найти последний заполненный столбец, нужно найти максимальное значение getLastCellNum() среди всех строк.
@@ -56,7 +56,7 @@ public class AdvancedExcelPrinter implements Printable {
                 }
             }
         }
-        int totalColumnsWithData = maxColNum; // Количество столбцов с данными
+        int totalColumnsWithData = maxColNum; // Количество столбцов с данными!
 
         //количество строк и столбцов в документе
         System.out.println("Количество строк и столбцов в документе: " + pageIndex + " - " + totalRowsWithData + " " + totalColumnsWithData);
@@ -64,22 +64,24 @@ public class AdvancedExcelPrinter implements Printable {
         //Sheet sheetRead = sourceWb.getSheetAt(i); // Получаем первый лист (индексация с 0)
 
         Sheet sheetRead = sheet;
-        int currentX = 0;
+        int currentY = 0; // rows
+        float deltaY = 0; // дельта rows
         //проход по строкам
         for (int r = 0; r < totalRowsWithData; r++) {
-            int currentY = 0;
+            int currentX = 0; // column
+            float deltaX; // дельта column
             Row row = sheetRead.getRow(r); // Получаем первую строку (индексация с 0)
             short rowHeight = row.getHeight(); // высота столбца
             //проход по колонкам
             for (int k = 0; k < totalColumnsWithData; k++) {
 
-
-                float deltaX = sourceSheet.getColumnWidthInPixels(k);
-                float deltaY = sourceSheet.getDefaultRowHeightInPoints();
-
+                deltaX = sheetRead.getColumnWidthInPixels(k); // sourceSheet?
+                deltaY = sheetRead.getDefaultRowHeightInPoints(); // sourceSheet?
+                System.out.println("Количество пикселей в ширине столбца и точек в высоте строки: " + deltaX + " - " + deltaY);
 
                 Cell cell = row.getCell(k); // Получаем первую ячейку в первой строке (A1)
                 int collWidth = sheet.getColumnWidth(k);
+                System.out.println("Ширина столбца = " + collWidth + " высота строки " + rowHeight);
 
                 String cellValue = "";
                 if (cell != null) {
@@ -91,14 +93,17 @@ public class AdvancedExcelPrinter implements Printable {
                         cellValue = cell.getStringCellValue();
                     }
                 }
-
+                System.out.println("Значение ячейки " + cellValue);
 
                 g2d.fillRect(currentX, currentY, collWidth, rowHeight);
-                g2d.drawString(cellValue, currentX + 100, currentY + 100);
+                g2d.drawString(cellValue, currentX + deltaX, currentY + deltaY);
+                //g2d.drawString(cellValue, currentX + collWidth, currentY + rowHeight);
 
-                currentX += collWidth;
+                //currentX += collWidth;
+                currentX += deltaX;
             }
-            currentY += rowHeight;
+            //currentY += rowHeight;
+            currentY += deltaY;
         }
 
 
