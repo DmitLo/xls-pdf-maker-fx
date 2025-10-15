@@ -9,7 +9,7 @@ public class Gui {
 
     JFrame frame;
     JPanel panel;
-    JButton button1, button2;
+    JButton button1, button2, button3;
     JTextField textField1,textFieldResult;
     String title;
     JComboBox<String> petList;
@@ -54,12 +54,14 @@ public class Gui {
 
         button1 = new JButton("Добавить файлы");
         button2 = new JButton("Сохранить результат");
+        button3 = new JButton("Печать"); //test
 
         //frame.setSize(400, 500);
         panel.add(textFieldResult);
         panel.add(petList);
         panel.add(button1);
         panel.add(button2);
+        panel.add(button3); //test
         //panel.add(textArea);
         panel.add(areaScrollPane, BorderLayout.CENTER);
 
@@ -101,6 +103,9 @@ public class Gui {
         button2.addActionListener(new ButtonHandlerInsertImage(frame, textFieldResult, textArea));
         //Добавление подписи и печати в XLS
         button2.addActionListener(new ButtonHandlerInsertStamp(frame, textFieldResult, textArea));
+
+
+        button3.addActionListener(new ButtonHandlerTest(frame, textFieldResult, textArea));
     }
 
 }
