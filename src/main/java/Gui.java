@@ -105,7 +105,8 @@ public class Gui {
         button2.addActionListener(new ButtonHandlerInsertStamp(frame, textFieldResult, textArea));
 
 
-        button3.addActionListener(new ButtonHandlerTest(frame, textFieldResult, textArea));
+        //button3.addActionListener(new ButtonHandlerTest(frame, textFieldResult, textArea));
+        button3.addActionListener(new ButtonHandlerPrintXls(frame, textFieldResult, textArea));
     }
 
 }
