@@ -71,6 +71,8 @@ public class ProgBar {
 
             frame.add(progressBar, BorderLayout.CENTER);
             frame.setVisible(true);
+            frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
 
             // Используем SwingWorker для обновления прогресс-бара
             new SwingWorker<Void, Integer>() {
