@@ -21,6 +21,8 @@ public class ButtonHandlerPrintXls implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         AdvancedExcelPrinter.mainPrint();
+        //тест
+        //Print2DGraphics.mainPrint2(frame);
     }
 }
 

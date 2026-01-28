@@ -1,4 +1,3 @@
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -7,11 +6,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
+import java.awt.print.*;
 
-import java.awt.print.PrinterJob;
 import java.io.FileInputStream;
 
 /**
@@ -25,6 +21,7 @@ public class AdvancedExcelPrinter implements Printable {
     public AdvancedExcelPrinter(String filePath) throws Exception {
         FileInputStream fis = new FileInputStream(filePath);
         workbook = new HSSFWorkbook(fis);
+        workbook.close();
     }
 
     @Override
@@ -35,9 +32,10 @@ public class AdvancedExcelPrinter implements Printable {
 
         Graphics2D g2d = (Graphics2D) graphics;
         g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+        int fontSize = 10;
+        g2d.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
 
-        //
-        HSSFSheet sourceSheet = workbook.getSheetAt(pageIndex); // Получаем исходный лист от 1 до последнего
+        //HSSFSheet sourceSheet = workbook.getSheetAt(pageIndex); // Получаем исходный лист от 1 до последнего
 
         //количество заполненных строк и столбцов в документе
         Sheet sheet = workbook.getSheetAt(pageIndex); // Получаем первый лист
@@ -67,7 +65,7 @@ public class AdvancedExcelPrinter implements Printable {
         int currentY = 0; // rows
         float deltaY = 0; // дельта rows
         //проход по строкам
-        for (int r = 0; r < totalRowsWithData; r++) {
+        for (int r = 0; r < totalRowsWithData - 5; r++) {
             int currentX = 0; // column
             float deltaX; // дельта column
             Row row = sheetRead.getRow(r); // Получаем первую строку (индексация с 0)
@@ -93,19 +91,55 @@ public class AdvancedExcelPrinter implements Printable {
                         cellValue = cell.getStringCellValue();
                     }
                 }
-                System.out.println("Значение ячейки " + cellValue);
+                System.out.println("Номер строки: " + r + " Номер столбца: " + k + " Значение ячейки " + cellValue);
 
-                g2d.fillRect(currentX, currentY, collWidth, rowHeight);
-                g2d.drawString(cellValue, currentX + deltaX, currentY + deltaY);
-                //g2d.drawString(cellValue, currentX + collWidth, currentY + rowHeight);
+                //вывод длинного текста в несколько строк
+                int cut = 30;
+                int lengthType = cellValue.length();
+                if (lengthType >= cut) {
+                    int a = lengthType / cut;
+                    int b = lengthType % cut;
+                    int c = 0;
+                    String temp = "";
+                    for (int i = 0; i < a ; i++) {
+                        temp = cellValue.substring(c, cut + c);
+                        //System.out.println("k = " + k + " ,a = " + a + " ,lengthType = " + lengthType + ", cellValue = " + temp);
+                        c = c + cut;
+                        g2d.drawString(temp, currentX, currentY);
+                        currentY = (int) (currentY + deltaY);
+                    }
+                    if (b > 0) {
+                        temp = cellValue.substring(lengthType - b);
+                        //System.out.println("k = " + k + " ,a = " + a + " ,lengthType = " + lengthType + ", cellValue = " + temp);
+                        g2d.drawString(temp, currentX, currentY);
+                        currentY = (int) (currentY + deltaY);
+                    }
+                } else {
+                    g2d.drawString(cellValue, currentX, currentY);
+                }
 
-                //currentX += collWidth;
-                currentX += deltaX;
+                //уменьшение ширины столбца для длинного текста
+                if (k == 2) {
+                    currentX = currentX + 180;
+                } else {
+                    currentX = (int) (currentX + deltaX);
+                }
+
+                //System.out.println("Позиция Х:" + currentX);
+                //System.out.println("Позийия Y:" + currentY);
             }
-            //currentY += rowHeight;
-            currentY += deltaY;
+            currentY = (int) (currentY + deltaY / 1);
         }
 
+        //test-----
+        /*************************
+         * Draw directly into the Printable graphics object
+         */
+//        System.out.println("ok");
+//        g2d.setColor(Color.black);
+//        g2d.drawString("example string", 250, 250);
+//        g2d.fillRect(0, 0, 200, 200);
+        //------
 
         return PAGE_EXISTS;
     }
