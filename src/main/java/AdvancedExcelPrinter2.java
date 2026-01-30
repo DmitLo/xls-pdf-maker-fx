@@ -6,22 +6,22 @@ import org.apache.poi.ss.usermodel.Sheet;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.print.*;
-
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.io.FileInputStream;
 
 /**
  * Для печати в xls не доделано
  */
 
-public class AdvancedExcelPrinter implements Printable {
+public class AdvancedExcelPrinter2 implements Printable {
 
     private final HSSFWorkbook workbook;
-    int[] pageBreaks;  // array of page break line positions.
-    /* Synthesise some sample lines of text */
-    String[] textLines;
+    private int pageCount = 0;
 
-    public AdvancedExcelPrinter(String filePath) throws Exception {
+    public AdvancedExcelPrinter2(String filePath) throws Exception {
         FileInputStream fis = new FileInputStream(filePath);
         workbook = new HSSFWorkbook(fis);
         workbook.close();
@@ -32,90 +32,27 @@ public class AdvancedExcelPrinter implements Printable {
 //        if (pageIndex >= workbook.getNumberOfSheets()) {
 //            return NO_SUCH_PAGE;
 //        }
-//            if (pageIndex >= 2) {
+//        if (pageIndex >= 2) {
 //            return NO_SUCH_PAGE;
 //        }
+        int positionY = 650;
 
-        int fontSize = 10;
-        Font font = new Font("Serif", Font.PLAIN, fontSize);
-        FontMetrics metrics = graphics.getFontMetrics(font);
-        int lineHeight = metrics.getHeight();
-
-        if (pageBreaks == null) {
-
-            initTextLines();
-
-            int linesPerPage = (int)(pageFormat.getImageableHeight()/lineHeight);
-            int numBreaks = (textLines.length-1)/linesPerPage;
-            pageBreaks = new int[numBreaks];
-            for (int b=0; b<numBreaks; b++) {
-                pageBreaks[b] = (b+1)*linesPerPage;
-                System.out.println("b = " + pageBreaks[b]);
-            }
-        }
-
-        if (pageIndex > pageBreaks.length) {
-            System.out.println("length = " + pageBreaks.length);
+        System.out.println("pageIndex = " + pageIndex + ", pageCount = " + pageCount);
+        if (pageIndex > pageCount) {
+            System.out.println("--------------------------------------length = " + pageCount);
             return NO_SUCH_PAGE;
         }
 
-
-        /* User (0,0) is typically outside the imageable area, so we must
-         * translate by the X and Y values in the PageFormat to avoid clipping
-         * Since we are drawing text we
-         */
         Graphics2D g2d = (Graphics2D) graphics;
         g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+        int fontSize = 10;
+        g2d.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
+        //pageIndex = 0;
 
-        /* Draw each line that is on this page.
-         * Increment 'y' position by lineHeight for each line.
-         */
-        int y = 0;
-        int start = (pageIndex == 0) ? 0 : pageBreaks[pageIndex-1];
-        System.out.println("start = " + start);
-        int end   = (pageIndex == pageBreaks.length)
-                ? textLines.length : pageBreaks[pageIndex];
-        System.out.println("end = " + end);
-        for (int line=start; line<end; line++) {
-            y += lineHeight;
-            System.out.println("y = " + y);
-            graphics.drawString(textLines[line], 0, y);
-        }
-        System.out.println("повтор = ");
+        //HSSFSheet sourceSheet = workbook.getSheetAt(pageIndex); // Получаем исходный лист от 1 до последнего
 
-        /* tell the caller that this page is part of the printed document */
-
-
-        return PAGE_EXISTS;
-    }
-
-    public void initiatePrinting() {
-        PrinterJob job = PrinterJob.getPrinterJob();
-        job.setPrintable(this);
-        if (job.printDialog()) {
-            try {
-                job.print();
-            } catch (PrinterException e) {
-                JOptionPane.showMessageDialog(null, "Error during printing: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void mainPrint() {
-        try {
-            AdvancedExcelPrinter printer = new AdvancedExcelPrinter("./result.xls");
-            printer.initiatePrinting();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error preparing Excel for printing: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-    }
-
-    public void initTextLines() {
-        int pageIndexes = 1;
         //количество заполненных строк и столбцов в документе
-        Sheet sheet = workbook.getSheetAt(pageIndexes); // Получаем первый лист
+        Sheet sheet = workbook.getSheetAt(pageIndex); // Получаем первый лист
 
         // Подсчет строк
         int lastRowNum = sheet.getLastRowNum(); // Получаем индекс последней строки (с данными)
@@ -134,7 +71,7 @@ public class AdvancedExcelPrinter implements Printable {
         int totalColumnsWithData = maxColNum; // Количество столбцов с данными!
 
         //количество строк и столбцов в документе
-        System.out.println("Количество строк и столбцов в документе: " + pageIndexes + " - " + totalRowsWithData + " " + totalColumnsWithData);
+        //System.out.println("Количество строк и столбцов в документе: " + pageIndex + " - " + totalRowsWithData + " " + totalColumnsWithData);
 
         //Sheet sheetRead = sourceWb.getSheetAt(i); // Получаем первый лист (индексация с 0)
 
@@ -152,11 +89,11 @@ public class AdvancedExcelPrinter implements Printable {
 
                 deltaX = sheetRead.getColumnWidthInPixels(k); // sourceSheet?
                 deltaY = sheetRead.getDefaultRowHeightInPoints(); // sourceSheet?
-                System.out.println("Количество пикселей в ширине столбца и точек в высоте строки: " + deltaX + " - " + deltaY);
+                //System.out.println("Количество пикселей в ширине столбца и точек в высоте строки: " + deltaX + " - " + deltaY);
 
                 Cell cell = row.getCell(k); // Получаем первую ячейку в первой строке (A1)
                 int collWidth = sheet.getColumnWidth(k);
-                System.out.println("Ширина столбца = " + collWidth + " высота строки " + rowHeight);
+                //System.out.println("Ширина столбца = " + collWidth + " высота строки " + rowHeight);
 
                 String cellValue = "";
                 if (cell != null) {
@@ -168,7 +105,7 @@ public class AdvancedExcelPrinter implements Printable {
                         cellValue = cell.getStringCellValue();
                     }
                 }
-                System.out.println("Номер строки: " + r + " Номер столбца: " + k + " Значение ячейки " + cellValue);
+                //System.out.println("Номер строки: " + r + " Номер столбца: " + k + " Значение ячейки " + cellValue);
 
                 //вывод длинного текста в несколько строк
                 int cut = 30;
@@ -182,32 +119,17 @@ public class AdvancedExcelPrinter implements Printable {
                         temp = cellValue.substring(c, cut + c);
                         //System.out.println("k = " + k + " ,a = " + a + " ,lengthType = " + lengthType + ", cellValue = " + temp);
                         c = c + cut;
-                       // g2d.drawString(temp, currentX, currentY);
-
-//                        if (currentY >=350 ) {
-//                            currentY = 0;
-//                        } else {
+                        g2d.drawString(temp, currentX, currentY);
                         currentY = (int) (currentY + deltaY);
-                        //}
                     }
                     if (b > 0) {
                         temp = cellValue.substring(lengthType - b);
                         //System.out.println("k = " + k + " ,a = " + a + " ,lengthType = " + lengthType + ", cellValue = " + temp);
-                        //g2d.drawString(temp, currentX, currentY);
-
-//                        if (currentY >=350 ) {
-//                            currentY = 0;
-//                        } else {
+                        g2d.drawString(temp, currentX, currentY);
                         currentY = (int) (currentY + deltaY);
-                        //}
                     }
                 } else {
-
-//                    if (currentY >=350 ) {
-//                        currentY = 0;
-//                    } else {
-                   // g2d.drawString(cellValue, currentX, currentY);
-                    //}
+                    g2d.drawString(cellValue, currentX, currentY);
                 }
 
                 //уменьшение ширины столбца для длинного текста
@@ -217,16 +139,66 @@ public class AdvancedExcelPrinter implements Printable {
                     currentX = (int) (currentX + deltaX);
                 }
 
-                System.out.println("Позиция Х:" + currentX);
-                System.out.println("Позийия Y:" + currentY);
+                //System.out.println("Позиция Х:" + currentX);
+                //System.out.println("Позийия Y:" + currentY);
             }
 
-            if (currentY >=350 ) {
+            if (currentY >= positionY) {
+                System.out.println("currentY = " + currentY + ", positionY = " + positionY);
                 currentY = 0;
-            } else {
-                currentY = (int) (currentY + deltaY / 1);
+                pageCount = pageCount + 1;
+                return PAGE_EXISTS;
             }
+            currentY = (int) (currentY + deltaY / 1);
+        }
 
+
+
+        /* Draw each line that is on this page.
+         * Increment 'y' position by lineHeight for each line.
+         */
+//        int y = 0;
+//        int start = (pageIndex == 0) ? 0 : pageBreaks[pageIndex - 1];
+//        int end = (pageIndex == pageBreaks.length)
+//                ? textLines.length : pageBreaks[pageIndex];
+//        for (int line = start; line < end; line++) {
+//            y += lineHeight;
+//            g.drawString(textLines[line], 0, y);
+//        }
+
+        //test-----
+        /*************************
+         * Draw directly into the Printable graphics object
+         */
+//        System.out.println("ok");
+//        g2d.setColor(Color.black);
+//        g2d.drawString("example string", 250, 250);
+//        g2d.fillRect(0, 0, 200, 200);
+        //------
+
+        return NO_SUCH_PAGE;
+    }
+
+    public void initiatePrinting() {
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setPrintable(this);
+        if (job.printDialog()) {
+            try {
+                job.print();
+            } catch (PrinterException e) {
+                JOptionPane.showMessageDialog(null, "Error during printing: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void mainPrint() {
+        try {
+            AdvancedExcelPrinter2 printer = new AdvancedExcelPrinter2("./result.xls");
+            printer.initiatePrinting();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error preparing Excel for printing: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }
 }
