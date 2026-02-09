@@ -5,121 +5,45 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.print.*;
-
 import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Для печати в xls не доделано
  */
 
-public class AdvancedExcelPrinter implements Printable {
+public class AdvancedExcelPrinter {
 
-    private final HSSFWorkbook workbook;
-    int[] pageBreaks;  // array of page break line positions.
-    /* Synthesise some sample lines of text */
-    String[] textLines;
-
-    public AdvancedExcelPrinter(String filePath) throws Exception {
-        FileInputStream fis = new FileInputStream(filePath);
-        workbook = new HSSFWorkbook(fis);
-        workbook.close();
-    }
-
-    @Override
-    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) {
-//        if (pageIndex >= workbook.getNumberOfSheets()) {
-//            return NO_SUCH_PAGE;
-//        }
-//            if (pageIndex >= 2) {
-//            return NO_SUCH_PAGE;
-//        }
-
-        int fontSize = 10;
-        Font font = new Font("Serif", Font.PLAIN, fontSize);
-        FontMetrics metrics = graphics.getFontMetrics(font);
-        int lineHeight = metrics.getHeight();
-
-        if (pageBreaks == null) {
-
-            initTextLines();
-
-            int linesPerPage = (int)(pageFormat.getImageableHeight()/lineHeight);
-            int numBreaks = (textLines.length-1)/linesPerPage;
-            pageBreaks = new int[numBreaks];
-            for (int b=0; b<numBreaks; b++) {
-                pageBreaks[b] = (b+1)*linesPerPage;
-                System.out.println("b = " + pageBreaks[b]);
-            }
-        }
-
-        if (pageIndex > pageBreaks.length) {
-            System.out.println("length = " + pageBreaks.length);
-            return NO_SUCH_PAGE;
-        }
+    private static HSSFWorkbook workbook;
+    private static int currentY = 0;
+    private static List<List<Print>> listPrint = new ArrayList<>();
 
 
-        /* User (0,0) is typically outside the imageable area, so we must
-         * translate by the X and Y values in the PageFormat to avoid clipping
-         * Since we are drawing text we
-         */
-        Graphics2D g2d = (Graphics2D) graphics;
-        g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+    public static List<List<Print>> initTextLines(JTextArea textArea) {
 
-        /* Draw each line that is on this page.
-         * Increment 'y' position by lineHeight for each line.
-         */
-        int y = 0;
-        int start = (pageIndex == 0) ? 0 : pageBreaks[pageIndex-1];
-        System.out.println("start = " + start);
-        int end   = (pageIndex == pageBreaks.length)
-                ? textLines.length : pageBreaks[pageIndex];
-        System.out.println("end = " + end);
-        for (int line=start; line<end; line++) {
-            y += lineHeight;
-            System.out.println("y = " + y);
-            graphics.drawString(textLines[line], 0, y);
-        }
-        System.out.println("повтор = ");
+//        file = "./result.xls";
 
-        /* tell the caller that this page is part of the printed document */
+        //получение списка файлов
+        List<String> strings = textArea.getText().lines().collect(Collectors.toList());
+        String file = strings.get(0);
 
 
-        return PAGE_EXISTS;
-    }
-
-    public void initiatePrinting() {
-        PrinterJob job = PrinterJob.getPrinterJob();
-        job.setPrintable(this);
-        if (job.printDialog()) {
-            try {
-                job.print();
-            } catch (PrinterException e) {
-                JOptionPane.showMessageDialog(null, "Error during printing: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void mainPrint() {
         try {
-            AdvancedExcelPrinter printer = new AdvancedExcelPrinter("./result.xls");
-            printer.initiatePrinting();
+            FileInputStream fis = new FileInputStream(file);
+            workbook = new HSSFWorkbook(fis);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error preparing Excel for printing: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-    }
 
-    public void initTextLines() {
-        int pageIndexes = 1;
-        //количество заполненных строк и столбцов в документе
-        Sheet sheet = workbook.getSheetAt(pageIndexes); // Получаем первый лист
+        //Sheet sheet = workbook.getSheetAt(pageIndex); // Получаем первый лист
+        Sheet sheet = workbook.getSheetAt(0); // Получаем первый лист
 
         // Подсчет строк
         int lastRowNum = sheet.getLastRowNum(); // Получаем индекс последней строки (с данными)
-        int totalRowsWithData = lastRowNum + 1; // Общее количество строк с данными!
+        int totalRowsWithData = lastRowNum + 1; // Общее количество строк с данными!!!
 
         // Подсчет столбцов
         // Чтобы найти последний заполненный столбец, нужно найти максимальное значение getLastCellNum() среди всех строк.
@@ -131,33 +55,36 @@ public class AdvancedExcelPrinter implements Printable {
                 }
             }
         }
-        int totalColumnsWithData = maxColNum; // Количество столбцов с данными!
+        int totalColumnsWithData = maxColNum; // Количество столбцов с данными!!!
+        //System.out.println(" last " + totalRowsWithData);
+        //int totalColumnsWithData = lastRowNum - 2;
 
-        //количество строк и столбцов в документе
-        System.out.println("Количество строк и столбцов в документе: " + pageIndexes + " - " + totalRowsWithData + " " + totalColumnsWithData);
-
-        //Sheet sheetRead = sourceWb.getSheetAt(i); // Получаем первый лист (индексация с 0)
-
-        Sheet sheetRead = sheet;
-        int currentY = 0; // rows
         float deltaY = 0; // дельта rows
         //проход по строкам
-        for (int r = 0; r < totalRowsWithData - 5; r++) {
+        // rows
+        int rowStart = 0;
+        int test = 0;
+        for (int r = rowStart; r < totalRowsWithData - 2; r++) {
+            test ++;
+
+            List<Print> columnPrint = new ArrayList<>();
+
+            //System.out.println("row = " + r);
             int currentX = 0; // column
             float deltaX; // дельта column
-            Row row = sheetRead.getRow(r); // Получаем первую строку (индексация с 0)
+            Row row = sheet.getRow(r); // Получаем первую строку (индексация с 0)
             short rowHeight = row.getHeight(); // высота столбца
             //проход по колонкам
             for (int k = 0; k < totalColumnsWithData; k++) {
+//                columnPrint = new ArrayList<>();
 
-                deltaX = sheetRead.getColumnWidthInPixels(k); // sourceSheet?
-                deltaY = sheetRead.getDefaultRowHeightInPoints(); // sourceSheet?
-                System.out.println("Количество пикселей в ширине столбца и точек в высоте строки: " + deltaX + " - " + deltaY);
+                deltaX = sheet.getColumnWidthInPixels(k); // sourceSheet?
+                deltaY = sheet.getDefaultRowHeightInPoints(); // sourceSheet?
 
                 Cell cell = row.getCell(k); // Получаем первую ячейку в первой строке (A1)
-                int collWidth = sheet.getColumnWidth(k);
-                System.out.println("Ширина столбца = " + collWidth + " высота строки " + rowHeight);
+                int collWidth = sheet.getColumnWidth(k); // ширина столбца
 
+                //приведение ячейки к типу string
                 String cellValue = "";
                 if (cell != null) {
                     if (cell.getCellTypeEnum() == CellType.NUMERIC) {
@@ -168,65 +95,47 @@ public class AdvancedExcelPrinter implements Printable {
                         cellValue = cell.getStringCellValue();
                     }
                 }
-                System.out.println("Номер строки: " + r + " Номер столбца: " + k + " Значение ячейки " + cellValue);
-
                 //вывод длинного текста в несколько строк
                 int cut = 30;
                 int lengthType = cellValue.length();
                 if (lengthType >= cut) {
+                    //количество строк по cut символов
                     int a = lengthType / cut;
+                    //остаток строки до cut символов
                     int b = lengthType % cut;
                     int c = 0;
                     String temp = "";
                     for (int i = 0; i < a; i++) {
                         temp = cellValue.substring(c, cut + c);
-                        //System.out.println("k = " + k + " ,a = " + a + " ,lengthType = " + lengthType + ", cellValue = " + temp);
                         c = c + cut;
-                       // g2d.drawString(temp, currentX, currentY);
-
-//                        if (currentY >=350 ) {
-//                            currentY = 0;
-//                        } else {
+                        Print printListTemp = new Print(temp, currentX, currentY);
+                        columnPrint.add(printListTemp);
+                        listPrint.add(columnPrint);
                         currentY = (int) (currentY + deltaY);
-                        //}
+                        columnPrint = new ArrayList<>();
                     }
                     if (b > 0) {
                         temp = cellValue.substring(lengthType - b);
-                        //System.out.println("k = " + k + " ,a = " + a + " ,lengthType = " + lengthType + ", cellValue = " + temp);
-                        //g2d.drawString(temp, currentX, currentY);
-
-//                        if (currentY >=350 ) {
-//                            currentY = 0;
-//                        } else {
-                        currentY = (int) (currentY + deltaY);
-                        //}
+                        Print printListTemp = new Print(temp, currentX, currentY);
+                        columnPrint.add(printListTemp);
+                        listPrint.add(columnPrint);
+                        columnPrint = new ArrayList<>();
                     }
                 } else {
-
-//                    if (currentY >=350 ) {
-//                        currentY = 0;
-//                    } else {
-                   // g2d.drawString(cellValue, currentX, currentY);
-                    //}
+                    Print printListTemp = new Print(cellValue, currentX, currentY);
+                    columnPrint.add(printListTemp);
                 }
-
                 //уменьшение ширины столбца для длинного текста
                 if (k == 2) {
                     currentX = currentX + 180;
                 } else {
                     currentX = (int) (currentX + deltaX);
                 }
-
-                System.out.println("Позиция Х:" + currentX);
-                System.out.println("Позийия Y:" + currentY);
             }
-
-            if (currentY >=350 ) {
-                currentY = 0;
-            } else {
-                currentY = (int) (currentY + deltaY / 1);
-            }
-
+            listPrint.add(columnPrint);
+            currentY = (int) (currentY + deltaY);
         }
+        System.out.println("test " + test);
+        return listPrint;
     }
 }

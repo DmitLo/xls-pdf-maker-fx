@@ -20,10 +20,7 @@ public class ButtonHandlerPrintXls implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        AdvancedExcelPrinter2.mainPrint();
-        //тест
-        //Print2DGraphics.mainPrint2(frame);
-        //PaginationExample.mainPrint();
+        PaginationPrint.printPage(textArea);
     }
 }
 
