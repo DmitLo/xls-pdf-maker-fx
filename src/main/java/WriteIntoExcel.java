@@ -60,7 +60,6 @@ public class WriteIntoExcel {
         cell = row.createCell(6);
         cell.setCellValue("Сумма общ., руб.");
 
-
         // определение глубины списка (количество строу)
         for (Read k : read) {
             String commaSeparated = k.toString();

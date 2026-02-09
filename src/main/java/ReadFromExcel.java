@@ -28,7 +28,8 @@ public class ReadFromExcel {
         // поле общей цены
         double priceGeneral = 0;
         String priceGeneralString = "";
-        String materialsEquipmentString = "Оборудование";
+        String materialsEquipmentString = "Оборудование"; // для materialsEquipment false
+        int count = 0;
 
         if (materialsEquipment) {
             materialsEquipmentString = "Материалы, изделия, конструкции";
@@ -72,11 +73,14 @@ public class ReadFromExcel {
                 String name = row.getCell(0).getStringCellValue();
 
                 //if (name.equals("Оборудование")) {
-                if (name.equals(materialsEquipmentString)) {
+                if (name.equals(materialsEquipmentString) & count == 0 ) {
                     start = true;
-                } else if (name.equals("Машины и механизмы")) {
+                    count++;
+                } else if (name.equals("Машины и механизмы") || name.equals("Оборудование")) {
                     start = false;
                 }
+
+
                 if (start) {
                     //j++;
                     // если число

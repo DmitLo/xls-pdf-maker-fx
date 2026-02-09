@@ -21,7 +21,4 @@ public class SelectEquipment {
         System.out.println("stop write");
 
     }
-
-
-
 }
