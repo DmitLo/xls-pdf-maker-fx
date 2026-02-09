@@ -20,7 +20,7 @@ public class ButtonHandlerPrintXls implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        PaginationPrint.printPage(textArea);
+        PaginationPrint.printPage(textFieldResult, textArea);
     }
 }
 

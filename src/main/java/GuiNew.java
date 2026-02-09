@@ -18,7 +18,7 @@ public class GuiNew {
         frame = new JFileChooser("Выбор файла xls");
 
         frame.setCurrentDirectory(frame.getCurrentDirectory());
-        frame.setFileFilter(new FileNameExtensionFilter("Plain Text Files", "xls"));
+        frame.setFileFilter(new FileNameExtensionFilter("Plain Text Files", "xls", "pdf"));
 
         //задание текущей дериктории
 

@@ -5,6 +5,7 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PaginationPrint implements Printable {
 
@@ -79,13 +80,13 @@ public class PaginationPrint implements Printable {
         return PAGE_EXISTS;
     }
     
-    public void mainPrint(JTextArea textArea) {
+    public void mainPrint(String textFieldResult) {
         PrinterJob job = PrinterJob.getPrinterJob();
         job.setPrintable(this);
         boolean ok = job.printDialog();
         if (ok) {
             try {
-                listPrint = AdvancedExcelPrinter.initTextLines(textArea);
+                listPrint = AdvancedExcelPrinter.initTextLines(textFieldResult);
                 System.out.println("listPrint length = " + listPrint.size());
                 job.print();
             } catch (PrinterException ex) {
@@ -94,7 +95,10 @@ public class PaginationPrint implements Printable {
         }
     }
 
-    public static void printPage(JTextArea textArea) {
-        new PaginationPrint().mainPrint(textArea);
+    public static void printPage(JTextField textFieldResult, JTextArea textArea) {
+        //получение списка файлов или из поля или из файла
+        List<String> strings = textArea.getText().lines().collect(Collectors.toList());
+        String file = strings.get(0);
+        new PaginationPrint().mainPrint(file);
     }
 }

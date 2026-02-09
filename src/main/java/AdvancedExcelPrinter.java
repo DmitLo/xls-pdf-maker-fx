@@ -20,15 +20,7 @@ public class AdvancedExcelPrinter {
     private static int currentY = 0;
     private static List<List<Print>> listPrint = new ArrayList<>();
 
-
-    public static List<List<Print>> initTextLines(JTextArea textArea) {
-
-//        file = "./result.xls";
-
-        //получение списка файлов
-        List<String> strings = textArea.getText().lines().collect(Collectors.toList());
-        String file = strings.get(0);
-
+    public static List<List<Print>> initTextLines(String file) {
 
         try {
             FileInputStream fis = new FileInputStream(file);
@@ -65,7 +57,7 @@ public class AdvancedExcelPrinter {
         int rowStart = 0;
         int test = 0;
         for (int r = rowStart; r < totalRowsWithData - 2; r++) {
-            test ++;
+            test++;
 
             List<Print> columnPrint = new ArrayList<>();
 
@@ -109,6 +101,7 @@ public class AdvancedExcelPrinter {
                         temp = cellValue.substring(c, cut + c);
                         c = c + cut;
                         Print printListTemp = new Print(temp, currentX, currentY);
+                        //Print printListTemp = new Print(Integer.toString(totalRowsWithData), currentX, currentY);
                         columnPrint.add(printListTemp);
                         listPrint.add(columnPrint);
                         currentY = (int) (currentY + deltaY);
@@ -117,12 +110,14 @@ public class AdvancedExcelPrinter {
                     if (b > 0) {
                         temp = cellValue.substring(lengthType - b);
                         Print printListTemp = new Print(temp, currentX, currentY);
+                        //Print printListTemp = new Print(Integer.toString(totalColumnsWithData), currentX, currentY);
                         columnPrint.add(printListTemp);
                         listPrint.add(columnPrint);
                         columnPrint = new ArrayList<>();
                     }
                 } else {
                     Print printListTemp = new Print(cellValue, currentX, currentY);
+                    //Print printListTemp = new Print(Integer.toString(totalRowsWithData), currentX, currentY);
                     columnPrint.add(printListTemp);
                 }
                 //уменьшение ширины столбца для длинного текста
@@ -134,8 +129,9 @@ public class AdvancedExcelPrinter {
             }
             listPrint.add(columnPrint);
             currentY = (int) (currentY + deltaY);
+            System.out.println("row number = " + r);
         }
-        System.out.println("test " + test);
+        //System.out.println("test " + test);
         return listPrint;
     }
 }
