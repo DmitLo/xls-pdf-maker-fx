@@ -13,35 +13,30 @@ public class Md5 {
     public static void createMd5 (String fileNameResult, List<String> strings, JTextField textFieldResultMd5) throws IOException {
         String originalText = "Hello World";
         boolean ok = false;
+        byte[] fileBytes = new byte[0];
 
         //FileInputStream fis = new FileInputStream(fileNameResult);
-        System.out.println("fileNameResult = " + strings);
+        System.out.println("fileNameResult = " + strings.get(0));
         try {
-            originalText = Files.readString(Path.of(strings.get(0)));
+            //originalText = Files.readString(Path.of(strings.get(0)));
             ok = true;
+            // 1. Читаем все байты файла
+            fileBytes = Files.readAllBytes(Path.of(strings.get(0)));
         } catch (Exception e) {
             System.out.println("Выберите файл...");
             textFieldResultMd5.setText("Выберите файл...");
         }
 
-
         try {
-            // 1. Создаем экземпляр генератора хешей с алгоритмом MD5
+            // 2. Инициализируем алгоритм MD5
             MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] digest = md.digest(fileBytes);
 
-            // 2. Превращаем текст в массив байтов и передаем его алгоритму
-            byte[] hashBytes = md.digest(originalText.getBytes(StandardCharsets.UTF_8));
-
-            // 3. Конвертируем полученные байты в привычную шестнадцатеричную (Hex) строку
+            // 3. Переводим байты хэша в шестнадцатеричную (Hex) строку
             StringBuilder hexString = new StringBuilder();
-            for (byte b : hashBytes) {
-                // Преобразуем байт в 16-ричный вид и убираем лишние знаки
+            for (byte b : digest) {
                 String hex = Integer.toHexString(0xff & b);
-
-                // Добавляем лидирующий ноль, если число получилось однозначным
-                if (hex.length() == 1) {
-                    hexString.append('0');
-                }
+                if (hex.length() == 1) hexString.append('0');
                 hexString.append(hex);
             }
 
