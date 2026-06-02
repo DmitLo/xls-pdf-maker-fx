@@ -9,8 +9,8 @@ public class Gui {
 
     JFrame frame;
     JPanel panel;
-    JButton button1, button2, button3;
-    JTextField textField1,textFieldResult;
+    JButton button1, button2, button3, button4;
+    JTextField textField1,textFieldResult, textFieldResultMd5;
     String title;
     JComboBox<String> petList;
     JTextArea textArea;//
@@ -29,6 +29,7 @@ public class Gui {
 
         //текстовые поля для отображения выбранных файлов
         textFieldResult = new JTextField(30);
+        textFieldResultMd5 = new JTextField(30);
 
         textArea = new JTextArea(15,30);//
 
@@ -55,13 +56,16 @@ public class Gui {
         button1 = new JButton("Добавить файлы");
         button2 = new JButton("Сохранить результат");
         button3 = new JButton("Печать"); //test
+        button4 = new JButton("MD5"); //test
 
         //frame.setSize(400, 500);
         panel.add(textFieldResult);
+        panel.add(textFieldResultMd5);
         panel.add(petList);
         panel.add(button1);
         panel.add(button2);
         panel.add(button3); //test
+        panel.add(button4);
         //panel.add(textArea);
         panel.add(areaScrollPane, BorderLayout.CENTER);
 
@@ -75,7 +79,7 @@ public class Gui {
 
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
+        frame.setSize(400, 430);
         //panel.setForeground(Color.blue);
         //panel.setBackground(Color.white);
         // frame.setLayout(new BorderLayout());
@@ -86,25 +90,28 @@ public class Gui {
         frame.setLocationRelativeTo(null);
 
         textFieldResult.setText("./result.xls");
+        textFieldResultMd5.setText("MD5 result");
+        textFieldResultMd5.setEnabled(false);
 
         //добавление Drag and Drop
         new DragAndDrop().enableDragAndDrop(textArea);
 
         button1.addActionListener(new ButtonHandlerOpen(textArea));
         //Объединение XLS
-        button2.addActionListener(new ButtonHandlerUnionXls(frame, textFieldResult, textArea));
+        button2.addActionListener(new ButtonHandlerUnionXls(frame, textFieldResult, textArea, textFieldResultMd5));
         //Выделение
-        button2.addActionListener(new ButtonHandlerSelect(frame, textFieldResult, textArea));
+        button2.addActionListener(new ButtonHandlerSelect(frame, textFieldResult, textArea, textFieldResultMd5));
         //Объединение PDF
-        button2.addActionListener(new ButtonHandlerUnionPdf(frame, textFieldResult, textArea));
+        button2.addActionListener(new ButtonHandlerUnionPdf(frame, textFieldResult, textArea, textFieldResultMd5));
         //Разбиение PDF
-        button2.addActionListener(new ButtonHandlerSplittingPdf(frame, textFieldResult, textArea));
+        button2.addActionListener(new ButtonHandlerSplittingPdf(frame, textFieldResult, textArea, textFieldResultMd5));
         //Добавление подписей в сметы XLS
-        button2.addActionListener(new ButtonHandlerInsertImage(frame, textFieldResult, textArea));
+        button2.addActionListener(new ButtonHandlerInsertImage(frame, textFieldResult, textArea, textFieldResultMd5));
         //Добавление подписи и печати в XLS
-        button2.addActionListener(new ButtonHandlerInsertStamp(frame, textFieldResult, textArea));
+        button2.addActionListener(new ButtonHandlerInsertStamp(frame, textFieldResult, textArea, textFieldResultMd5));
 
         button3.addActionListener(new ButtonHandlerPrintXls(frame, textFieldResult, textArea));
+        button4.addActionListener(new ButtonHandlerMd5(frame, textFieldResult, textArea, textFieldResultMd5));
     }
 
 }

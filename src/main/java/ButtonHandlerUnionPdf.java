@@ -13,17 +13,20 @@ public class ButtonHandlerUnionPdf implements ActionListener {
     private final JFrame frame;
     private final JTextField textFieldResult;
     private final JTextArea textArea;
+    private final JTextField error;
 
-    public ButtonHandlerUnionPdf( JFrame frame, JTextField textFieldResult, JTextArea textArea) {
+    public ButtonHandlerUnionPdf( JFrame frame, JTextField textFieldResult, JTextArea textArea, JTextField error) {
         this.frame = frame;
         this.textFieldResult = textFieldResult;
         this.textArea = textArea;
+        this.error = error;
     }
 
     public void actionPerformed(ActionEvent e) {
 
         String title = frame.getTitle();
         System.out.println(title);
+        error.setText(title);
 
         if (title.equals("Объединить PDF")) {
             System.out.println("action occurred for checking");

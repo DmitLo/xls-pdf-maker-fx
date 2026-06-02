@@ -10,18 +10,21 @@ public class ButtonHandlerSelect implements ActionListener {
     private final JFrame frame;
     private final JTextField textFieldResult;
     private final JTextArea textArea;
+    private final JTextField error;
 
     public ButtonHandlerSelect(JFrame frame, JTextField textFieldResult,
-                               JTextArea textArea) {
+                               JTextArea textArea, JTextField error) {
         this.frame = frame;
         this.textFieldResult = textFieldResult;
         this.textArea = textArea;
+        this.error = error;
     }
 
     public void actionPerformed(ActionEvent e) {
 
         String title = frame.getTitle();
         System.out.println(title);
+        error.setText(title);
         // материалы или оборудование "лож" для оборудования
         boolean materialsEquipment = false;
 

@@ -9,18 +9,21 @@ public class ButtonHandlerInsertImage implements ActionListener {
     private final JFrame frame;
     private final JTextField textFieldResult;
     private final JTextArea textArea;
+    private final JTextField error;
 
     public ButtonHandlerInsertImage(JFrame frame, JTextField textFieldResult,
-                                    JTextArea textArea) {
+                                    JTextArea textArea, JTextField error) {
         this.frame = frame;
         this.textFieldResult = textFieldResult;
         this.textArea = textArea;
+        this.error = error;
     }
 
     public void actionPerformed(ActionEvent e) {
 
         String title = frame.getTitle();
         System.out.println(title);
+        error.setText(title);
 
         if (title.equals("Вставить подпись в XLS")) {
             System.out.println("action occurred for checking");
