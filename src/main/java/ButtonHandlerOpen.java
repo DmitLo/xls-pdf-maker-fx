@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -21,7 +20,7 @@ class ButtonHandlerOpen implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         System.out.println("action occurred for checking");
-        String filename = GuiNew.gui();
+        String filename = GuiFiles.gui();
 
         //добавление в элемент с новой строки
         try {

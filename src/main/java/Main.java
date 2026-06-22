@@ -1,21 +1,29 @@
-import java.io.IOException;
-import java.util.List;
+import javax.swing.*;
 
 /**
  * Выделение оборудования
  */
 public class Main {
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
 
-        System.out.println("start");
-        Gui.gui();
-        System.out.println("stop");
 
-        //вывод результата объекта
+        // Запуск Swing-приложения в потоке обработки событий
+        SwingUtilities.invokeLater(() -> {
+            // MainWindow mw = new MainWindow();
+            // mw.setVisible(true);
+
+            System.out.println("start");
+            GuiMain.gui();
+            System.out.println("stop");
+
+
+            //вывод результата объекта
 //        for (Read z:
 //                read) {
 //            System.out.println(z);
 //        }
 
+        });
     }
 }
+

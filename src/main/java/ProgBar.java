@@ -78,8 +78,8 @@ public class ProgBar {
             new SwingWorker<Void, Integer>() {
                 @Override
                 protected Void doInBackground() throws Exception {
-                    for (int i = 0; i <= 100; i++) {
-                        Thread.sleep(50); // Имитация работы
+                    for (int i = 0; i <= 100; i = i + 4) {
+                        Thread.sleep(25); // Имитация работы
                         publish(i);
                     }
                     return null;
