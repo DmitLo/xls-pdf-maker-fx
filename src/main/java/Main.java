@@ -1,3 +1,5 @@
+import gui.GuiMain;
+
 import javax.swing.*;
 
 /**
@@ -18,7 +20,7 @@ public class Main {
 
 
             //вывод результата объекта
-//        for (Read z:
+//        for (utils.Read z:
 //                read) {
 //            System.out.println(z);
 //        }
