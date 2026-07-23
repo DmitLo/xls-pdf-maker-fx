@@ -1,13 +1,8 @@
 package ocr;
 
-import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
-import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
-import org.apache.pdfbox.debugger.PDFDebugger;
 
-
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
@@ -19,12 +14,9 @@ import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-
 
 public class Ocr {
 
-    //public static void osr(String fileNameResult, List<String> strings, JTextArea textArea) {
     public static String osr(List<String> strings) throws IOException {
 
         String os = System.getProperty("os.name").toLowerCase();
@@ -39,7 +31,6 @@ public class Ocr {
         boolean dpfFlag = false;
 
         // Укажите путь к изображению для распознавания
-        // File imageFile = new File("./test.tif");
         File imageFile = new File(String.valueOf(Path.of(strings.get(0))));
         String mimeType = Files.probeContentType(Path.of(strings.get(0))).
                 replace("application/", "").replace("image/", "");
@@ -50,36 +41,28 @@ public class Ocr {
         tesseract.setPageSegMode(6);
         // Укажите путь к папке "tessdata" (нужна для распознавания конкретного языка).
         // Скачайте файлы языков (например, rus.traineddata) с официального репозитория
-        // https://github.com
         tesseract.setDatapath("./");
         //tesseract.setDatapath("/pt/local/share/tessdata/");
 
         // Установка языка распознавания
         tesseract.setLanguage("rus");
 
-
         //Распознование docx
 //        if ((mimeType.substring(0, 3)).equals("vnd")) {
-//
 //            try (FileInputStream fis = new FileInputStream(imageFile);
 //                 FileOutputStream fos = new FileOutputStream(new File("temp.pdf"))) {
-//
 //                // Чтение docx файла
 //                XWPFDocument document = new XWPFDocument(fis);
-//
 //                // Создание настроек конвертации
 //                PdfOptions options = PdfOptions.create();
-//
 //                // Конвертация
 //                PdfConverter.getInstance().convert(document, fos, options);
-//
 //                System.out.println("PDF успешно создан!");
 //                dpfFlag = true;
 //            } catch (Exception e) {
 //                e.printStackTrace();
 //            }
 //        }
-
 //        if (dpfFlag) {
 //            imageFile = new File("temp.pdf");
 //        }
@@ -97,17 +80,15 @@ public class Ocr {
                     sb.append(paragraph.trim()).append("\n"); // Добавление разделителя строк
                 }
             }
+
 //            String finalString = sb.toString(); // При необходимости получить String
-//
 //            StringBuilder outText = extractor;
-//
 //            PrintWriter out = new PrintWriter("output.txt")
-//
 //            String[] paragraphs = extractor.getParagraphText();
-//
 //            for (String paragraph : paragraphs) {
 //                out.println(paragraph);
 //            }
+
             System.out.println("Текст успешно извлечен!");
             return  sb.toString();
         }
@@ -124,8 +105,6 @@ public class Ocr {
                         fullText.append(pageText).append("\n");
                     }
                     result = fullText.toString();
-                    //System.out.println("strings = " + fullText);
-                    //result = tesseract.doOCR(imageFile);
 
                 } catch (Exception e) {
                     e.printStackTrace();

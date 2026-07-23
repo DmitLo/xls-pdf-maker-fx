@@ -25,6 +25,8 @@ public class GuiMain {
     JTextArea textArea;//
     java.util.List<String> compare = new ArrayList<>();
 
+    public static boolean fileAnalog = false;
+
 
     public static void gui() {
         GuiMain guiMain = new GuiMain();
@@ -116,7 +118,7 @@ public class GuiMain {
         // положение в центре
         frame.setLocationRelativeTo(null);
 
-        textFieldResult.setText("./result.xls");
+        textFieldResult.setText("./result");
         textFieldResultMd5.setText("MD5 result");
         textFieldResultMd5.setEnabled(false);
 

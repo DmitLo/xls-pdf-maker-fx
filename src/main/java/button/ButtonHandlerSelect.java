@@ -16,6 +16,7 @@ public class ButtonHandlerSelect implements ActionListener {
     private final JTextField textFieldResult;
     private final JTextArea textArea;
     private final JTextField error;
+    //статическая переменная файла аналога
 
     public ButtonHandlerSelect(JFrame frame, JTextField textFieldResult,
                                JTextArea textArea, JTextField error) {
@@ -32,6 +33,10 @@ public class ButtonHandlerSelect implements ActionListener {
         error.setText(title);
         // материалы или оборудование "лож" для оборудования
         boolean materialsEquipment = false;
+        // материал аналог
+        boolean materialsAnalog = false;
+        // удаление аналога
+        boolean delAnalog = false;
 
         if (title.equals("Выделить материалы")) {
             materialsEquipment = true;
@@ -50,13 +55,11 @@ public class ButtonHandlerSelect implements ActionListener {
             //получение списка файлов
             List<String> strings = textArea.getText().lines().collect(Collectors.toList());
             try {
-                SelectEquipment.select(strings.get(0), textFieldResult.getText(), materialsEquipment);
+                SelectEquipment.select(strings.get(0), textFieldResult.getText(), materialsEquipment,
+                        materialsAnalog, delAnalog);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
-
-            //шкала
-            //utils.ProgBar.progress();
 
         }
     }

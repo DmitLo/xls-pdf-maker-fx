@@ -1,10 +1,8 @@
 package xls;
 
-import gui.GuiMain;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import utils.Read;
 
 import java.io.FileInputStream;
@@ -16,9 +14,8 @@ import java.util.List;
  * Чтение данных из файла
  */
 
-public class ReadFromExcel {
-    public static List<Read> readFromExcel(String file, boolean materialsEquipment,
-                                           boolean materialsAnalog, boolean dellAnalog) throws IOException {
+public class ReadFromExcelTest {
+    public static List<Read> readFromExcel(String file, boolean materialsEquipment) throws IOException {
 
         boolean start = false;
         String nameDescription = "";
@@ -106,32 +103,14 @@ public class ReadFromExcel {
                         priceGeneral = row.getCell(8).getNumericCellValue();
                         priceGeneralString = String.valueOf(priceGeneral);
 
-                        Cell cell = row.getCell(9);
-                        String sineZero;
-                        if (cell != null) {
-                            sineZero = cell.getStringCellValue();
-                        } else {
-                            sineZero = " ";
-                        }
-
-                        GuiMain.fileAnalog = (sineZero.equals("q"));
-                        // запись если нужны аналоги и в столбце аналога ноль
-                        if (
-                                materialsAnalog && sineZero.equals("q") && !dellAnalog ||
-                                        materialsAnalog && !sineZero.equals("q") && dellAnalog
-                        ) {
-                        //if (sineZero.equals("q") && !dellAnalog || !materialsAnalog && dellAnalog) {
-
-                            // запись в лист
-                            read1.add(String.valueOf(j));
-                            read2.add(nameDescription);
-                            read3.add(nameEquipment);
-                            read4.add(unit);
-                            read5.add(quantityString);
-                            read6.add(priceUnitString);
-                            read7.add(priceGeneralString);
-
-                        }
+                        // запись в лист
+                        read1.add(String.valueOf(j));
+                        read2.add(nameDescription);
+                        read3.add(nameEquipment);
+                        read4.add(unit);
+                        read5.add(quantityString);
+                        read6.add(priceUnitString);
+                        read7.add(priceGeneralString);
 
                         //String priceGeneral = "2";
                         System.out.println(j + " " + name + " "

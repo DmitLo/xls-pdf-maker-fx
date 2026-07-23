@@ -18,9 +18,15 @@ public class WriteIntoExcel {
         Workbook book = new HSSFWorkbook();
         Row row;
         Cell cell;
+        Sheet sheet;
+
         int length = 0;
         //создание листа
-        Sheet sheet = book.createSheet("Оборудование");
+        if (materialsEquipment) {
+            sheet = book.createSheet("Материалы");
+        } else {
+            sheet = book.createSheet("Оборудование");
+        }
 
         row = sheet.createRow(0);
         cell = row.createCell(5);
@@ -37,12 +43,15 @@ public class WriteIntoExcel {
 
         row = sheet.createRow(4);
         cell = row.createCell(2);
-        // по умолчанию оборудованине
-        cell.setCellValue("ОБОРУДОВАНИЕ");
+
         // для материалов
         if (materialsEquipment) {
             cell.setCellValue("МАТЕРИАЛЫ");
+        } else {
+            // по умолчанию оборудованине
+            cell.setCellValue("ОБОРУДОВАНИЕ");
         }
+
         row = sheet.createRow(5);
         cell = row.createCell(2);
         cell.setCellValue("");
