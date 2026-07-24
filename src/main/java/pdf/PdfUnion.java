@@ -23,7 +23,7 @@ public class PdfUnion {
         String filePath = "./";
 
         // файл назначения
-        PdfMerger.setDestinationFileName(fileNameResult);
+        PdfMerger.setDestinationFileName(fileNameResult + ".pdf");
 
         // исходные файлы
         int length = strings.size();

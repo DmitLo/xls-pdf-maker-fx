@@ -108,13 +108,14 @@ public class ReadFromExcel {
 
                         Cell cell = row.getCell(9);
                         String sineZero;
-                        if (cell != null) {
+                        if (cell != null ) {
                             sineZero = cell.getStringCellValue();
                         } else {
                             sineZero = " ";
                         }
 
-                        GuiMain.fileAnalog = (sineZero.equals("q"));
+                        GuiMain.fileAnalog = GuiMain.fileAnalog || (sineZero.equals("q"));
+
                         // запись если нужны аналоги и в столбце аналога ноль
                         if (
                                 materialsAnalog && sineZero.equals("q") && !dellAnalog ||

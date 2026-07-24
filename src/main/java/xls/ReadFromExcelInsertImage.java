@@ -133,7 +133,7 @@ public class ReadFromExcelInsertImage {
                 //System.out.println("Количество записей cуб: " + listOfLists.size() + " количество записей в суб: " + mixedList.size());
             }
             //сохранение в файл
-            FileOutputStream out = new FileOutputStream(fileOutput);
+            FileOutputStream out = new FileOutputStream(fileOutput + ".xls");
             sourceWb.write(out);
             out.close();
         }

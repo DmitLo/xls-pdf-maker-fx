@@ -118,7 +118,8 @@ public class GuiMain {
         // положение в центре
         frame.setLocationRelativeTo(null);
 
-        textFieldResult.setText("./result");
+        //textFieldResult.setText("./result");
+        textFieldResult.setText("result");
         textFieldResultMd5.setText("MD5 result");
         textFieldResultMd5.setEnabled(false);
 

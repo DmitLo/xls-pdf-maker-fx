@@ -57,7 +57,7 @@ public class ExcelUnionSheet {
         }
 
         //запись в файл
-        FileOutputStream out = new FileOutputStream(fileNameResult);
+        FileOutputStream out = new FileOutputStream(fileNameResult + ".xls");
         workbook.write(out);
         out.close();
         workbook.close();

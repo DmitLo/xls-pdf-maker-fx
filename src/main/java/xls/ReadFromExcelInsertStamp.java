@@ -96,7 +96,7 @@ public class ReadFromExcelInsertStamp {
                 }
             }
             //сохранение в файл
-            FileOutputStream out = new FileOutputStream(fileOutput);
+            FileOutputStream out = new FileOutputStream(fileOutput + ".xls");
             sourceWb.write(out);
             out.close();
         }
