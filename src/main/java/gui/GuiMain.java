@@ -63,7 +63,7 @@ public class GuiMain {
 
         String[] petStrings = {"Объединить XLS", "Выделить материалы",
                 "Выделить оборудование", "Разбить PDF", "Объединить PDF",
-                "Вставить подпись в XLS", "Вставить штамп в XLS", "Распознать PDF, DOC, JPG"};
+                "Вставить подпись в XLS", "Вставить штамп в XLS", "Распознать PDF, DOC, JPG", "Цифры с ССР"};
 
         // комбобокс
         petList = new JComboBox<>(petStrings);
@@ -154,5 +154,8 @@ public class GuiMain {
         //Сравнение
         buttonOk.addActionListener(new ButtonHandlerOcr(frame, textFieldResult, textArea, textFieldResultMd5, compare));
         buttonCompare.addActionListener(new ButtonHandlerCompare(frame, textFieldResult, textArea, textFieldResultMd5));
+
+        //Получение цифр с ССР
+        buttonOk.addActionListener(new ButtonHandlerSsr(frame, textFieldResult, textArea, textFieldResultMd5));
     }
 }
