@@ -13,12 +13,12 @@
 
     <groupId>org.example</groupId>
     <artifactId>XlsPdfMaker1</artifactId>
-    <version>0.1.4</version>
+    <version>0.1.5</version>
     <name>XlsPdfMaker1</name>
     <description>XlsPdfMaker1 project</description>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- -->
@@ -137,7 +137,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.javafxexample/com.example.javafxexample.HelloApplication</mainClass>
+                            <mainClass>AppStart</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

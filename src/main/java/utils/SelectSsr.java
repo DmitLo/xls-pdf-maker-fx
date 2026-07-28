@@ -64,8 +64,9 @@ public class SelectSsr {
                 "Общая  стоимость, тысяч белорусских рублей " + read1.get(12) + "\n" +
                 "Трудоемкость, человеко-часов " + read1.get(13) + "\n";
         String outTextPos1 = "Всего " + read1.get(12) + "\n" +
-                "В том числе СМР " + (Float.parseFloat(read1.get(12).toString().replace("[", "").replace("]", ""))
-                - Float.parseFloat(read1.get(9).toString().replace("[", "").replace("]", ""))) + "\n" +
+                "В том числе СМР " + (Float.parseFloat(read1.get(12).toString().replace("[", "").replace("]", "")) -
+                Float.parseFloat(read1.get(9).toString().replace("[", "").replace("]", ""))  -
+                Float.parseFloat(read1.get(10).toString().replace("[", "").replace("]", ""))) + "\n" +
                 "Распределение объемов " + read1.get(12) + "\n";
         // 9 Прочие работы и расходы
         String outText2 = "Наименование  глав, объектных (локальных) смет (сметных расчётов), средств " + read2.get(1) + "\n" +
