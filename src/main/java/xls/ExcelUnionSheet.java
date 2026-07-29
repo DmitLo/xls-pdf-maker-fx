@@ -28,7 +28,8 @@ public class ExcelUnionSheet {
         }
         String filePath = "./";
         //String fileName = filePath + "3" + fileName1;
-        String fileName = filePath + "unionNew.xls";
+        //String fileName = filePath + "unionNew.xls";
+        fileNameResult = filePath + fileNameResult + ".xls";
 
         //создание пустой книги
         XSSFWorkbook wb1 = new XSSFWorkbook();
@@ -51,13 +52,25 @@ public class ExcelUnionSheet {
         org.apache.poi.ss.usermodel.Workbook workbook = WorkbookFactory.create(new FileInputStream(fileNameResult));
 
         //создание листов в fileNameResult
-        int length = strings.size();
+        int lengthStart = strings.size();
+        int length = 0;
+        //удаление пустых ячеек
+        for (String string : strings) {
+            if (string.isEmpty()) {
+                length = lengthStart - 1;
+                break;
+            }
+        }
+
+
         for (int i = 1; i < length; i++) {
             workbook.createSheet("Лист" + (i + 1) );
         }
 
+        //System.out.println(strings + "++");
+
         //запись в файл
-        FileOutputStream out = new FileOutputStream(fileNameResult + ".xls");
+        FileOutputStream out = new FileOutputStream(fileNameResult);
         workbook.write(out);
         out.close();
         workbook.close();
@@ -73,6 +86,10 @@ public class ExcelUnionSheet {
 
         // Save the file.
         destination.save(fileNameResult, FileFormatType.EXCEL_97_TO_2003);
+
+        //Закрытие
+        //destination.dispose();
+
     }
 
     /**

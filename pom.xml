@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>org.example</groupId>
-    <artifactId>XlsPdfMaker1</artifactId>
+    <artifactId>xls_pdf_maker1</artifactId>
     <version>0.1.5</version>
     <name>XlsPdfMaker1</name>
     <description>XlsPdfMaker1 project</description>

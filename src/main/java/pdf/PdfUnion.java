@@ -26,7 +26,19 @@ public class PdfUnion {
         PdfMerger.setDestinationFileName(fileNameResult + ".pdf");
 
         // исходные файлы
-        int length = strings.size();
+        //int length = strings.size();
+        int lengthStart = strings.size();
+        int length = 0;
+        //удаление пустых ячеек
+        for (String string : strings) {
+            if (string.isEmpty()) {
+                length = lengthStart - 1;
+                break;
+            }
+        }
+
+
+
         for (int i = 0; i < length; i++) {
             File file = new File(strings.get(i));
             PdfMerger.addSource(file);
