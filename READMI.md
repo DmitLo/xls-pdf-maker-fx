@@ -13,3 +13,9 @@ iconutil -c icns MyIcon.iconset
 
 
 jpackage --input target --name "XlsPdfMaker1" --main-jar "XlsPdfMaker1.jar" --main-class AppStart --type app-image
+
+jpackage --type app-image \
+--name "XlsPdfMaker1" \
+--input target \
+--main-jar XlsPdfMaker1.jar \
+--java-options "-Dapple.laf.useScreenMenuBar=true"
