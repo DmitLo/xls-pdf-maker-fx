@@ -84,6 +84,7 @@ public class ProgBar {
                         Thread.sleep(25); // Имитация работы
                         publish(i);
                     }
+                    frame.dispose();
                     return null;
                 }
 
