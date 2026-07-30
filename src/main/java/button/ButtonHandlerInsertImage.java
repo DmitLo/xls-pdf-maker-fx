@@ -2,11 +2,16 @@ package button;
 
 import utils.ProgBar;
 import xls.ReadFromExcelInsertImage;
+import xls.ReadFromExcelInsertStamp;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 public class ButtonHandlerInsertImage implements ActionListener {
@@ -32,19 +37,30 @@ public class ButtonHandlerInsertImage implements ActionListener {
 
         if (title.equals("Вставить подпись в XLS")) {
             System.out.println("action occurred for checking");
-            //шкала
-            ProgBar.progress();
-
             //получение списка файлов
             List<String> strings = textArea.getText().lines().collect(Collectors.toList());
-            try {
-                ReadFromExcelInsertImage.readFromExcelImage(strings.get(0), textFieldResult.getText());
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
 
+            //запуск задачи в пуле потоков
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Future<?> future = executor.submit(() -> {
+                // Код вашей задачи
+                System.out.println("Задача в пуле потоков");
+                try {
+                    ReadFromExcelInsertImage.readFromExcelImage(strings.get(0), textFieldResult.getText());
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+
+            try {
+                future.get(); // Ожидание завершения задачи
+            } catch (InterruptedException | ExecutionException exception) {
+                // Обработка ошибок
+            } finally {
+                executor.shutdown();
+            }
             //шкала
-            //utils.ProgBar.progress();
+            ProgBar.progress();
         }
     }
 }

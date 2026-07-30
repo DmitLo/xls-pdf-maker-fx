@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Площадка для результата распознования
+ */
+
 public class GuiOcr {
     //JFileChooser frame;
     File folder;

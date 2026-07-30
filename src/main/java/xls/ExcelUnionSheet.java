@@ -53,7 +53,7 @@ public class ExcelUnionSheet {
 
         //создание листов в fileNameResult
         int lengthStart = strings.size();
-        int length = 0;
+        int length = lengthStart;
         //удаление пустых ячеек
         for (String string : strings) {
             if (string.isEmpty()) {
@@ -62,12 +62,9 @@ public class ExcelUnionSheet {
             }
         }
 
-
         for (int i = 1; i < length; i++) {
             workbook.createSheet("Лист" + (i + 1) );
         }
-
-        //System.out.println(strings + "++");
 
         //запись в файл
         FileOutputStream out = new FileOutputStream(fileNameResult);

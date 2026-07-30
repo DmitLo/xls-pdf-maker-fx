@@ -13,8 +13,8 @@
 
     <groupId>org.example</groupId>
     <artifactId>xls_pdf_maker1</artifactId>
-    <version>0.1.5</version>
-    <name>XlsPdfMaker1</name>
+    <version>0.1.6</version>
+    <name>XlsPdfMaker0-1-6</name>
     <description>XlsPdfMaker1 project</description>
 
     <properties>

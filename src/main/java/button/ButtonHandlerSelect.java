@@ -1,5 +1,6 @@
 package button;
 
+import pdf.PdfSplitting;
 import utils.ProgBar;
 import utils.SelectEquipment;
 
@@ -8,6 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 public class ButtonHandlerSelect implements ActionListener {
@@ -32,7 +37,7 @@ public class ButtonHandlerSelect implements ActionListener {
         System.out.println(title);
         error.setText(title);
         // материалы или оборудование "лож" для оборудования
-        boolean materialsEquipment = false;
+        boolean materialsEquipment;
         // материал аналог
         boolean materialsAnalog = false;
         // удаление аналога
@@ -40,27 +45,38 @@ public class ButtonHandlerSelect implements ActionListener {
 
         if (title.equals("Выделить материалы")) {
             materialsEquipment = true;
+        } else {
+            materialsEquipment = false;
         }
 
 
         if (title.equals("Выделить оборудование") || title.equals("Выделить материалы")) {
             System.out.println("action occurred for checking");
-//            if (textFieldResult.getText().isEmpty()) {
-//                textFieldResult.setText("./select.xls");
-//            }
-
-            //шкала
-            ProgBar.progress();
-
             //получение списка файлов
             List<String> strings = textArea.getText().lines().collect(Collectors.toList());
-            try {
-                SelectEquipment.select(strings.get(0), textFieldResult.getText(), materialsEquipment,
-                        materialsAnalog, delAnalog);
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
 
+            //запуск задачи в пуле потоков
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Future<?> future = executor.submit(() -> {
+                // Код вашей задачи
+                System.out.println("Задача в пуле потоков");
+                try {
+                    SelectEquipment.select(strings.get(0), textFieldResult.getText(), materialsEquipment,
+                            materialsAnalog, delAnalog);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+
+            try {
+                future.get(); // Ожидание завершения задачи
+            } catch (InterruptedException | ExecutionException exception) {
+                // Обработка ошибок
+            } finally {
+                executor.shutdown();
+            }
+            //шкала
+            ProgBar.progress();
         }
     }
 }

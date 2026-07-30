@@ -1,11 +1,17 @@
 package button;
 
 import utils.Md5;
+import utils.ProgBar;
+import xls.ReadFromExcelInsertImage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 /**
@@ -29,25 +35,29 @@ public class ButtonHandlerMd5 implements ActionListener {
 
         String title = frame.getTitle();
         System.out.println(title);
+        //получение списка файлов
+        List<String> strings = textArea.getText().lines().collect(Collectors.toList());
 
-        //if (title.equals("Объединить XLS")) {
-         //   System.out.println("action occurred for checking");
-//            if (textFieldResult.getText().isEmpty()) {
-//                textFieldResult.setText("./union.xls");
-//            }
-
-            //шкала
-            //utils.ProgBar.progress();
-
-            //получение списка файлов
-            List<String> strings = textArea.getText().lines().collect(Collectors.toList());
+        //запуск задачи в пуле потоков
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<?> future = executor.submit(() -> {
+            // Код вашей задачи
+            System.out.println("Задача в пуле потоков");
             try {
                 Md5.createMd5(textFieldResult.getText(), strings, textFieldResultMd5);
-            } catch (Exception exception) {
-                exception.printStackTrace();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
             }
-            //шкала
-            //utils.ProgBar.progress();
-       // }
+        });
+
+        try {
+            future.get(); // Ожидание завершения задачи
+        } catch (InterruptedException | ExecutionException exception) {
+            // Обработка ошибок
+        } finally {
+            executor.shutdown();
+        }
+        //шкала
+        ProgBar.progress();
     }
 }

@@ -8,6 +8,10 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Распознование прнажатию кнопки
+ */
+
 public class ButtonHandlerOcr implements ActionListener {
 
     private final JFrame frame;
@@ -33,23 +37,14 @@ public class ButtonHandlerOcr implements ActionListener {
 
         if (title.equals("Распознать PDF, DOC, JPG")) {
             System.out.println("action occurred for checking");
-        //шкала
-        //utils.ProgBar.progress();
 
             //получение списка файлов
             List<String> strings = textArea.getText().lines().collect(Collectors.toList());
             try {
-                //Recognize.osr(textFieldResult.getText(), strings, textArea);
-                //xls.ReadFromExcelInsertStamp.readFromExcelStamp(strings.get(0), textFieldResult.getText());
-                //шкала
-                //textArea.setText(Recognize.osr(strings));
                 GuiOcr.gui(textFieldResult.getText(), strings, error, compare);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
-
-            //шкала
-            //utils.ProgBar.progress();
         }
     }
 }

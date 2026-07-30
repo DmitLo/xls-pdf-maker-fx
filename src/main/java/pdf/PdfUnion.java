@@ -28,7 +28,7 @@ public class PdfUnion {
         // исходные файлы
         //int length = strings.size();
         int lengthStart = strings.size();
-        int length = 0;
+        int length = lengthStart;
         //удаление пустых ячеек
         for (String string : strings) {
             if (string.isEmpty()) {

@@ -36,3 +36,31 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Исключение скомпилированных приложений Mac OS
+*.app/
+*.dmg
+
+# Системные файлы Mac OS
+.AppleDouble
+.LSOverride
+
+# Исключение бинарных файлов и пакетов Linux
+*.snap
+*.AppImage
+*.deb
+*.rpm
+*.bin
+*.run
+
+# Исключение исполняемых файлов и установщиков Windows
+*.exe
+*.msi
+*.msm
+*.msp
+*.dll
+*.sys
+
+
+
+
