@@ -1,9 +1,11 @@
 package pdf;
 
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
+import utils.CreateUserFolder;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -22,8 +24,14 @@ public class PdfUnion {
         }
         String filePath = "./";
 
+        //создание папки, если ее нет
+        Path path = CreateUserFolder.create();
+        String fileOut = fileNameResult + ".pdf";
+        Path fileOutPath = path.resolve(fileOut);
+
         // файл назначения
-        PdfMerger.setDestinationFileName(fileNameResult + ".pdf");
+//        PdfMerger.setDestinationFileName(fileNameResult + ".pdf");
+        PdfMerger.setDestinationFileName(String.valueOf(fileOutPath));
 
         // исходные файлы
         //int length = strings.size();

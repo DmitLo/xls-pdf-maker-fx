@@ -2,9 +2,11 @@ package pdf;
 
 import org.apache.pdfbox.multipdf.Splitter;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import utils.CreateUserFolder;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,11 +30,16 @@ public class PdfSplitting {
         // получение отдельных документов списком
         Iterator<PDDocument> iterator = Pages.listIterator();
 
+        //получение или создание папки
+        Path path = CreateUserFolder.create();
+
         //Saving each page as an individual document
         int i = 1;
         while(iterator.hasNext()) {
             PDDocument pd = iterator.next();
-            pd.save(fileNameResult + i++ +".pdf");
+            Path fileOutPath = path.resolve(fileNameResult);
+//            pd.save(fileNameResult + i++ +".pdf");
+            pd.save(fileOutPath.toString() + i++ +".pdf");
         }
         System.out.println("Multiple PDF’s created");
         // закрытие исходного документа

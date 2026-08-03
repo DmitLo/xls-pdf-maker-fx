@@ -4,12 +4,14 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import utils.CellStyleLeft;
+import utils.CreateUserFolder;
 import utils.LoadImage;
 //для формата xlsx
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * Чтение данных из файла и весь цикл определения координат вставки ячейки
@@ -132,8 +134,13 @@ public class ReadFromExcelInsertImage {
                 //System.out.println(listOfLists.get(2).get(0));
                 //System.out.println("Количество записей cуб: " + listOfLists.size() + " количество записей в суб: " + mixedList.size());
             }
+
+            //создание папки или использование существующей
+            Path path = CreateUserFolder.create();
+            Path fileOutPath = path.resolve(fileOutput + ".xls");
+
             //сохранение в файл
-            FileOutputStream out = new FileOutputStream(fileOutput + ".xls");
+            FileOutputStream out = new FileOutputStream(fileOutPath.toString());
             sourceWb.write(out);
             out.close();
         }

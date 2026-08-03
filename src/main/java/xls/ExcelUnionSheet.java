@@ -9,9 +9,11 @@ import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import utils.CreateUserFolder;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -81,8 +83,12 @@ public class ExcelUnionSheet {
                 destination.getWorksheets().get(i).copy(source.getWorksheets().get(0));
             }
 
+        Path path = CreateUserFolder.create();
+        String fileOut = fileNameResult;
+        Path fileOutPath = path.resolve(fileOut);
+
         // Save the file.
-        destination.save(fileNameResult, FileFormatType.EXCEL_97_TO_2003);
+        destination.save(fileOutPath.toString(), FileFormatType.EXCEL_97_TO_2003);
 
         //Закрытие
         //destination.dispose();

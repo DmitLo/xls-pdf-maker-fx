@@ -2,11 +2,13 @@ package xls;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import utils.CreateUserFolder;
 import utils.Read;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
@@ -104,8 +106,12 @@ public class WriteIntoExcel {
         sheet.autoSizeColumn(5);
         sheet.autoSizeColumn(6);
 
+        Path path = CreateUserFolder.create();
+        String fileOut = file;
+        Path fileOutPath = path.resolve(fileOut);
+
         // Записываем всё в файл
-        book.write(new FileOutputStream(file));
+        book.write(new FileOutputStream(String.valueOf(fileOutPath)));
         book.close();
     }
 }

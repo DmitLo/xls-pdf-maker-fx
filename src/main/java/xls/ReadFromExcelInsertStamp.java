@@ -6,11 +6,13 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import utils.CreateUserFolder;
 import utils.LoadImage;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * Чтение данных из файла и весь цикл определения координат вставки ячейки
@@ -95,8 +97,12 @@ public class ReadFromExcelInsertStamp {
                     }
                 }
             }
+            //создание папки или использование существующей
+            Path path = CreateUserFolder.create();
+            Path fileOutPath = path.resolve(fileOutput + ".xls");
+
             //сохранение в файл
-            FileOutputStream out = new FileOutputStream(fileOutput + ".xls");
+            FileOutputStream out = new FileOutputStream(fileOutPath.toString());
             sourceWb.write(out);
             out.close();
         }
