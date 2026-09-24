@@ -6,6 +6,8 @@ import utils.DragAndDrop;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
@@ -118,6 +120,9 @@ public class GuiMain {
         // положение в центре
         frame.setLocationRelativeTo(null);
 
+        //верхнее меню
+        simpleMenu(frame);
+
         //textFieldResult.setText("./result");
         textFieldResult.setText("result");
         textFieldResultMd5.setText("MD5 result");
@@ -149,7 +154,9 @@ public class GuiMain {
         //Добавление подписи и печати в XLS
         buttonOk.addActionListener(new ButtonHandlerInsertStamp(frame, textFieldResult, textArea, textFieldResultMd5));
 
-        buttonPrint.addActionListener(new ButtonHandlerPrintXls(frame, textFieldResult, textArea));
+        //buttonPrint.addActionListener(new ButtonHandlerPrintXls(frame, textFieldResult, textArea));
+        buttonPrint.addActionListener(new ButtonHandlerPrint(frame, textFieldResult, textArea));
+
         buttonMd5.addActionListener(new ButtonHandlerMd5(frame, textFieldResult, textArea, textFieldResultMd5));
         //Сравнение
         buttonOk.addActionListener(new ButtonHandlerOcr(frame, textFieldResult, textArea, textFieldResultMd5, compare));
@@ -157,5 +164,46 @@ public class GuiMain {
 
         //Получение цифр с ССР
         buttonOk.addActionListener(new ButtonHandlerSsr(frame, textFieldResult, textArea, textFieldResultMd5));
+    }
+
+    //верхнее меню
+    public static void simpleMenu(JFrame frame) {
+        // 1. Создаем панель меню (JMenuBar)
+        JMenuBar menuBar = new JMenuBar();
+
+        // 2. Создаем разделы меню (JMenu)
+        //JMenu fileMenu = new JMenu("Файл");
+        JMenu helpMenu = new JMenu("Справка");
+
+        // 3. Создаем пункты меню (JMenuItem)
+        //JMenuItem openItem = new JMenuItem("Открыть");
+        JMenuItem registrationItem = new JMenuItem("Регистрация");
+        JMenuItem aboutItem = new JMenuItem("О программе");
+        JMenuItem exitItem = new JMenuItem("Выход");
+
+        // Добавляем обработчик нажатия для пункта «Выход»
+        exitItem.addActionListener(e -> System.exit(0));
+
+        // 4. Добавляем пункты (JMenuItem) в разделы (JMenu)
+        //fileMenu.add(openItem);
+        //fileMenu.addSeparator(); // добавляет горизонтальную линию-разделитель
+        //fileMenu.add(exitItem);
+
+        helpMenu.add(registrationItem);
+        helpMenu.add(aboutItem);
+        helpMenu.addSeparator();
+        helpMenu.add(exitItem);
+
+        // 5. Добавляем разделы на панель меню
+        //menuBar.add(fileMenu);
+        menuBar.add(helpMenu);
+
+        // 6. Устанавливаем панель меню для окна с помощью setJMenuBar
+        frame.setJMenuBar(menuBar);
+
+        //запуск описания
+        aboutItem.addActionListener(new ButtonHandlerAbout(frame));
+        //запуск описания
+        registrationItem.addActionListener(new ButtonHandlerLicense(frame));
     }
 }

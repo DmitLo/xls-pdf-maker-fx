@@ -36,16 +36,16 @@ public class ButtonHandlerSsr implements ActionListener {
         String title = frame.getTitle();
         System.out.println(title);
         error.setText(title);
-        // материалы или оборудование "лож" для оборудования
-        boolean materialsEquipment = false;
-        // материал аналог
-        boolean materialsAnalog = false;
-        // удаление аналога
-        boolean delAnalog = false;
-
-        if (title.equals("Цифры с ССР")) {
-            materialsEquipment = true;
-        }
+//        // материалы или оборудование "лож" для оборудования
+//        boolean materialsEquipment = false;
+//        // материал аналог
+//        boolean materialsAnalog = false;
+//        // удаление аналога
+//        boolean delAnalog = false;
+//
+//        if (title.equals("Цифры с ССР")) {
+//            materialsEquipment = true;
+//        }
 
 
         if (title.equals("Цифры с ССР")) {
