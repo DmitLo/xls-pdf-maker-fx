@@ -117,6 +117,19 @@
             <version>6.6.5</version> <!-- Используйте актуальную версию -->
         </dependency>
 
+        <!-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.21</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.18.2</version> <!-- Актуальная и стабильная версия -->
+        </dependency>
+
 
     </dependencies>
 
@@ -158,6 +171,27 @@
                 </executions>
             </plugin>
             <!--Fx-->
+
+            <plugin>
+                <groupId>com.github.wvengen</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
+                <version>2.6.0</version> <!-- Use the latest stable version -->
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals><goal>proguard</goal></goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <maxMemory>1024m</maxMemory>
+                    <includeDependency>true</includeDependency>
+                    <options>
+                        <option>-allowaccessmodification</option>
+                        <option>-keep public class com.example.Main { public static void main(java.lang.String[]); }</option>
+                    </options>
+                </configuration>
+            </plugin>
+
 
         </plugins>
     </build>
