@@ -1,0 +1,2371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" type="text/css" href="/css/default/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/default/bootstrap-grid.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/default/bootstrap-reboot.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/default/overlayScrollbars.min.css">
+    <link rel="stylesheet/less" type="text/css" href="/css/default/styles.less?ver=140110">
+    <link rel="stylesheet" type="text/css" href="/css/applepay.css">
+    <link rel="stylesheet" type="text/css" href="/css/samsungpay.css">
+    <link rel="stylesheet" type="text/css" href="/css/nbrb.css">
+    <link rel="icon" href="/images/default/favicon.ico" type="image/x-icon">
+
+    <title>WEBPAY Платежный мультисервис</title>
+
+
+
+
+    <script>
+        less = {env: 'production'};
+        less.modifyVars = {"@brand-color":null,"@brand-font":null};
+    </script>
+    <script type="text/javascript" src="/js/less.min.js?ver=new_design140110"></script>
+
+</head>
+
+<body  class="backgroundOff" >
+
+<noscript>
+    <div id="javascriptDisabled">disabled</div>
+</noscript>
+
+<header class="container header">
+    <div class="d-flex justify-content-between align-items-center">
+        <img alt="logo" class="headLogo"
+
+             src="/images/default/webpay_blue_new.png"
+        >
+        <form method="post" id="languageForm">
+            <nav class="d-flex align-items-center header__lang-menu" id="lang">
+                <a href="" class="change_language  "
+                   id="en">EN</a>
+                <a href="" class="change_language  active  "
+                   id="ru">RU</a>
+            </nav>
+            <input type="hidden" name="wt" value="e03b4f01e607cc4dbe134fe78e5729bc=54485533646b644b527a5a4256325a595a6d394d4e4870465133427a56305258526e4a6f575735704e5549786548646f6544465a63303950617a302c">
+            <input type="hidden" name="change_language" value="">
+        </form>
+    </div>
+</header>
+
+<!--header-->
+<p style="display: none" id="page">systemerror</p>
+<p style="display: none" id="defaultPan"></p><div id="paymentPage" class="pages fields">
+
+
+    <section class="container content">
+
+        <div class="twoBlocks">
+            <!-- LEFT SIDE BLOCK -->
+            <div class="content__block-left">
+
+
+                <div class="content__pay-menu">
+                    <!-- PAYMENT METHOD CHOICE -->
+                </div>
+
+                <form method="post" id="paymentForm">
+                    <!-- PAYMENT BLOCK-->
+                    <div class="paymentPageBlock blocks" id="left_block_cardPayment">
+                        <div class="content__wrapper">
+                            <input type="hidden" id="mtbHalvaRange" name="mtbHalvaRange" value="">
+                            <input type="hidden" id="mtbHalvaPlusRange" name="mtbHalvaPlusRange"
+                                   value="">
+                            <input type="hidden" id="mtbXcardRange" name="mtbXcardRange" value="">
+                            <input type="hidden" id="mtbAutocardRange" name="mtbAutocardRange"
+                                   value="">
+
+
+                            <div class="cardless-pay content__block-left__cardless">
+                                <div id="applePayBtn" lang="ru">
+                                </div>
+                                <div id="applePaySetupBtn" lang="ru">
+                                </div>
+                                <div id="samsungPayBtn"></div>
+                            </div>
+
+
+                            <!-- PAYMENT FORM -->
+                            <div class="payform">
+                                <div class="container">
+
+                                    <div class="row payform__item-row">
+                                        <div class="col wrapper payform__cc_pan payform__input">
+                                            <label for="cc_pan" id="form_card_pan"
+                                                   class="payform__input-label field-translate">Номер карты</label>
+                                            <input id="cc_pan" name="cc_pan" class="col-12 field inputs protected"
+                                                   type="tel" tabindex="1" maxlength="23" value=""
+                                                   autofocus>
+                                            <div class="invalid-text errors" id="panError"></div>
+                                        </div>
+
+                                        <div class="col wrapper payform__cc_month payform__input">
+                                            <label for="cc_month" id="month"
+                                                   class="payform__input-label field-translate">месяц</label>
+                                            <input id="cc_month" type="tel" name="cc_month" maxlength="2"
+                                                   class="col-12 field cardMonth inputs protected"
+                                                   tabindex="2"
+                                                   value=""
+                                            >
+                                            <div class="invalid-text errors" id="expireError"></div>
+                                        </div>
+
+                                        <div class="col wrapper payform__cc_year payform__input">
+                                            <label for="cc_year" id="year"
+                                                   class="payform__input-label field-translate">год</label>
+                                            <input id="cc_year" type="tel" name="cc_year" maxlength="2"
+                                                   class="col-12 field cardYear inputs protected"
+                                                   tabindex="3"
+                                                   value=""
+                                            >
+                                        </div>
+
+                                    </div>
+                                    <div class="row payform__item-row">
+
+                                        <div class="col wrapper payform__cc_name payform__input">
+                                            <label for="cc_name" id="form_card_holder_name"
+                                                   class="payform__input-label field-translate">Имя держателя</label>
+                                            <input id="cc_name" type="text" name="cc_name" maxlength="128"
+                                                   class="col-12 field input_cc_name cardHolder text-uppercase inputs protected"
+                                                   value="" tabindex="4"
+                                            >
+                                            <a href="" id="card_holder_name_tooltip" class="input_tooltip"
+                                               data-toggle="tooltip"
+                                               data-original-title="ИМЯ ДЕРЖАТЕЛЯ (латиницей как на карте или как в паспорте)">?</a>
+                                            <div class="invalid-text errors" id="nameError"></div>
+                                        </div>
+
+                                        <div class="col wrapper payform__cc_cvv payform__input">
+                                            <label for="cc_cvv" id="form_card_cvv"
+                                                   class="payform__input-label field-translate">CVV</label>
+                                            <input id="cc_cvv" type="password" name="cc_cvv" tabindex="5" maxlength="3"
+                                                   value="" data-required=""
+                                                   class="col-12 field cardCvv inputs">
+                                            <div class="invalid-text errors" id="cvvError"></div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row payform__item-row">
+                                        <div class="col wrapper payform__cc_email payform__input">
+                                            <label for="cc_email" id="form_email"
+                                                   class="payform__input-label field-translate">email</label>
+                                            <input id="cc_email" type="email" name="cc_email" maxlength="64" tabindex="6"
+                                                   class="col-12 field input_cc_email inputs"
+                                                   value=""
+                                            >
+                                            <a href="" id="email_tooltip" class="input_tooltip" data-toggle="tooltip"
+                                               data-original-title="Адрес электронной почты нужен для отправки чека">?</a>
+                                            <div class="invalid-text errors" id="emailError"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center justify-content-between">
+                                    </div>
+                                    <div class="row justify-content-between payform__info-wrap">
+                                        <!-- PAYMENT INFO -->
+                                        <div class="d-flex flex-column payform__info">
+                                        <span class="payform__order-number field-translate"
+                                              id="column_order_number">Информация о заказе:</span>
+                                            <a href="" data-toggle="modal" data-target="#orderInfoModal"
+                                               class="payform__infoID"
+                                               id="orderButton"></a>
+                                        </div>
+                                        <div class="btn_group">
+                                            <button type="submit" id="payBtn" name="pay" class="main_btn field-translate">
+
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END PAYMENT BLOCK-->
+
+                    <!-- ERIP BLOCK-->
+                    <div class="eripBlock blocks" id="left_block_erip">
+                        <div class="content__wrapper">
+                            <div class="content__block-left__subtitle">
+                                <span class="field-translate" id="woc_title">Оплата в системе «Расчёт» (АИС ЕРИП)</span>
+                            </div>
+                            <div class="payform">
+                                <div class="container">
+                                    <div class="row">
+                                        <p class="erip_text field-translate"
+                                           id="woc_text_1">Для оплаты в системе «Расчёт» (АИС ЕРИП) выберите услугу «» и введите номер счёта .</p>
+                                    </div>
+                                    <div class="row d-flex btn_group">
+                                        <button id="internet_banking_title" type="button"
+                                                class="extra_btn ib_btn mobile-bank-btn field-translate">Интернет банк</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END ERIP BLOCK-->
+                    <!-- CRYPTO BLOCK-->
+                    <div class="cryptoBlock blocks" id="left_block_crypto">
+                        <div id="paymentLoader" class="payment-loader" style="display: none;">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Загрузка...</span>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="cryptoModal" tabindex="-1" role="dialog" aria-labelledby="cryptoModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="cryptoModalLabel">
+                                            Crypto Payment
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <div id="cryptoLoader" class="py-4 d-none">
+                                            <div class="spinner-border" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </div>
+                                        <div id="cryptoError" class="alert alert-danger d-none"></div>
+                                        <div id="cryptoContent">
+                                            <div id="loader" class="payment-loader" style="display: flex;">
+                                                <div class="spinner-border text-primary" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                            </div>
+                                            <p class="redirect-info">
+                                                Вы будете автоматически перенаправлены через несколько секунд. <br/>
+                                                Если этого не произошло — воспользуйтесь ссылкой ниже.
+                                            </p>
+                                            <p>
+                                                <strong>Сумма:</strong>
+                                                <span id="cryptoAmount">—</span><br/>
+                                                <strong><a id="paymentUrlAnchor" href="#"><span id="paymentUrl" class="text-break">—</span></a></strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            const wpCryptoPay = {
+                                currencyCode: '',
+                            };
+                            console.debug('Crypto Pay started');
+                        </script>                </div>
+                    <!-- END CRYPTO BLOCK-->
+
+                    <input type="hidden" name="wt" value="e03b4f01e607cc4dbe134fe78e5729bc=54485533646b644b527a5a4256325a595a6d394d4e4870465133427a56305258526e4a6f575735704e5549786548646f6544465a63303950617a302c">
+                </form>
+                <!-- FOOTER -->
+                <footer class="container footer">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap flex-column footer_print">
+                        <span id="protection_text_0_1" class="footer__block-info field-translate">Платежная услуга инициирования платежа</span>
+                        <span id="protection_text_0_2" class="footer__block-info field-translate">оказывается ООО &quot;ВЕБ ПЭЙ&quot;. С Правилами оказания</span>
+                        <span id="protection_text_0_3" class="footer__block-info field-translate">платежных услуг можно ознакомиться на сайте</span>
+                        <span> <a target="_blank" href="https://webpay.by">webpay.by</a>.</span>
+                        <br/>
+                        <span id="protection_text_1" class="footer__block-info field-translate">Операции защищены стандартами:</span>
+                        <div class="footer__block-logo">
+                            <div class="block-logo_payment-systems">
+                                <img src="/images/default/belkart_internet_password.svg" alt="belkart internet password" width="65" height="36">
+                                <img src="/images/default/msc.svg" alt="mastercard secure code" width="57" height="36">
+                                <img src="/images/default/vb_visa.svg" alt="verified by visa" width="50" height="36">
+                            </div>
+                            <div class="block-logo_additional">
+                                <img src="/images/default/icon_ipay_grey.svg" alt="apple pay logo" width="47" height="27">
+                                <img src="/images/default/Spay_Vertical_Alt_for_small_formats_grey.png" alt="samsung pay logo" width="47" height="27">
+                                <img src="/images/default/pci_dss_gray.svg" alt="pci dss logo" width="57" height="36">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column footer__block-contact">
+                            <a href="mailto:support@webpay.by">support@webpay.by</a>
+                            <a href="tel:+375293837172">+375 29 383 71 72</a>
+                        </div>
+                    </div>
+                </footer>
+                <!-- END FOOTER -->
+            </div>
+            <!-- END LEFT SIDE BLOCK -->
+
+            <!-- RIGHT SIDE BLOCK -->
+            <div class="col-xl-7 col-lg-7 col-md-6 content__block-right">
+                <!-- PAYMENT RIGHT SIDE BLOCK -->
+                <div id="right_block_cardPayment" class="blocks">
+                    <div class="content__block-right_cardPayment">
+                        <div class="card__front-side d-flex flex-column justify-content-between">
+                            <div class="card__logo paymentSystemLogo">
+                                <img id="visa-logo" src="/images/default/card_visa.png" alt="logo visa">
+                                <img id="master-logo" src="/images/default/card_mastercard.png"
+                                     alt="logo mastercard">
+                                <img id="belcard-logo" src="/images/default/card_belkard.png" alt="logo belcart">
+                                <div id="paymentSystemLogo"
+                                ></div>
+                            </div>
+                            <div class="card__number-line" id="cardNumberInput">
+                            <span class="line_number" id="copy_cc_pan">
+                                                            </span>
+                            </div>
+                            <div class="card__date_name-line d-flex justify-content-between">
+                                <span class="line_name" id="copy_cc_name"></span>
+                                <span class="line_date" id="copy_cc_expire"></span>
+                            </div>
+                        </div>
+                        <div class="card__back_side">
+                            <div class="card__magnet-line"></div>
+                            <span class="back_side__cvv">CVV</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- END PAYMENT RIGHT SIDE BLOCK -->
+            </div>
+            <!-- ERIP RIGHT SIDE BLOCK-->
+            <div id="right_block_erip" class="blocks">
+                <div class="content__block-right__erip">
+                </div>
+            </div>
+            <!-- END ERIP RIGHT SIDE BLOCK -->
+            <!-- CRYPTO RIGHT SIDE BLOCK-->
+            <div id="right_block_crypto" class="blocks"></div>
+            <!-- END CRYPTO RIGHT SIDE BLOCK -->
+            <!-- END RIGHT SIDE BLOCK -->
+
+            <!-- ORDER INFO BLOCK -->
+            <div class="orderInfo__wrapper">
+                <div class="orderInfo__header">
+                    <h2 class="field-translate" id="later_order_info_title">Информация о платеже</h2>
+                    <span class="close_symbol closeOrderInfo" id="closeOrderInfo"></span>
+                </div>
+                <div class="orderInfo__mainInfo-wrap">
+                    <div class="orderInfo__mainInfo">
+                    <span class="field-translate"
+                          id="title_column_order_number">Информация о заказе:</span>
+                        <span></span>
+                    </div>
+                    <div class="orderInfo__mainInfo">
+                        <span class="field-translate" id="for_merchant">Получатель платежа: </span>
+                        <span></span>
+                    </div>
+                    <div class="orderInfo__mainInfo">
+                        <span class="field-translate" id="customer_name">Плательщик: </span>
+                        <span></span>
+                    </div>
+                </div>
+                <table class="orderInfo__tableFields">
+                    <thead>
+                    <tr>
+                        <th class="field-translate" id="column_descr">Описание</th>
+                        <th class="field-translate" id="column_price">Стоимость</th>
+                        <th class="field-translate" id="column_count">Количество</th>
+                        <th class="field-translate" id="column_total">Всего</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <div class="orderInfo__total">
+                    <span class="field-translate" id="column_final_total">К оплате: </span>
+                    <span> </span>
+                </div>
+            </div>
+            <!-- END ORDER INFO BLOCK -->
+        </div>
+        <div class="modal fade" id="confirmationDialog" tabindex="-1" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content modal-confirm">
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" id="confirm_button_cancel"
+                                data-dismiss="modal">Отменить</button>
+                        <button type="button" class="btn-submit" id="confirm_button_ok"
+                                data-dismiss="modal">ОК</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section></div><div id="errorPage" class="pages fields">
+    <section class="container content">
+        <div class="twoBlocks">
+            <!-- LEFT SIDE BLOCK -->
+            <div class="content__block-left">
+                <!--FAILED RESULT BLOCK-->
+                <div class="errorPage">
+                    <div class="receiptBlock">
+                        <div class="failed__info">
+                            <h2 class="failed__title field-translate" id="pageTitle">Внутренняя ошибка выполнения операции</h2>
+                            <h3 class="success__title">Карт-чек</h3>
+                        </div>
+                        <div class="payment_receipt failed_receipt">
+                            <div class="row payment_receipt__firstBlock">
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                            <span class="payment_receipt__title col-6 wrapper field-translate"
+                                  id="title_operation_name">Наименование операции:</span>
+                                    <span class="payment_receipt__description" id="operation_name"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                            <span class="payment_receipt__title col-6 wrapper field-translate"
+                                  id="title_invoice_date">Дата платежа:</span>
+                                    <span class="payment_receipt__description" id="invoice_date"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                            <span class="payment_receipt__title col-6 wrapper field-translate"
+                                  id="title_form_card_pan">Номер карты:</span>
+                                    <span class="payment_receipt__description" id="form_card_pan"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                            <span class="payment_receipt__title col-6 wrapper field-translate"
+                                  id="title_processing_rc">Код ошибки:</span>
+                                    <span class="payment_receipt__description" id="rc"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                            <span class="payment_receipt__title col-6 wrapper field-translate"
+                                  id="title_processing_rctext">Текст ошибки:</span>
+                                    <span class="payment_receipt__description" id="rctext"></span>
+                                </div>
+                            </div>
+                            <div class="row payment_receipt__secondBlock">
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                            <span class="payment_receipt__title col-6 wrapper field-translate"
+                                  id="title_order_num">Счет №:</span>
+                                    <span class="payment_receipt__description"
+                                          id="order_num"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                            <span class="payment_receipt__title col-6 wrapper field-translate"
+                                  id="title_for_merchant">Получатель платежа:</span>
+                                    <span class="payment_receipt__description" id="for_merchant"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-6 wrapper field-translate" id="title_invoice_total">
+                                    Сумма:
+                                </span>
+                                    <span class="payment_receipt__description" id="invoice_total">
+
+                                </span>
+                                </div>
+                            </div>
+                            <div class="btn_group">
+                                <form method="post">
+                                    <input type="hidden" name="wt" value="e03b4f01e607cc4dbe134fe78e5729bc=54485533646b644b527a5a4256325a595a6d394d4e4870465133427a56305258526e4a6f575735704e5549786548646f6544465a63303950617a302c">
+                                    <a class="main_btn field-translate" id="showReturnButtonError" onclick="redirect(this)"
+                                    >Назад
+                                    </a>
+                                    <input class="main_btn field-translate" id="showTryAgainButton" type="submit"
+                                           name="try-again-action" value="Повторить попытку">
+                                    <input class="main_btn field-translate" id="showCancelButton" type="submit"
+                                           name="cancel-action" value="Отменить заказ">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FOOTER -->
+                <footer class="container footer">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap flex-column footer_print">
+                        <span id="protection_text_0_1" class="footer__block-info field-translate">Платежная услуга инициирования платежа</span>
+                        <span id="protection_text_0_2" class="footer__block-info field-translate">оказывается ООО &quot;ВЕБ ПЭЙ&quot;. С Правилами оказания</span>
+                        <span id="protection_text_0_3" class="footer__block-info field-translate">платежных услуг можно ознакомиться на сайте</span>
+                        <span> <a target="_blank" href="https://webpay.by">webpay.by</a>.</span>
+                        <br/>
+                        <span id="protection_text_1" class="footer__block-info field-translate">Операции защищены стандартами:</span>
+                        <div class="footer__block-logo">
+                            <div class="block-logo_payment-systems">
+                                <img src="/images/default/belkart_internet_password.svg" alt="belkart internet password" width="65" height="36">
+                                <img src="/images/default/msc.svg" alt="mastercard secure code" width="57" height="36">
+                                <img src="/images/default/vb_visa.svg" alt="verified by visa" width="50" height="36">
+                            </div>
+                            <div class="block-logo_additional">
+                                <img src="/images/default/icon_ipay_grey.svg" alt="apple pay logo" width="47" height="27">
+                                <img src="/images/default/Spay_Vertical_Alt_for_small_formats_grey.png" alt="samsung pay logo" width="47" height="27">
+                                <img src="/images/default/pci_dss_gray.svg" alt="pci dss logo" width="57" height="36">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column footer__block-contact">
+                            <a href="mailto:support@webpay.by">support@webpay.by</a>
+                            <a href="tel:+375293837172">+375 29 383 71 72</a>
+                        </div>
+                    </div>
+                </footer>
+                <!-- END FOOTER -->
+            </div>
+        </div>
+    </section>
+</div><div id="successPage" class="pages fields">
+    <section class="container content">
+        <div class="twoBlocks">
+            <!-- LEFT SIDE BLOCK -->
+            <div class="content__block-left">
+                <!--SUCCESS RESULT BLOCK-->
+                <div class="successPage">
+                    <div class="receiptBlock">
+                        <div class="success__info">
+                            <div class="row justify-content-center">
+                                <h2 class="success__title field-translate" id="pageTitle">Внутренняя ошибка выполнения операции</h2>
+                            </div>
+                            <h3 class="success__title">Карт-чек</h3>
+                        </div>
+                        <div class="payment_receipt success_receipt">
+                            <div class="row payment_receipt__firstBlock">
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_operation_name">Наименование операции:</span>
+                                    <span class="payment_receipt__description" id="operation_name"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_invoice_no">Номер чека:</span>
+                                    <span class="payment_receipt__description" id="invoice_no"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_invoice_transaction">Номер операции:</span>
+                                    <span class="payment_receipt__description"
+                                          id="invoice_transaction"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_invoice_auth">Код авторизации:</span>
+                                    <span class="payment_receipt__description" id="invoice_auth"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_invoice_date">Дата платежа:</span>
+                                    <span class="payment_receipt__description" id="invoice_date"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_form_card_pan">Номер карты:</span>
+                                    <span class="payment_receipt__description" id="form_card_pan"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_invoice_rrn">Внутренний номер (RRN):</span>
+                                    <span class="payment_receipt__description" id="invoice_rrn"></span>
+                                </div>
+                            </div>
+                            <div class="row payment_receipt__secondBlock">
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_order_num">Счет №:</span>
+                                    <span class="payment_receipt__description"
+                                          id="order_num"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_for_merchant">Получатель платежа:</span>
+                                    <span class="payment_receipt__description" id="for_merchant"></span>
+                                </div>
+                            </div>
+                            <div class="row payment_receipt__thirdBlock">
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                    <span class="payment_receipt__title col-7 wrapper field-translate" id="title_invoice_total">Сумма:</span>
+                                    <span class="payment_receipt__description" id="amount"> </span>
+                                </div>
+                            </div>
+                            <div class="btn_group">
+                                <div class="row d-flex justify-content-center btn_group__wrapper">
+
+                                    <a class="field-translate extra_btn save_btn" id="title_save_PDF"  target="_blank">
+                                        Cохранить</a>
+                                    <a class="field-translate main_btn" id="showReturnButtonSuccess" onclick="redirect(this)"
+                                    >Вернуться
+                                    </a>
+                                    <button type="button" class="extra_btn print_btn field-translate" id="showPagePrint"
+                                            onclick="window.print();">Печать</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form method="post">
+                        <input type="hidden" name="wt" value="e03b4f01e607cc4dbe134fe78e5729bc=54485533646b644b527a5a4256325a595a6d394d4e4870465133427a56305258526e4a6f575735704e5549786548646f6544465a63303950617a302c">
+                    </form>
+                </div>
+                <div id="surveyModal" class="modal" style="display:none;" onclick="handleModalBackdropClick(event)">
+                    <div class="modal-content" onclick="event.stopPropagation()">
+                        <button class="modal-close" onclick="closeSurveyModal()" aria-label="Close modal">&times;</button>
+
+                        <div class="survey-card">
+                            <div class="survey-logo">
+                                <img src="data:image/png;base64,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"
+                                     alt="WebPay Logo">
+                            </div>
+
+                            <div class="survey-box">
+                                <h2 class="modal-title"></h2>
+                                <h2 class="thank-you-text" style="display:none;">
+
+                                </h2>
+                                <form id="surveyForm" class="survey-form">
+                                    <div class="survey-buttons">
+                                    </div>
+                                    <input type="hidden" name="answer_id" id="selectedAnswer" value="">
+                                    <input type="hidden" name="survey_id" value="">
+                                    <input type="hidden" name="billing_id" value="">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    function closeSurveyModal() {
+                        document.getElementById('surveyModal').style.display = 'none';
+                    }
+
+                    function handleModalBackdropClick(event) {
+                        if (event.target === document.getElementById('surveyModal')) {
+                            closeSurveyModal();
+                        }
+                    }
+
+                    function selectAnswer(answerId, button) {
+                        const selectedAnswerInput = document.getElementById('selectedAnswer');
+                        selectedAnswerInput.value = answerId;
+
+                        const buttons = document.querySelectorAll('.answer-btn');
+
+                        buttons.forEach(btn => {
+                            btn.disabled = true;
+                            btn.classList.remove('answer-btn-primary');
+                            btn.classList.add('answer-btn-outline');
+                        });
+
+                        button.classList.remove('answer-btn-outline');
+                        button.classList.add('answer-btn-primary');
+
+                        submitSurvey();
+                    }
+
+                    async function submitSurvey() {
+                        const form = document.getElementById('surveyForm');
+                        if (!form) return;
+
+                        const formData = new FormData(form);
+                        const data = Object.fromEntries(formData.entries());
+
+                        if (!data.answer_id) return;
+
+                        try {
+                            console.info('Survey submission data:', data);
+
+                            const response = await fetch('/survey/submit', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(data),
+                            });
+
+                            const result = await response.json();
+                            console.info('Survey submission response:', result);
+
+                            if (result.success) {
+
+                                localStorage.setItem('survey_completed', '1');
+
+                                const modal = document.getElementById('surveyModal');
+                                if (!modal) return;
+
+                                // hide main question and buttons with answers
+                                const questionElement = modal.querySelector('.modal-title');
+                                const buttonsContainer = modal.querySelector('.survey-buttons');
+                                if (questionElement) questionElement.style.display = 'none';
+                                if (buttonsContainer) buttonsContainer.style.display = 'none';
+
+                                // show thankYouBlock
+                                const thankYouBlock = modal.querySelector('.thank-you-text');
+                                if (thankYouBlock) thankYouBlock.style.display = 'block';
+
+                                setTimeout(() => {
+                                    closeSurveyModal();
+                                }, 10000);
+                            } else {
+                                console.error('Survey submission error: something went wrong.');
+                            }
+                        } catch (err) {
+                            console.error('Survey submission error:', err);
+                        }
+                    }
+
+                </script>
+
+                <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap');
+
+                    #surveyModal {
+                        position: fixed;
+                        inset: 0;
+                        width: 100%;
+                        height: 100%;
+                        display: none;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 20px;
+                        background: rgba(235, 240, 246, 0.88);
+                        z-index: 9999999;
+                        box-sizing: border-box;
+                    }
+
+                    #surveyModal .modal-content {
+                        position: relative;
+                        width: 100%;
+                        max-width: 520px;
+                        background: rgba(255, 255, 255, 0.92);
+                        border-radius: 24px;
+                        padding: 34px 24px 24px;
+                        box-shadow: 0 28px 60px rgba(170, 190, 210, 0.45);
+                        font-family: 'Montserrat', sans-serif;
+                        font-weight: 700;
+                        box-sizing: border-box;
+                    }
+
+                    #surveyModal .modal-close {
+                        position: absolute;
+                        top: 14px;
+                        right: 16px;
+                        width: 32px;
+                        height: 32px;
+                        border: none;
+                        background: transparent;
+                        color: #233876;
+                        font-size: 24px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        line-height: 1;
+                        padding: 0;
+                        z-index: 5;
+                    }
+
+                    .survey-card {
+                        position: relative;
+                        padding: 34px 14px 8px;
+                    }
+
+                    .survey-card.no-logo {
+                        padding-top: 8px;
+                    }
+
+                    .survey-logo {
+                        position: absolute;
+                        top: 0;
+                        left: 45px;
+                        z-index: 3;
+                    }
+
+                    .survey-logo img {
+                        display: block;
+                        max-width: 200px;
+                        height: auto;
+                        object-fit: none;
+                    }
+
+                    .survey-box {
+                        border: 2px solid #233876;
+                        border-radius: 14px;
+                        padding: 44px 26px 24px;
+                        background: rgba(255, 255, 255, 0.92);
+                        box-shadow: 0 8px 18px rgba(35, 56, 118, 0.05);
+                    }
+
+                    #surveyModal .modal-title, .thank-you-text {
+                        margin: 0 0 28px;
+                        font-size: 20px;
+                        line-height: 1.18;
+                        font-weight: 600;
+                        color: #233876;
+                        max-width: 360px;
+                        letter-spacing: -0.2px;
+                    }
+
+                    .thank-you-text {
+                        text-align: center;
+                        max-width: 100%;
+                        margin: 0 0 .5rem;
+                    }
+
+                    #surveyModal .modal-title .accent {
+                        color: #00a7e7;
+                        font-weight: 700;
+                    }
+
+                    .survey-form {
+                        margin: 0;
+                    }
+
+                    .survey-buttons {
+                        display: flex;
+                        gap: 18px;
+                        flex-wrap: wrap;
+                    }
+
+                    .answer-btn {
+                        min-width: 110px;
+                        max-width: 110px;
+                        height: 45px;
+                        padding: 0 30px;
+                        border-radius: 10px;
+                        font-family: 'Montserrat', sans-serif;
+                        font-size: 16px;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        box-sizing: border-box;
+                        letter-spacing: 0.4px;
+                    }
+
+                    .answer-btn-primary {
+                        border: 2px solid #233876;
+                        background: #233876;
+                        color: #ffffff;
+                        box-shadow: 0 8px 16px rgba(35, 56, 118, 0.20);
+                    }
+
+                    .answer-btn-primary:hover {
+                        background: #1a2a5c;
+                        border-color: #1a2a5c;
+                    }
+
+                    .answer-btn-outline {
+                        border: 2px solid #233876;
+                        background: #ffffff;
+                        color: #233876;
+                    }
+
+                    .answer-btn-outline:hover {
+                        background: #f2f6fc;
+                    }
+
+                    @media (max-width: 560px) {
+                        #surveyModal .modal-content {
+                            max-width: 100%;
+                            padding: 26px 16px 18px;
+                        }
+
+                        .survey-card {
+                            padding: 28px 4px 4px;
+                        }
+
+                        .survey-logo {
+                            top: -6px;
+                            left: 45px;
+                        }
+
+                        .survey-box {
+                            padding: 40px 18px 20px;
+                        }
+
+                        #surveyModal .modal-title {
+                            font-size: 18px;
+                            max-width: 100%;
+                            margin-bottom: 22px;
+                        }
+
+                        .survey-buttons {
+                            gap: 12px;
+                        }
+
+                        .answer-btn {
+                            flex: 1 1 calc(50% - 6px);
+                            min-width: 0;
+                            height: 46px;
+                            padding: 0 16px;
+                            font-size: 14px;
+                        }
+                    }
+
+                    @media (max-width: 400px) {
+                        #surveyModal .modal-title {
+                            font-size: 18px;
+                            max-width: 100%;
+                            margin-bottom: 22px;
+                        }
+
+                        .thank-you-text {
+                            font-size: 14px;
+                        }
+                    }
+                </style>
+                <!-- FOOTER -->
+                <footer class="container footer">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap flex-column footer_print">
+                        <span id="protection_text_0_1" class="footer__block-info field-translate">Платежная услуга инициирования платежа</span>
+                        <span id="protection_text_0_2" class="footer__block-info field-translate">оказывается ООО &quot;ВЕБ ПЭЙ&quot;. С Правилами оказания</span>
+                        <span id="protection_text_0_3" class="footer__block-info field-translate">платежных услуг можно ознакомиться на сайте</span>
+                        <span> <a target="_blank" href="https://webpay.by">webpay.by</a>.</span>
+                        <br/>
+                        <span id="protection_text_1" class="footer__block-info field-translate">Операции защищены стандартами:</span>
+                        <div class="footer__block-logo">
+                            <div class="block-logo_payment-systems">
+                                <img src="/images/default/belkart_internet_password.svg" alt="belkart internet password" width="65" height="36">
+                                <img src="/images/default/msc.svg" alt="mastercard secure code" width="57" height="36">
+                                <img src="/images/default/vb_visa.svg" alt="verified by visa" width="50" height="36">
+                            </div>
+                            <div class="block-logo_additional">
+                                <img src="/images/default/icon_ipay_grey.svg" alt="apple pay logo" width="47" height="27">
+                                <img src="/images/default/Spay_Vertical_Alt_for_small_formats_grey.png" alt="samsung pay logo" width="47" height="27">
+                                <img src="/images/default/pci_dss_gray.svg" alt="pci dss logo" width="57" height="36">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column footer__block-contact">
+                            <a href="mailto:support@webpay.by">support@webpay.by</a>
+                            <a href="tel:+375293837172">+375 29 383 71 72</a>
+                        </div>
+                    </div>
+                </footer>
+                <!-- END FOOTER -->
+
+            </div>
+            <!-- END LEFT SIDE BLOCK -->
+        </div>
+    </section>
+
+</div>
+
+<div id="laterorderPage" class="pages fields">
+    <section class="container content">
+        <div class="twoBlocks">
+            <!-- LEFT SIDE BLOCK -->
+            <div class="content__block-left">
+                <!--LATER ORDER BLOCK-->
+                <div class="laterorderPage">
+                    <div class="delayEripBlock receiptBlock">
+                        <div class="delay__info">
+                            <div class="row">
+                                <h2 class="delay__title field-translate" id="pageTitle">Внутренняя ошибка выполнения операции</h2>
+                                <p class="field-translate" id="later_order_page_text_1">Информация о заказе отправлена на электронный адрес %s.</p>
+                                <p class="field-translate" id="later_order_page_text_2">Для совершения оплаты в системе «Расчёт» (АИС ЕРИП) выберите услугу «%s» и введите номер счёта %s.</p>
+                            </div>
+                        </div>
+                        <div class="payment_receipt delayErip_info">
+                            <div class="row">
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field align-items-center">
+                                    <span class="payment_receipt__title col-6 wrapper field-translate" id="order_num">Счет №:</span>
+                                    <span class="payment_receipt__description" id="orderNumber"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field align-items-center">
+                                    <span class="payment_receipt__title col-6 wrapper field-translate" id="for_merchant">Получатель платежа:</span>
+                                    <span class="payment_receipt__description" id="storeName"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field align-items-center">
+                                    <span class="payment_receipt__title col-6 wrapper field-translate" id="column_final_total">К оплате:</span>
+                                    <span class="payment_receipt__description" id="amount"> </span>
+                                </div>
+                            </div>
+                            <div class="btn_group d-flex justify-content-center">
+                                <a class="field-translate main_btn" id="showReturnButtonLaterOrder" onclick="redirect(this)"
+                                >Вернуться
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FOOTER -->
+                <footer class="container footer">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap flex-column footer_print">
+                        <span id="protection_text_0_1" class="footer__block-info field-translate">Платежная услуга инициирования платежа</span>
+                        <span id="protection_text_0_2" class="footer__block-info field-translate">оказывается ООО &quot;ВЕБ ПЭЙ&quot;. С Правилами оказания</span>
+                        <span id="protection_text_0_3" class="footer__block-info field-translate">платежных услуг можно ознакомиться на сайте</span>
+                        <span> <a target="_blank" href="https://webpay.by">webpay.by</a>.</span>
+                        <br/>
+                        <span id="protection_text_1" class="footer__block-info field-translate">Операции защищены стандартами:</span>
+                        <div class="footer__block-logo">
+                            <div class="block-logo_payment-systems">
+                                <img src="/images/default/belkart_internet_password.svg" alt="belkart internet password" width="65" height="36">
+                                <img src="/images/default/msc.svg" alt="mastercard secure code" width="57" height="36">
+                                <img src="/images/default/vb_visa.svg" alt="verified by visa" width="50" height="36">
+                            </div>
+                            <div class="block-logo_additional">
+                                <img src="/images/default/icon_ipay_grey.svg" alt="apple pay logo" width="47" height="27">
+                                <img src="/images/default/Spay_Vertical_Alt_for_small_formats_grey.png" alt="samsung pay logo" width="47" height="27">
+                                <img src="/images/default/pci_dss_gray.svg" alt="pci dss logo" width="57" height="36">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column footer__block-contact">
+                            <a href="mailto:support@webpay.by">support@webpay.by</a>
+                            <a href="tel:+375293837172">+375 29 383 71 72</a>
+                        </div>
+                    </div>
+                </footer>
+                <!-- END FOOTER -->
+
+            </div>
+        </div>
+    </section>
+</div><div id="toacsPage" class="pages fields">
+    <section class="container content">
+        <div class="twoBlocks">
+            <!-- LEFT SIDE BLOCK -->
+            <div class="content__block-left">
+                <!-- 3DSECURE BLOCK-->
+                <div class="secure3dBlock">
+                    <div class="row">
+                        <div class="secure3d__wrapper">
+                            <h2 class="secure3d__title field-translate"  id="pageTitle">Внутренняя ошибка выполнения операции</h2>
+                            <div class="secure3d__text">
+                                <p class="field-translate" id="3dsecure_help_1">Ваша карточка участвует в программе «3D Secure Verified By Visa» или «MasterCard SecureCode».</p>
+                                <p class="field-translate" id="3dsecure_help_2">Для подтверждения транзакции Вы будете перенаправлены на страницу сервера контроля доступа платежной системы или банка-эмитента.</p>
+                                <p class="field-translate" id="3dsecure_help_3">Обратите внимание на сертификаты безопасности.</p>
+                            </div>
+                            <div class="preload-wrap_acs preload-wrap">
+                                <div class="logo-bg1"><img src="/images/default/logo_wp_sm.png" alt="loading"></div>
+                            </div>
+                            <form name="acsForm" action="" method="post" id="acsUrl">
+                                <input type="hidden" name="creq" value="">
+                                <input type="hidden" name="threeDSSessionData" value="">
+                                <input type="hidden" name="threeDSMethodData" value="">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- END 3DSECURE BLOCK-->
+
+                <!-- FOOTER -->
+                <footer class="container footer">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap flex-column footer_print">
+                        <span id="protection_text_0_1" class="footer__block-info field-translate">Платежная услуга инициирования платежа</span>
+                        <span id="protection_text_0_2" class="footer__block-info field-translate">оказывается ООО &quot;ВЕБ ПЭЙ&quot;. С Правилами оказания</span>
+                        <span id="protection_text_0_3" class="footer__block-info field-translate">платежных услуг можно ознакомиться на сайте</span>
+                        <span> <a target="_blank" href="https://webpay.by">webpay.by</a>.</span>
+                        <br/>
+                        <span id="protection_text_1" class="footer__block-info field-translate">Операции защищены стандартами:</span>
+                        <div class="footer__block-logo">
+                            <div class="block-logo_payment-systems">
+                                <img src="/images/default/belkart_internet_password.svg" alt="belkart internet password" width="65" height="36">
+                                <img src="/images/default/msc.svg" alt="mastercard secure code" width="57" height="36">
+                                <img src="/images/default/vb_visa.svg" alt="verified by visa" width="50" height="36">
+                            </div>
+                            <div class="block-logo_additional">
+                                <img src="/images/default/icon_ipay_grey.svg" alt="apple pay logo" width="47" height="27">
+                                <img src="/images/default/Spay_Vertical_Alt_for_small_formats_grey.png" alt="samsung pay logo" width="47" height="27">
+                                <img src="/images/default/pci_dss_gray.svg" alt="pci dss logo" width="57" height="36">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column footer__block-contact">
+                            <a href="mailto:support@webpay.by">support@webpay.by</a>
+                            <a href="tel:+375293837172">+375 29 383 71 72</a>
+                        </div>
+                    </div>
+                </footer>
+                <!-- END FOOTER -->
+
+            </div>
+        </div>
+    </section>
+</div><div id="cancelreturnPage" class="pages fields">
+
+</div><div id="outputviacorpocardPage" class="pages fields">
+
+    <section class="container content">
+        <div class="twoBlocks">
+            <div class="content__block-left">
+                <div class="content__pay-menu">
+                    <a href="" class="field-translate">withdrawal_of_funds</a>
+                </div>
+
+                <form method="post" id="payoutForm">
+                    <div class="paymentPageBlock blocks active" id="left_block_cardPayment">
+                        <div class="content__wrapper">
+                            <div class="payform">
+                                <div class="container">
+                                    <div class="row payform__item-row">
+                                        <div class="col wrapper payform__cc_pan payform__input">
+                                            <label for="recipient_cc_pan" id="form_card_pan" class="payform__input-label field-translate">Номер карты</label>
+                                            <input id="recipient_cc_pan" name="recipient_cc_pan" tabindex="1" class="col-12 field inputs protected"
+                                                   type="tel" maxlength="23" value=""
+                                                   autofocus />
+                                            <div class="invalid-text errors" id="panError"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row payform__item-row">
+                                        <div class="col wrapper payform__cc_email payform__input">
+                                            <label for="cc_email" id="form_email" class="payform__input-label field-translate">email</label>
+                                            <input id="cc_email" type="email" name="cc_email" maxlength="64" tabindex="2" class="col-12 field input_cc_email inputs" />
+                                            <a href="" id="email_tooltip" class="input_tooltip" data-toggle="tooltip" data-original-title="Адрес электронной почты нужен для отправки чека">?</a>
+                                            <div class="invalid-text errors" id="emailError"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-end payform__info-wrap">
+                                        <div class="btn_group">
+                                            <button type="submit" id="payoutBtn" name="pay" class="main_btn field-translate">
+
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="wt" value="e03b4f01e607cc4dbe134fe78e5729bc=54485533646b644b527a5a4256325a595a6d394d4e4870465133427a56305258526e4a6f575735704e5549786548646f6544465a63303950617a302c" />
+                </form>
+                <!-- FOOTER -->
+                <footer class="container footer">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap flex-column footer_print">
+                        <span id="protection_text_0_1" class="footer__block-info field-translate">Платежная услуга инициирования платежа</span>
+                        <span id="protection_text_0_2" class="footer__block-info field-translate">оказывается ООО &quot;ВЕБ ПЭЙ&quot;. С Правилами оказания</span>
+                        <span id="protection_text_0_3" class="footer__block-info field-translate">платежных услуг можно ознакомиться на сайте</span>
+                        <span> <a target="_blank" href="https://webpay.by">webpay.by</a>.</span>
+                        <br/>
+                        <span id="protection_text_1" class="footer__block-info field-translate">Операции защищены стандартами:</span>
+                        <div class="footer__block-logo">
+                            <div class="block-logo_payment-systems">
+                                <img src="/images/default/belkart_internet_password.svg" alt="belkart internet password" width="65" height="36">
+                                <img src="/images/default/msc.svg" alt="mastercard secure code" width="57" height="36">
+                                <img src="/images/default/vb_visa.svg" alt="verified by visa" width="50" height="36">
+                            </div>
+                            <div class="block-logo_additional">
+                                <img src="/images/default/icon_ipay_grey.svg" alt="apple pay logo" width="47" height="27">
+                                <img src="/images/default/Spay_Vertical_Alt_for_small_formats_grey.png" alt="samsung pay logo" width="47" height="27">
+                                <img src="/images/default/pci_dss_gray.svg" alt="pci dss logo" width="57" height="36">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column footer__block-contact">
+                            <a href="mailto:support@webpay.by">support@webpay.by</a>
+                            <a href="tel:+375293837172">+375 29 383 71 72</a>
+                        </div>
+                    </div>
+                </footer>
+                <!-- END FOOTER -->
+
+            </div>
+        </div>
+    </section>
+</div><div id="payoutPage" class="pages fields">
+
+    <section class="container content">
+        <div class="twoBlocks">
+            <div class="content__block-left">
+                <div class="content__pay-menu">
+                    <a href="" class="field-translate">Выплата</a>
+                </div>
+
+                <form method="post" id="base-payout-form">
+                    <div class="paymentPageBlock blocks active" id="left_block_cardPayment">
+                        <div class="content__wrapper">
+                            <div class="payform">
+                                <div class="container">
+                                    <div class="row payform__item-row">
+                                        <div class="col wrapper payform__cc_pan payform__input">
+                                            <label for="payout_pan" id="form_card_pan" class="payform__input-label field-translate">Номер карты</label>
+                                            <input id="payout_pan" name="payout_pan" tabindex="1" class="col-12 field inputs protected"
+                                                   type="tel" maxlength="23" value=""
+                                                   autofocus />
+                                            <div class="invalid-text errors" id="panError"></div>
+                                        </div>
+                                        <div class="col wrapper payform__cc_month payform__input">
+                                            <label for="payout_month" id="month"
+                                                   class="payform__input-label field-translate">месяц</label>
+                                            <input id="payout_month" type="tel" name="payout_month" maxlength="2"
+                                                   class="col-12 field cardMonth inputs protected" tabindex="2" value=""
+                                            >
+                                            <div class="invalid-text errors" id="monthError"></div>
+                                        </div>
+                                        <div class="col wrapper payform__cc_year payform__input">
+                                            <label for="payout_year" id="year"
+                                                   class="payform__input-label field-translate">год</label>
+                                            <input id="payout_year" type="tel" name="payout_year" maxlength="2"
+                                                   class="col-12 field cardYear inputs protected" tabindex="3"
+                                                   value=""
+                                            >
+                                            <div class="invalid-text errors" id="yearError"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-end payform__info-wrap">
+                                        <div class="btn_group">
+                                            <button type="submit" name="payout" class="main_btn">
+                                                <span class="additionalStrAmount field-translate" id="column_final_total">Выплата</span>
+                                                <span class="additionalStrAmount"> </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="wt" value="e03b4f01e607cc4dbe134fe78e5729bc=54485533646b644b527a5a4256325a595a6d394d4e4870465133427a56305258526e4a6f575735704e5549786548646f6544465a63303950617a302c" />
+                </form>
+                <!-- FOOTER -->
+                <footer class="container footer">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap flex-column footer_print">
+                        <span id="protection_text_0_1" class="footer__block-info field-translate">Платежная услуга инициирования платежа</span>
+                        <span id="protection_text_0_2" class="footer__block-info field-translate">оказывается ООО &quot;ВЕБ ПЭЙ&quot;. С Правилами оказания</span>
+                        <span id="protection_text_0_3" class="footer__block-info field-translate">платежных услуг можно ознакомиться на сайте</span>
+                        <span> <a target="_blank" href="https://webpay.by">webpay.by</a>.</span>
+                        <br/>
+                        <span id="protection_text_1" class="footer__block-info field-translate">Операции защищены стандартами:</span>
+                        <div class="footer__block-logo">
+                            <div class="block-logo_payment-systems">
+                                <img src="/images/default/belkart_internet_password.svg" alt="belkart internet password" width="65" height="36">
+                                <img src="/images/default/msc.svg" alt="mastercard secure code" width="57" height="36">
+                                <img src="/images/default/vb_visa.svg" alt="verified by visa" width="50" height="36">
+                            </div>
+                            <div class="block-logo_additional">
+                                <img src="/images/default/icon_ipay_grey.svg" alt="apple pay logo" width="47" height="27">
+                                <img src="/images/default/Spay_Vertical_Alt_for_small_formats_grey.png" alt="samsung pay logo" width="47" height="27">
+                                <img src="/images/default/pci_dss_gray.svg" alt="pci dss logo" width="57" height="36">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column footer__block-contact">
+                            <a href="mailto:support@webpay.by">support@webpay.by</a>
+                            <a href="tel:+375293837172">+375 29 383 71 72</a>
+                        </div>
+                    </div>
+                </footer>
+                <!-- END FOOTER -->
+            </div>
+        </div>
+    </section>
+</div><div id="payoutcardPage" class="pages fields">
+    <section class="container content">
+        <div class="twoBlocks">
+            <!-- LEFT SIDE BLOCK -->
+            <div class="content__block-left">
+                <!-- ENTERPANPAGE BLOCK-->
+                <div class="payoutcardPageBlock">
+                    <div class="payoutcardPage__info">
+                        <h2 class="payoutcardPage__title field-translate " id="pageTitle">Внутренняя ошибка выполнения операции</h2>
+                    </div>
+                    <div class="content__wrapper">
+                        <div class="sou__block-left__subtitle">
+                            <span class="field-translate" id="cardholder_title">Оплата карточкой</span>
+                        </div>
+                        <div class="payform">
+                            <form method="post" id="add-payout-card-form">
+                                <div class="container">
+                                    <div class="row payform__item-row">
+                                        <div class="col wrapper payform__cc_pan payform__input">
+                                            <label for="payout_card_pan" id="form_card_pan" class="payform__input-label field-translate">Номер карты</label>
+                                            <input id="payout_card_pan" name="payout_card_pan" tabindex="1" class="col-12 field inputs protected"
+                                                   type="tel" maxlength="23" value=""
+                                                   autofocus />
+                                            <div class="invalid-text errors" id="panError"></div>
+                                        </div>
+                                        <div class="col wrapper payform__cc_month payform__input">
+                                            <label for="payout_card_month" id="month"
+                                                   class="payform__input-label field-translate">месяц</label>
+                                            <input id="payout_card_month" type="tel" name="payout_card_month" maxlength="2"
+                                                   class="col-12 field cardMonth inputs protected" tabindex="2" value=""
+                                            >
+                                            <div class="invalid-text errors" id="monthError"></div>
+                                        </div>
+                                        <div class="col wrapper payform__cc_year payform__input">
+                                            <label for="payout_card_year" id="year"
+                                                   class="payform__input-label field-translate">год</label>
+                                            <input id="payout_card_year" type="tel" name="payout_card_year" maxlength="2"
+                                                   class="col-12 field cardYear inputs protected" tabindex="3"
+                                                   value=""
+                                            >
+                                            <div class="invalid-text errors" id="yearError"></div>
+                                        </div>
+                                    </div>
+                                    <div class="btn_group d-flex justify-content-end">
+                                        <input type="hidden" name="wt" value="e03b4f01e607cc4dbe134fe78e5729bc=54485533646b644b527a5a4256325a595a6d394d4e4870465133427a56305258526e4a6f575735704e5549786548646f6544465a63303950617a302c">
+                                        <button type="submit" id="addPayoutCardBtn" name="addPayoutCardBtn" class="main_btn field-translate" tabindex="3" value="Добавить">Добавить</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div><div id="payoutcardfinalPage" class="pages fields">
+    <section class="container content">
+        <div class="twoBlocks">
+            <div class="content__block-left">
+                <div class="payoutcardfinalPageBlock">
+                    <div class="content__wrapper">
+                        <div class="row justify-content-center">
+                            Карта для выплат успешно добавлена
+                        </div>
+                        <div class="btn_group">
+                            <div class="row d-flex justify-content-center btn_group__wrapper">
+                                <button type="button" class="main_btn return_btn">
+                                    <a id="showReturnButton" href="">Вернуться назад</a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section></div><div id="payoutreceiptcompletedPage" class="pages fields">
+    <section class="container content">
+        <div class="twoBlocks">
+            <!-- LEFT SIDE BLOCK -->
+            <div class="content__block-left">
+                <!--SUCCESS RESULT BLOCK-->
+                <div class="successPage">
+                    <div class="receiptBlock">
+                        <div class="success__info">
+                            <div class="row justify-content-center">
+                                <h2 class="success__title field-translate" id="pageTitle">Выплата завершена успешно</h2>
+                            </div>
+                            <h3 class="success__title field-translate" id="cart_check">Карт-чек</h3>
+                        </div>
+                        <div class="payment_receipt success_receipt">
+                            <div class="row payment_receipt__firstBlock">
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_operation_name">Наименование операции:</span>
+                                    <span class="payment_receipt__description" id="operation_name"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_payout_receipt_id">Номер чека:</span>
+                                    <span class="payment_receipt__description" id="payout_receipt_id"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_invoice_transaction">Номер операции:</span>
+                                    <span class="payment_receipt__description"
+                                          id="payout_operation_id"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_invoice_auth">Код авторизации:</span>
+                                    <span class="payment_receipt__description" id="payout_authorization_code"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_invoice_date">Дата выплаты:</span>
+                                    <span class="payment_receipt__description" id="payout_date"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_form_card_pan">Номер карты:</span>
+                                    <span class="payment_receipt__description" id="payout_recipient_card_pan"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_invoice_rrn">Внутренний номер (RRN):</span>
+                                    <span class="payment_receipt__description" id="payout_rrn"></span>
+                                </div>
+                            </div>
+                            <div class="row payment_receipt__secondBlock">
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_order_num">Счет №:</span>
+                                    <span class="payment_receipt__description"
+                                          id="payout_order_id"></span>
+                                </div>
+                            </div>
+                            <div class="row payment_receipt__thirdBlock">
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-7 wrapper field-translate"
+                                      id="title_payout_amount">Размер выплаты:</span>
+                                    <span class="payment_receipt__description"
+                                          id="payout_amount"></span>
+                                </div>
+                            </div>
+                            <div class="btn_group">
+                                <div class="row d-flex justify-content-center btn_group__wrapper">
+                                    <a class="field-translate extra_btn save_btn payout_receipt_btn" id="payoutReceiptSavePdf"  target="_blank">
+                                        Cохранить</a>
+                                    <a class="field-translate main_btn payout_receipt_btn" id="showReturnButtonPayoutReceiptSuccess"
+                                    >Вернуться
+                                    </a>
+                                    <button type="button" class="extra_btn print_btn payout_receipt_btn field-translate" id="showPagePrint"
+                                            onclick="window.print();">Печать</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- FOOTER -->
+                <footer class="container footer">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap flex-column footer_print">
+                        <span id="protection_text_0_1" class="footer__block-info field-translate">Платежная услуга инициирования платежа</span>
+                        <span id="protection_text_0_2" class="footer__block-info field-translate">оказывается ООО &quot;ВЕБ ПЭЙ&quot;. С Правилами оказания</span>
+                        <span id="protection_text_0_3" class="footer__block-info field-translate">платежных услуг можно ознакомиться на сайте</span>
+                        <span> <a target="_blank" href="https://webpay.by">webpay.by</a>.</span>
+                        <br/>
+                        <span id="protection_text_1" class="footer__block-info field-translate">Операции защищены стандартами:</span>
+                        <div class="footer__block-logo">
+                            <div class="block-logo_payment-systems">
+                                <img src="/images/default/belkart_internet_password.svg" alt="belkart internet password" width="65" height="36">
+                                <img src="/images/default/msc.svg" alt="mastercard secure code" width="57" height="36">
+                                <img src="/images/default/vb_visa.svg" alt="verified by visa" width="50" height="36">
+                            </div>
+                            <div class="block-logo_additional">
+                                <img src="/images/default/icon_ipay_grey.svg" alt="apple pay logo" width="47" height="27">
+                                <img src="/images/default/Spay_Vertical_Alt_for_small_formats_grey.png" alt="samsung pay logo" width="47" height="27">
+                                <img src="/images/default/pci_dss_gray.svg" alt="pci dss logo" width="57" height="36">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column footer__block-contact">
+                            <a href="mailto:support@webpay.by">support@webpay.by</a>
+                            <a href="tel:+375293837172">+375 29 383 71 72</a>
+                        </div>
+                    </div>
+                </footer>
+                <!-- END FOOTER -->
+            </div>
+            <!-- END LEFT SIDE BLOCK -->
+        </div>
+    </section>
+</div><div id="payoutreceiptdeclinedPage" class="pages fields">
+    <section class="container content">
+        <div class="twoBlocks">
+            <!-- LEFT SIDE BLOCK -->
+            <div class="content__block-left">
+                <!--SUCCESS RESULT BLOCK-->
+                <div class="successPage">
+                    <div class="receiptBlock">
+                        <div class="success__info">
+                            <div class="row justify-content-center">
+                                <h2 class="success__title field-translate" id="pageTitle">Выплата отклонена</h2>
+                            </div>
+                            <h3 class="success__title field-translate" id="cart_check">Карт-чек</h3>
+                        </div>
+                        <div class="payment_receipt failed_receipt">
+                            <div class="row payment_receipt__firstBlock">
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-6 wrapper field-translate"
+                                      id="title_invoice_date">Дата выплаты:</span>
+                                    <span class="payment_receipt__description" id="payout_receipt_declined_date"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-6 wrapper field-translate"
+                                      id="title_form_card_pan">Номер карты:</span>
+                                    <span class="payment_receipt__description" id="payout_receipt_declined_recipient_card_pan"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-6 wrapper field-translate"
+                                      id="title_processing_rc">Код ошибки:</span>
+                                    <span class="payment_receipt__description" id="payout_receipt_declined_error_code"></span>
+                                </div>
+                                <div class="col-12 wrapper d-flex justify-content-start payment_receipt__field">
+                                <span class="payment_receipt__title col-6 wrapper field-translate"
+                                      id="title_processing_rctext">Текст ошибки:</span>
+                                    <span class="payment_receipt__description" id="payout_receipt_declined_error_message"></span>
+                                </div>
+                            </div>
+                            <div class="btn_group">
+                                <div class="row d-flex justify-content-center btn_group__wrapper">
+                                    <a class="field-translate main_btn" id="showReturnButtonPayoutReceiptDeclined"
+                                    >Вернуться
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- FOOTER -->
+                <footer class="container footer">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap flex-column footer_print">
+                        <span id="protection_text_0_1" class="footer__block-info field-translate">Платежная услуга инициирования платежа</span>
+                        <span id="protection_text_0_2" class="footer__block-info field-translate">оказывается ООО &quot;ВЕБ ПЭЙ&quot;. С Правилами оказания</span>
+                        <span id="protection_text_0_3" class="footer__block-info field-translate">платежных услуг можно ознакомиться на сайте</span>
+                        <span> <a target="_blank" href="https://webpay.by">webpay.by</a>.</span>
+                        <br/>
+                        <span id="protection_text_1" class="footer__block-info field-translate">Операции защищены стандартами:</span>
+                        <div class="footer__block-logo">
+                            <div class="block-logo_payment-systems">
+                                <img src="/images/default/belkart_internet_password.svg" alt="belkart internet password" width="65" height="36">
+                                <img src="/images/default/msc.svg" alt="mastercard secure code" width="57" height="36">
+                                <img src="/images/default/vb_visa.svg" alt="verified by visa" width="50" height="36">
+                            </div>
+                            <div class="block-logo_additional">
+                                <img src="/images/default/icon_ipay_grey.svg" alt="apple pay logo" width="47" height="27">
+                                <img src="/images/default/Spay_Vertical_Alt_for_small_formats_grey.png" alt="samsung pay logo" width="47" height="27">
+                                <img src="/images/default/pci_dss_gray.svg" alt="pci dss logo" width="57" height="36">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column footer__block-contact">
+                            <a href="mailto:support@webpay.by">support@webpay.by</a>
+                            <a href="tel:+375293837172">+375 29 383 71 72</a>
+                        </div>
+                    </div>
+                </footer>
+                <!-- END FOOTER -->
+            </div>
+            <!-- END LEFT SIDE BLOCK -->
+        </div>
+    </section>
+</div><div id="systemerrorPage" class="pages fields">
+    <section class="container content">
+        <div class="twoBlocks">
+            <!-- LEFT SIDE BLOCK -->
+            <div class="content__block-left">
+                <!--ERROR BLOCK-->
+                <div class="systemerrorPage">
+                    <div class="row">
+                        <h2 class="error__title" id="pageTitle">Внутренняя ошибка выполнения операции</h2>
+                        <p>Произошла внутренняя ошибка системы. Выполнение операции отменено.</p>
+                        <p>Обратитесь в службу поддержки компании WEBPAY.</p>
+                    </div>
+                </div>
+
+                <!-- FOOTER -->
+                <footer class="container footer">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap flex-column footer_print">
+                        <span id="protection_text_0_1" class="footer__block-info field-translate">Платежная услуга инициирования платежа</span>
+                        <span id="protection_text_0_2" class="footer__block-info field-translate">оказывается ООО &quot;ВЕБ ПЭЙ&quot;. С Правилами оказания</span>
+                        <span id="protection_text_0_3" class="footer__block-info field-translate">платежных услуг можно ознакомиться на сайте</span>
+                        <span> <a target="_blank" href="https://webpay.by">webpay.by</a>.</span>
+                        <br/>
+                        <span id="protection_text_1" class="footer__block-info field-translate">Операции защищены стандартами:</span>
+                        <div class="footer__block-logo">
+                            <div class="block-logo_payment-systems">
+                                <img src="/images/default/belkart_internet_password.svg" alt="belkart internet password" width="65" height="36">
+                                <img src="/images/default/msc.svg" alt="mastercard secure code" width="57" height="36">
+                                <img src="/images/default/vb_visa.svg" alt="verified by visa" width="50" height="36">
+                            </div>
+                            <div class="block-logo_additional">
+                                <img src="/images/default/icon_ipay_grey.svg" alt="apple pay logo" width="47" height="27">
+                                <img src="/images/default/Spay_Vertical_Alt_for_small_formats_grey.png" alt="samsung pay logo" width="47" height="27">
+                                <img src="/images/default/pci_dss_gray.svg" alt="pci dss logo" width="57" height="36">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column footer__block-contact">
+                            <a href="mailto:support@webpay.by">support@webpay.by</a>
+                            <a href="tel:+375293837172">+375 29 383 71 72</a>
+                        </div>
+                    </div>
+                </footer>
+                <!-- END FOOTER -->
+
+            </div>
+        </div>
+    </section>
+</div><div id="halvaplustypePage" class="pages fields">
+    <section class="container content">
+        <div class="twoBlocks">
+            <!-- START LEFT SIDE-->
+            <div class="content__block-left">
+                <div class="xCardBlock">
+                    <div class="content__wrapper">
+                        <div class="content__payment_type_title field-translate" id="select_payment_type_title">Выбор способа оплаты</div>
+
+                        <!-- START FORM -->
+                        <div class="payform">
+                            <form action="" class="selectPaymentType" name="selectPaymentType" id="selectPaymentType">
+                                <input type="hidden" name="wt" value="e03b4f01e607cc4dbe134fe78e5729bc=54485533646b644b527a5a4256325a595a6d394d4e4870465133427a56305258526e4a6f575735704e5549786548646f6544465a63303950617a302c">
+                                <div class="container">
+                                    <div class="row formPaymentType__item-row">
+
+                                        <div class="col-12 wrapper formPaymentType__input">
+                                            <input id="tab_standard" type="radio" name="tab" tabindex="1" value="ipsPayment"/>
+                                            <label for="tab_standard"  class="formPaymentType__input-label field-translate" id="tab_label_standard">tab_label_standard</label>
+                                        </div>
+
+                                        <div class="col-12 wrapper formPaymentType__input">
+                                            <input id="tab_halva" type="radio" name="tab" tabindex="2" value="halva"/>
+                                            <label for="tab_halva" id="tab_label_halva" class="formPaymentType__input-label field-translate">
+                                                Халва
+                                            </label>
+                                        </div>
+
+                                        <div class="col-12 wrapper formPaymentType__input">
+                                            <input id="tab_halva_plus" type="radio" name="tab" tabindex="3" value="halvaPlus"/>
+                                            <label for="tab_halva_plus" id="tab_label_halva_plus" class="formPaymentType__input-label field-translate">
+                                                Халва+
+                                            </label>
+                                            <div class="halva-select-wrap">
+                                                <span>Оплатить:</span>
+                                                <div class="halva-select-wrap__line">
+                                                    <input type="radio" id="rub" name="paymentType" value="standard" checked="checked">
+                                                    <label for="rub"></label>
+                                                    <span class="field-translate halva-select__name" id="payment_rubles">Рубли</span>
+                                                </div>
+                                                <div class="halva-select-wrap__line">
+                                                    <input type="radio" id="bonus" name="paymentType" value="bonus">
+                                                    <label for="bonus"></label>
+                                                    <span class="field-translate halva-select__name" id="payment_bonus">Баллы</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 wrapper formPaymentType__input">
+                                            <input id="tab_autocard" type="radio" name="tab" value="autocard" tabindex="6"/>
+                                            <label for="tab_autocard" class="formPaymentType__input-label field-translate" id="tab_label_autocard">
+                                                Автокарта
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row justify-content-between payform__info-wrap">
+                                        <div class="d-flex flex-column payform__info">
+                                            <span class="payform__order-number field-translate" id="column_order_number">Информация о заказе : </span>
+                                            <!--modal order-->
+                                            <a href="" class="payform__infoID" data-toggle="modal" data-target="#orderInfoModal" id="orderButton"></a>
+                                            <!--end modsl order-->
+                                        </div>
+
+                                        <div class="btn_group">
+                                            <button type="submit" class="main_btn field-translate" id="paySelectPayment" name="payHalvaPlus">
+
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- END FORM -->
+                    </div>
+                </div>
+
+                <!-- FOOTER -->
+                <footer class="container footer">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap flex-column footer_print">
+                        <span id="protection_text_0_1" class="footer__block-info field-translate">Платежная услуга инициирования платежа</span>
+                        <span id="protection_text_0_2" class="footer__block-info field-translate">оказывается ООО &quot;ВЕБ ПЭЙ&quot;. С Правилами оказания</span>
+                        <span id="protection_text_0_3" class="footer__block-info field-translate">платежных услуг можно ознакомиться на сайте</span>
+                        <span> <a target="_blank" href="https://webpay.by">webpay.by</a>.</span>
+                        <br/>
+                        <span id="protection_text_1" class="footer__block-info field-translate">Операции защищены стандартами:</span>
+                        <div class="footer__block-logo">
+                            <div class="block-logo_payment-systems">
+                                <img src="/images/default/belkart_internet_password.svg" alt="belkart internet password" width="65" height="36">
+                                <img src="/images/default/msc.svg" alt="mastercard secure code" width="57" height="36">
+                                <img src="/images/default/vb_visa.svg" alt="verified by visa" width="50" height="36">
+                            </div>
+                            <div class="block-logo_additional">
+                                <img src="/images/default/icon_ipay_grey.svg" alt="apple pay logo" width="47" height="27">
+                                <img src="/images/default/Spay_Vertical_Alt_for_small_formats_grey.png" alt="samsung pay logo" width="47" height="27">
+                                <img src="/images/default/pci_dss_gray.svg" alt="pci dss logo" width="57" height="36">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column footer__block-contact">
+                            <a href="mailto:support@webpay.by">support@webpay.by</a>
+                            <a href="tel:+375293837172">+375 29 383 71 72</a>
+                        </div>
+                    </div>
+                </footer>
+                <!-- END FOOTER -->
+
+            </div>
+            <!-- END LEFT SIDE-->
+
+            <!-- START RIGHT SIDE-->
+            <div class="col-xl-7 col-lg-7 col-md-6 content__block-right">
+
+                <div id="right_block_cardPayment" class="cardPayment"></div>
+                <!-- END RIGHT SIDE-->
+            </div>
+
+            <!-- ORDER INFO BLOCK -->
+            <div class="orderInfo__wrapper">
+                <div class="orderInfo__header">
+                    <h2 class="field-translate" id="later_order_info_title">Информация о платеже</h2>
+                    <span class="close_symbol closeOrderInfo" id="closeOrderInfo"></span>
+                </div>
+                <div class="orderInfo__mainInfo-wrap">
+                    <div class="orderInfo__mainInfo">
+                    <span class="field-translate"
+                          id="title_column_order_number">Информация о заказе:</span>
+                        <span></span>
+                    </div>
+                    <div class="orderInfo__mainInfo">
+                        <span class="field-translate" id="for_merchant">Получатель платежа: </span>
+                        <span></span>
+                    </div>
+                    <div class="orderInfo__mainInfo">
+                        <span class="field-translate" id="customer_name">Плательщик: </span>
+                        <span></span>
+                    </div>
+                </div>
+                <table class="orderInfo__tableFields">
+                    <thead>
+                    <tr>
+                        <th class="field-translate" id="column_descr">Описание</th>
+                        <th class="field-translate" id="column_price">Стоимость</th>
+                        <th class="field-translate" id="column_count">Количество</th>
+                        <th class="field-translate" id="column_total">Всего</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <div class="orderInfo__total">
+                    <span class="field-translate" id="column_final_total">К оплате: </span>
+                    <span> </span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div id="enterpanPage" class="pages fields">
+    <section class="container content">
+        <div class="twoBlocks">
+            <!-- LEFT SIDE BLOCK -->
+            <div class="content__block-left">
+                <!-- ENTERPANPAGE BLOCK-->
+                <div class="enterpanPageBlock">
+                    <div class="enterpanPage__info">
+                        <h2 class="enterpanPage__title field-translate " id="pageTitle">Внутренняя ошибка выполнения операции</h2>
+                    </div>
+                    <div class="enterpanPage__wrapper">
+                    </div>
+
+                    <div class="content__wrapper">
+                        <div class="sou__block-left__subtitle">
+                            <span class="field-translate" id="cardholder_title">Оплата карточкой</span>
+                        </div>
+                        <div class="payform">
+                            <form method="post" id="enterPanForm">
+                                <div class="container">
+                                    <div class="row payform__item-row">
+                                        <div class="col wrapper payform__input">
+                                            <label for="enter_pan_cc_pan" class="payform__input-label field-translate" id="form_card_pan">Номер карты</label>
+                                            <input id="enter_pan_cc_pan" name="cc_pan"
+                                                   type="tel" tabindex="1" maxlength="23" value=""
+                                                   class="col-12 field inputs" autofocus>
+                                            <div class="invalid-text errors" id="panError"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row payform__item-row">
+                                        <div class="col wrapper payform__input">
+                                            <label for="enter_pan_cc_email" class="payform__input-label field-translate" id="form_email">email</label>
+                                            <input id="enter_pan_cc_email" type="email" name="cc_email" maxlength="64" tabindex="2" value="" class="col-12 field input_cc_email inputs" autocapitalize="off" autocorrect="off">
+                                            <a id="email_tooltip" class="input_tooltip" data-toggle="tooltip"
+                                               data-original-title="Адрес электронной почты нужен для отправки чека">?</a>
+                                            <div class="invalid-text errors" id="emailError"></div>
+                                        </div>
+                                    </div>
+                                    <div class="btn_group d-flex justify-content-end">
+                                        <input type="hidden" name="wt" value="e03b4f01e607cc4dbe134fe78e5729bc=54485533646b644b527a5a4256325a595a6d394d4e4870465133427a56305258526e4a6f575735704e5549786548646f6544465a63303950617a302c">
+                                        <button type="submit" id="enterPanPayBtn" name="pay" class="main_btn field-translate" tabindex="3" value="Оплатить">Оплатить</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- END ENTERPANPAGE BLOCK-->
+                <!-- FOOTER -->
+                <!-- FOOTER -->
+                <footer class="container footer">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap flex-column footer_print">
+                        <span id="protection_text_0_1" class="footer__block-info field-translate">Платежная услуга инициирования платежа</span>
+                        <span id="protection_text_0_2" class="footer__block-info field-translate">оказывается ООО &quot;ВЕБ ПЭЙ&quot;. С Правилами оказания</span>
+                        <span id="protection_text_0_3" class="footer__block-info field-translate">платежных услуг можно ознакомиться на сайте</span>
+                        <span> <a target="_blank" href="https://webpay.by">webpay.by</a>.</span>
+                        <br/>
+                        <span id="protection_text_1" class="footer__block-info field-translate">Операции защищены стандартами:</span>
+                        <div class="footer__block-logo">
+                            <div class="block-logo_payment-systems">
+                                <img src="/images/default/belkart_internet_password.svg" alt="belkart internet password" width="65" height="36">
+                                <img src="/images/default/msc.svg" alt="mastercard secure code" width="57" height="36">
+                                <img src="/images/default/vb_visa.svg" alt="verified by visa" width="50" height="36">
+                            </div>
+                            <div class="block-logo_additional">
+                                <img src="/images/default/icon_ipay_grey.svg" alt="apple pay logo" width="47" height="27">
+                                <img src="/images/default/Spay_Vertical_Alt_for_small_formats_grey.png" alt="samsung pay logo" width="47" height="27">
+                                <img src="/images/default/pci_dss_gray.svg" alt="pci dss logo" width="57" height="36">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column footer__block-contact">
+                            <a href="mailto:support@webpay.by">support@webpay.by</a>
+                            <a href="tel:+375293837172">+375 29 383 71 72</a>
+                        </div>
+                    </div>
+                </footer>
+                <!-- END FOOTER -->
+                <!-- END FOOTER -->
+            </div>
+        </div>
+    </section></div><div id="serviceinfoPage" class="pages fields">
+    <script>
+        window.onload = function () {
+            updateCommissAndButtonOff();
+        }
+    </script>
+
+    <section class="container content">
+        <div class="twoBlocks">
+            <!-- LEFT SIDE BLOCK -->
+            <div class="content__block-left">
+                <!-- SERVICEINFOPAGE BLOCK-->
+                <div class="serviceinfoPageBlock">
+                    <div class="enterpanPage__info">
+                        <h2 class="enterpanPage__title field-translate" id="pageTitle">Внутренняя ошибка выполнения операции</h2>
+                    </div>
+                    <div class="enterpanPage__wrapper">
+                        <div class="cheque-row col-12 wrapper d-flex justify-content-start">
+                            <span class="cheque-title col-6 wrapper field-translate" id="pan_number_label">pan_number_label:</span>
+                            <span class="cheque-description" id="pan6x4"></span>
+                        </div>
+                        <div id="passedParameters">
+                        </div>
+                    </div>
+
+                    <div class="content__wrapper">
+                        <div class="sou__block-left__subtitle">
+                            <span class="field-translate" id="confirm_parameter_title">confirm_parameter_title</span>
+                        </div>
+                        <div class="payform">
+                            <form method="post" class="paymentForm" id="serviceinfoForm">
+                                <div class="container">
+                                    <div class="extraInfo">
+                                        <span class="cheque-description" id="extraInfo"></span>
+                                    </div>
+                                    <div id="requirements">
+                                        <div class="row payform__item-row">
+                                            <div class="col wrapper payform__input">
+                                                <label for="param_" class="payform__input-label"></label>
+
+                                            </div>
+                                        </div>
+                                        <div class="row payform__item-row">
+                                            <div class="col wrapper payform__input">
+                                                <label for="param_" class="payform__input-label"></label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="amountRequirement">
+                                    </div>
+
+                                    <div class="btn_group d-flex justify-content-end">
+                                        <input type="hidden" name="wt" value="e03b4f01e607cc4dbe134fe78e5729bc=54485533646b644b527a5a4256325a595a6d394d4e4870465133427a56305258526e4a6f575735704e5549786548646f6544465a63303950617a302c">
+                                        <button type="submit" id="souPayBtn" class="main_btn field-translate" value="Подтвердить">Подтвердить</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- END SERVICEINFOPAGE BLOCK-->
+                <!-- FOOTER -->
+                <!-- FOOTER -->
+                <footer class="container footer">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap flex-column footer_print">
+                        <span id="protection_text_0_1" class="footer__block-info field-translate">Платежная услуга инициирования платежа</span>
+                        <span id="protection_text_0_2" class="footer__block-info field-translate">оказывается ООО &quot;ВЕБ ПЭЙ&quot;. С Правилами оказания</span>
+                        <span id="protection_text_0_3" class="footer__block-info field-translate">платежных услуг можно ознакомиться на сайте</span>
+                        <span> <a target="_blank" href="https://webpay.by">webpay.by</a>.</span>
+                        <br/>
+                        <span id="protection_text_1" class="footer__block-info field-translate">Операции защищены стандартами:</span>
+                        <div class="footer__block-logo">
+                            <div class="block-logo_payment-systems">
+                                <img src="/images/default/belkart_internet_password.svg" alt="belkart internet password" width="65" height="36">
+                                <img src="/images/default/msc.svg" alt="mastercard secure code" width="57" height="36">
+                                <img src="/images/default/vb_visa.svg" alt="verified by visa" width="50" height="36">
+                            </div>
+                            <div class="block-logo_additional">
+                                <img src="/images/default/icon_ipay_grey.svg" alt="apple pay logo" width="47" height="27">
+                                <img src="/images/default/Spay_Vertical_Alt_for_small_formats_grey.png" alt="samsung pay logo" width="47" height="27">
+                                <img src="/images/default/pci_dss_gray.svg" alt="pci dss logo" width="57" height="36">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column footer__block-contact">
+                            <a href="mailto:support@webpay.by">support@webpay.by</a>
+                            <a href="tel:+375293837172">+375 29 383 71 72</a>
+                        </div>
+                    </div>
+                </footer>
+                <!-- END FOOTER -->
+                <!-- END FOOTER -->
+            </div>
+        </div>
+    </section></div><div id="paymentSouPage" class="pages fields">
+    <section class="container content">
+        <div class="twoBlocks">
+            <!-- LEFT SIDE BLOCK -->
+            <div class="content__block-left">
+                <!-- PAYMENTSOUPAGE BLOCK-->
+                <div class="paymentSouPageBlock">
+                    <div class="enterpanPage__info">
+                        <h2 class="enterpanPage__title field-translate" id="pageTitle">Внутренняя ошибка выполнения операции</h2>
+                    </div>
+                    <div class="enterpanPage__wrapper">
+                        <div id="passedParameters">
+                        </div>
+                        <div id="amount">
+                            <div class="cheque-row col-12 wrapper d-flex justify-content-start">
+                                <div class="cheque-title col-6 wrapper field-translate" id="cart_amount_info_block_title" >Сумма к оплате</div>
+                                <div class="cheque-description"> </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content__wrapper">
+                        <div class="payform">
+                            <form method="post" class="souPaymentForm">
+                                <div class="container">
+                                    <div class="row payform__item-row">
+                                        <div class="col wrapper payform__cc_pan payform__input">
+                                            <label for="cc_pan" class="payform__input-label field-translate" id="sou_payment_form_card_pan" for="maskedPan">
+                                                Номер карты</label>
+                                            <input name="maskedPan" id="maskedPan" type="tel" tabindex="1" maxlength="23" value="" readonly class="col-12 field disabled protected">
+                                        </div>
+                                        <div class="col wrapper payform__cc_month payform__input">
+                                            <label class="payform__input-label  field-translate" id="sou_payment_month" for="sou_cc_month">
+                                                месяц</label>
+                                            <input id="sou_cc_month" type="tel" name="cc_month" maxlength="2" tabindex="1"
+                                                   class="col-12 field cardMonth inputs protected" autofocus
+                                                   tabindex="1"
+                                                   value=""
+                                            >
+                                            <div class="invalid-text errors" id="expireError"></div>
+                                        </div>
+                                        <div class="col wrapper payform__cc_year payform__input">
+                                            <label class="payform__input-label field-translate" id="sou_payment_year" for="sou_cc_year">
+                                                год</label>
+                                            <input id="sou_cc_year" type="tel" name="cc_year" maxlength="2" tabindex="2"
+                                                   class="col-12 field cardYear inputs protected"
+                                                   value=""
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="row payform__item-row">
+                                        <div class="col wrapper payform__cc_name payform__input">
+                                            <label for="sou_cc_name" class="payform__input-label field-translate" id="sou_payment_form_card_holder_name" for="sou_cc_name">
+                                                Имя держателя</label>
+                                            <input id="sou_cc_name" type="text" name="cc_name" maxlength="128" tabindex="3" class="col-12 field input_cc_name cardHolder text-uppercase inputs protected"
+                                                   autocapitalize="off" autocorrect="off"
+                                            >
+                                            <a href="#" class="input_tooltip" data-toggle="tooltip"
+                                               data-original-title="ИМЯ ДЕРЖАТЕЛЯ (латиницей как на карте или как в паспорте)">?</a>
+                                            <div class="invalid-text errors" id="nameError"></div>
+                                        </div>
+                                        <div class="col wrapper payform__cc_cvv payform__input">
+                                            <label for="sou_cc_cvv" class="payform__input-label field-translate" id="sou_payment_form_card_cvv" for="sou_cc_cvv">
+                                                CVV</label>
+                                            <input id="sou_cc_cvv" type="password" name="cc_cvv" tabindex="4" maxlength="3" value=""
+                                                   class="col-12 field cardCvv inputs">
+                                            <div class="invalid-text errors"  id="cvvError"></div>
+                                        </div>
+                                    </div>
+                                    <div class="btn_group d-flex justify-content-end">
+                                        <input type="hidden" name="wt" value="e03b4f01e607cc4dbe134fe78e5729bc=54485533646b644b527a5a4256325a595a6d394d4e4870465133427a56305258526e4a6f575735704e5549786548646f6544465a63303950617a302c">
+                                        <button type="submit" id="souPaymentBtn" name="pay" class="main_btn field-translate" tabindex="5" value="Оплатить">Оплатить</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- END PAYMENTSOUPAGE BLOCK-->
+                <!-- FOOTER -->
+                <!-- FOOTER -->
+                <footer class="container footer">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap flex-column footer_print">
+                        <span id="protection_text_0_1" class="footer__block-info field-translate">Платежная услуга инициирования платежа</span>
+                        <span id="protection_text_0_2" class="footer__block-info field-translate">оказывается ООО &quot;ВЕБ ПЭЙ&quot;. С Правилами оказания</span>
+                        <span id="protection_text_0_3" class="footer__block-info field-translate">платежных услуг можно ознакомиться на сайте</span>
+                        <span> <a target="_blank" href="https://webpay.by">webpay.by</a>.</span>
+                        <br/>
+                        <span id="protection_text_1" class="footer__block-info field-translate">Операции защищены стандартами:</span>
+                        <div class="footer__block-logo">
+                            <div class="block-logo_payment-systems">
+                                <img src="/images/default/belkart_internet_password.svg" alt="belkart internet password" width="65" height="36">
+                                <img src="/images/default/msc.svg" alt="mastercard secure code" width="57" height="36">
+                                <img src="/images/default/vb_visa.svg" alt="verified by visa" width="50" height="36">
+                            </div>
+                            <div class="block-logo_additional">
+                                <img src="/images/default/icon_ipay_grey.svg" alt="apple pay logo" width="47" height="27">
+                                <img src="/images/default/Spay_Vertical_Alt_for_small_formats_grey.png" alt="samsung pay logo" width="47" height="27">
+                                <img src="/images/default/pci_dss_gray.svg" alt="pci dss logo" width="57" height="36">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column footer__block-contact">
+                            <a href="mailto:support@webpay.by">support@webpay.by</a>
+                            <a href="tel:+375293837172">+375 29 383 71 72</a>
+                        </div>
+                    </div>
+                </footer>
+                <!-- END FOOTER -->
+                <!-- END FOOTER -->
+            </div>
+        </div>
+    </section>
+</div><div id="afaPage" class="pages fields">
+
+    <!-- START LEFT SIDE-->
+    <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12 col-12 content__block-left">
+        <h2 class="content__block-left__title-str-pay field-translate" id="pageTitle">Внутренняя ошибка выполнения операции</h2>
+        <div class="wrap-content__text">
+            <form method="post">
+                <p class="field-translate" id="afa_text">В целях безопасности проведения платежей, на вашей карточке заблокирована произвольная сумма до 4 USD. Для подтверждения платежа Вам необходимо узнать заблокированную сумму в вашем банке. Сумма на карточке автоматически разблокируется по истечении 20 минут.</p>
+                <div class="payform__item-row">
+                    <span class="payform__input-label field-translate" id="fa_attempt">Введите заблокированную сумму в USD: </span>
+                    <span>
+                    <span class="field-info field-translate" id="fa_note">Номер попытки:</span>
+                    <span id="attempts"></span>
+                </span>
+                    <input type="tel" name="afa" class="inputs">
+                </div>
+                <div class="payform__item-row d-flex justify-content-center">
+                    <input type="hidden" name="wt" value="e03b4f01e607cc4dbe134fe78e5729bc=54485533646b644b527a5a4256325a595a6d394d4e4870465133427a56305258526e4a6f575735704e5549786548646f6544465a63303950617a302c">
+                    <button id="afaPay" type="submit" name="pay" class="btn btn-blue field-translate" value="Проверить">Проверить</button>
+                </div>
+            </form>
+        </div>
+    </div><!-- END LEFT SIDE-->
+
+    <!-- START RIGHT SIDE-->
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 content__block-right__wp">
+
+    </div><!-- END RIGHT SIDE--></div><div id="applepayunavailablePage" class="pages fields">
+    <section class="container content">
+        <div class="twoBlocks">
+            <div class="content__block-left">
+                <div class="row">
+                    <h2 class="error__title" id="pageTitle">Apple Pay</h2>
+                    <p>Извините, оплата невозможна. Для успешной оплаты обновите, пожалуйста, версию iOS на вашем устройстве до 16.2 и выше</p>
+                    <div class="row top-50">
+                        <div class="btn_group">
+                            <a id="applePayUnavailableReturnBtn" class="btn btn-primary col-xs-12 center-block field-translate">Назад</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- FOOTER -->
+                <footer class="container footer">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap flex-column footer_print">
+                        <span id="protection_text_0_1" class="footer__block-info field-translate">Платежная услуга инициирования платежа</span>
+                        <span id="protection_text_0_2" class="footer__block-info field-translate">оказывается ООО &quot;ВЕБ ПЭЙ&quot;. С Правилами оказания</span>
+                        <span id="protection_text_0_3" class="footer__block-info field-translate">платежных услуг можно ознакомиться на сайте</span>
+                        <span> <a target="_blank" href="https://webpay.by">webpay.by</a>.</span>
+                        <br/>
+                        <span id="protection_text_1" class="footer__block-info field-translate">Операции защищены стандартами:</span>
+                        <div class="footer__block-logo">
+                            <div class="block-logo_payment-systems">
+                                <img src="/images/default/belkart_internet_password.svg" alt="belkart internet password" width="65" height="36">
+                                <img src="/images/default/msc.svg" alt="mastercard secure code" width="57" height="36">
+                                <img src="/images/default/vb_visa.svg" alt="verified by visa" width="50" height="36">
+                            </div>
+                            <div class="block-logo_additional">
+                                <img src="/images/default/icon_ipay_grey.svg" alt="apple pay logo" width="47" height="27">
+                                <img src="/images/default/Spay_Vertical_Alt_for_small_formats_grey.png" alt="samsung pay logo" width="47" height="27">
+                                <img src="/images/default/pci_dss_gray.svg" alt="pci dss logo" width="57" height="36">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column footer__block-contact">
+                            <a href="mailto:support@webpay.by">support@webpay.by</a>
+                            <a href="tel:+375293837172">+375 29 383 71 72</a>
+                        </div>
+                    </div>
+                </footer>
+                <!-- END FOOTER -->
+            </div>
+        </div>
+    </section></div>
+
+<div class="preload-wpap">
+    <div>
+        <div class="logo-bg1"><img src="/images/default/wp1.png" alt=""></div>
+        <div class="logo-bg2"><img src="/images/default/wp2.png" alt=""></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="/js/default/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="/js/default/jquery.overlayScrollbars.min.js"></script>
+<script type="text/javascript" src="/js/jquery.countdown.min.js"></script>
+<script type="text/javascript" src="/js/common.js?ver=new_design140110"></script>
+<script type="text/javascript" src="/js/default/main.js?ver=new_design140110"></script>
+
+<!-- Script for ApplePay, SamsungPay, GooglePay -->
+
+<script src="/js/cardlesspay/applepay/ApplePay.js"></script>
+
+<script src=""></script>
+<script src="/js/cardlesspay/samsungpay/WpSamsungPay.js"></script>
+
+<script>
+    const billingApplePayOption = '';
+    const billingSamsungPayOption = '';
+    const billingId = '';
+    const storeName = '';
+    const storeSite = '';
+    const isPreAuth = '';
+    const samsungPayServiceId = '';
+    const cancelUrl = '';
+    const lang = 'ru';
+    const successCallback = ajaxSuccess;
+    const errorCallback = ajaxError;
+    const backendCallback = promiseAjax;
+    const wtToken = getWtToken();
+    const items = [
+    ];
+    const orderNumber = '';
+    const total = ''.replace(/\s/g, '').replace(',', '.');
+    const currencyCode = '';
+
+    /** ApplePay Settings */
+    const applePayMain =  {
+        applePay: null,
+
+        isSetBillingOption() {
+            return +billingApplePayOption === 1
+        },
+
+        buildApplePayObject() {
+            if (this.applePay !== null) {
+                return;
+            }
+
+            this.applePay = new ApplePay({
+                merchantIdentifier: billingId, // Обязательное поле
+                applePayButtonId: 'applePayBtn', // Обязательное поле id блока, в котором будет кнопка оплаты applePay
+                applePaySetupButtonId: 'applePaySetupBtn', // Обязательное поле id блока, в котором будет кнопка установки applePay
+                displayName: 'WEBPAY', // Обязательное поле (Отображается в диалоговом окошке applePay)
+                preloaderId: 'mainPreloader', // Необязательное поле, id прелоудера. Будет отображать перед началом запросов и скрывать при получении результатов
+                successPaymentHandler: successCallback, // Callback функция, которая вызывается при успехе обращения к серверу
+                errorPaymentHandler: errorCallback, // Callback функция, которая вызывается при неуспехе обращения к серверу
+                backendRequest: backendCallback, // Callback promise функция, которая делает запрос на сервер
+                backendRequestUrl: '', // url на который делается запрос на проведение транзакции
+                backendRequestData: { // Необязательные данные, которое нужно передать на сервер
+                    wt: wtToken, // wt token для сессии
+                    cardless: 1,
+                    cardlessType: 'apple'
+                },
+                lineItems:  items.map(item => {
+                    return {
+                        'label': `${item.name} ( ${item.price} x ${item.quantity} )`,
+                        'amount': item.quantity * item.price,
+                        'type': 'final'
+                    };
+                }),
+                total: {
+                    label: orderNumber,
+                    amount: total,
+                    type: 'final'
+                },
+                countryCode: 'BY',
+                currencyCode: currencyCode,
+                merchantCapabilities: ['supports3DS', 'supportsDebit', 'supportsCredit'],
+                supportedNetworks: ['masterCard', 'visa'],
+                requiredShippingContactFields: ['email'],
+                needAddStyle: true
+            });
+        },
+
+        isAvailable() {
+            if (!this.isSetBillingOption()) {
+                console.debug('ApplePay not setup.');
+
+                return false;
+            }
+            this.buildApplePayObject();
+
+            return this.applePay.isAvailable();
+        },
+
+        start() {
+            if (this.isAvailable()) {
+                console.log('ApplePay will be starting from cardless Pay');
+                this.applePay.start();
+            }
+        }
+    }
+    /**********************************************/
+
+    /** SamsungPay settings */
+    const samsungPayMain = {
+        isSetBillingOption() {
+            return +billingSamsungPayOption === 1
+        },
+
+        isAvailable() {
+            return this.isSetBillingOption();
+        },
+
+        setCardlessButtonImage(language) {
+            const samsungButton = document.getElementById('samsungPayBtn');
+            if (!samsungButton) {
+                return;
+            }
+            samsungButton.style.backgroundImage = language === 'ru' ? 'url("/images/samsung_pay/2019_Pay_button_RUS_resized.png")' : 'url("/images/samsung_pay/2019_Pay_button_ENG_resized.png")';
+        },
+
+        start() {
+            const wpSamsungPay = new WpSamsungPay({
+                orderNumber: orderNumber,
+                merchantId: billingId,
+                merchantUrl: storeSite,
+                merchantName: storeName,
+                amount: total,
+                currencyCode: currencyCode,
+                isPreAuth: isPreAuth,
+                serviceId: samsungPayServiceId,
+                cancelUrl: cancelUrl,
+                lang: lang,
+                wtToken: wtToken,
+                samsungPayButtonId: 'samsungPayBtn',
+                backendRequest: backendCallback
+            });
+            console.debug('Samsung Pay started')
+
+            wpSamsungPay.start()
+        }
+    };
+    /******************************************************/
+
+    /** Init */
+    $(document).ready(function () {
+        (function() {
+
+            if (applePayMain.isAvailable()) {
+                applePayMain.start();
+            } else {
+                console.debug('ApplePay not available');
+            }
+
+            if (samsungPayMain.isAvailable()) {
+                samsungPayMain.setCardlessButtonImage(lang);
+                samsungPayMain.start();
+            } else {
+                console.debug('SamsungPay not available');
+            }
+        })();
+    }).on('hidden.bs.modal', '#cryptoModal', clearCryptoRedirectTimer);
+
+    function clearCryptoRedirectTimer() {
+        console.log('Stop Redirect Timer');
+
+        if (!cryptoRedirectTimer) return;
+
+        clearTimeout(cryptoRedirectTimer);
+        cryptoRedirectTimer = null;
+    }
+
+    $(document).ready(function() {
+        $('#closeModalBtn').on('click', function() {
+            $('#modalOverlay').fadeOut(300);
+        });
+
+        $('#modalOverlay').on('click', function(event) {
+            if ($(event.target).is('#modalOverlay')) {
+                $('#modalOverlay').fadeOut(300);
+            }
+        });
+
+        let cryptoData = null;
+
+        function runCryptoEvent() {
+            $('#left_block_crypto').addClass('active');
+            loadCryptoModal();
+        }
+
+        function renderCryptoModal(data) {
+            $('#cryptoError').hide();
+            $('#cryptoContent').show();
+            $('#cryptoAmount').text(`${data.amount} ${wpCryptoPay.currencyCode}`);
+            $('#paymentUrl').text(data.paymentUrl);
+            $('#paymentUrlAnchor').attr('href', data.paymentUrl);
+            $('#cryptoQr').attr('src', data.qr);
+            console.debug('Crypto Pay Redirect timer started');
+            cryptoRedirectTimer = setTimeout(() => {
+                window.location.href = data.paymentUrl;
+            }, 5000);
+        }
+
+        function fetchCryptoData() {
+            return $.ajax({
+                url: '/crypto/init',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    'crypto-pay': true,
+                    wt: $('input[name="wt"]').val(),
+                }
+            });
+        }
+
+        function showLoader() {
+            $('.paymentPageBlock').hide();
+            $('.content__pay-menu').hide();
+            $('#paymentLoader').show();
+        }
+
+        function hideLoader() {
+            $('#paymentLoader').hide();
+            $('.paymentPageBlock').show();
+            $('.content__pay-menu').show();
+        }
+
+        function showCryptoError(message) {
+            $('#cryptoLoader').addClass('d-none');
+            $('#cryptoContent').hide();
+            $('#cryptoError').text(message).removeClass('d-none');
+            $('#cryptoModal').modal('show');
+        }
+
+        async function loadCryptoModal() {
+            if (cryptoData) {
+                renderCryptoModal(cryptoData);
+                return $('#cryptoModal').modal('show');
+            }
+
+            showLoader();
+
+            try {
+                const response = await fetchCryptoData();
+
+                if (!response.success) {
+                    cryptoData = null;
+                    showCryptoError(response.message);
+                    return;
+                }
+
+                cryptoData = response.data;
+                renderCryptoModal(cryptoData)
+                $('#cryptoModal').modal('show');
+            } catch (xhr) {
+                cryptoData = null;
+                console.error('crypto ajax error:', {
+                    status: xhr.status,
+                    response: xhr.responseText
+                });
+
+                showCryptoError(xhr.responseJSON?.message || 'Ошибка загрузки крипто-платежа');
+            } finally {
+                hideLoader();
+                returnToPaymentFormStep();
+            }
+        }
+
+        function returnToPaymentFormStep() {
+            return $.ajax({
+                url: '/',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    'crypto-load-success': true,
+                    wt: $('input[name="wt"]').val(),
+                }
+            });
+        }
+
+        // 3. Отслеживание кликов по табе
+        $('#cryptoPayBtn').on('click', function(e) {
+            e.preventDefault();
+
+            if (!$(this).hasClass('active')) {
+                runCryptoEvent();
+            }
+        });
+
+        if(typeof firstPaymentMethodKey !== 'undefined' && firstPaymentMethodKey === 'crypto') {
+            runCryptoEvent();
+        }
+    });
+</script>
+
+<div class="overlay"></div>
+</body>
+</html>

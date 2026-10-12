@@ -1,8 +1,12 @@
 package guard;
 
+import button.ButtonHandlerClose;
+import button.ButtonHandlerPay;
 import gui.GuiMain;
+import payment.PaymentDialogSwing;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.nio.file.Path;
 
@@ -14,7 +18,7 @@ public class GuiCheck {
     public static String APP_NAME = "XPMaker";
     public static String mainPath;
 
-    public static void main(String[] args) {
+    public static void mainCheck() {
         // 1. Получаем HWID текущего компьютера (код из предыдущего ответа с библиотекой OSHI)
         currentHWID = HardwareSigner.getHWID();
 
@@ -30,7 +34,7 @@ public class GuiCheck {
 
     private static void showActivationWindow(String hwid) {
         JFrame frame = new JFrame("Требуется активация");
-        frame.setSize(600, 150);
+        frame.setSize(600, 190);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         File folder = getAndCreateSaveDirectory();
@@ -47,9 +51,25 @@ public class GuiCheck {
         text.setLineWrap(true);
         text.setWrapStyleWord(true);
 
-        frame.add(new JScrollPane(text));
+        // 3. Создаем нижний компонент: панель с двумя кнопками
+        JPanel buttonPanel = new JPanel(); // По умолчанию использует FlowLayout (компоненты идут в ряд)
+        JButton buttonPay = new JButton("Оплата");
+        JButton buttonClose = new JButton("Закрыть");
+        buttonPanel.add(buttonPay);
+        buttonPanel.add(buttonClose);
+
+        // 4. Добавляем компоненты в главное окно, используя BorderLayout
+        frame.setLayout(new BorderLayout());
+        frame.add(new JScrollPane(text), BorderLayout.CENTER); // Область прокрутки занимает центр и верх
+        frame.add(buttonPanel, BorderLayout.SOUTH); // Панель с кнопками прижимается к низу
+
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+        //оплата
+        buttonPay.addActionListener(new ButtonHandlerPay(frame));
+        //закрытие
+        buttonClose.addActionListener(new ButtonHandlerClose(frame));
     }
 
     /**

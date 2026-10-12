@@ -1,3 +1,4 @@
+import guard.GuiCheck;
 import gui.GuiMain;
 
 import javax.swing.*;
@@ -12,7 +13,8 @@ public class AppStart {
         // Запуск Swing-приложения в потоке обработки событий
         SwingUtilities.invokeLater(() -> {
             System.out.println("start");
-            GuiMain.gui();
+            //GuiMain.gui();
+            GuiCheck.mainCheck();
             System.out.println("stop");
         });
     }

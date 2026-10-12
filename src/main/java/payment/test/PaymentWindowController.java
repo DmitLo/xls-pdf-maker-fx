@@ -1,6 +1,7 @@
-package payment;
+package payment.test;
 
 import javafx.stage.Stage;
+import payment.WebpayPaymentManager;
 
 public class PaymentWindowController {
 
@@ -21,7 +22,7 @@ public class PaymentWindowController {
 //        });
 
         // Запуск процесса оплаты
-        paymentManager.processPayment("10.00", "BYN", new WebpayPaymentManager.PaymentCallback() {
+        paymentManager.processPayment("BYN", new String[]{"itemName"}, new Integer[]{1}, new Float[1], 1.0f, new WebpayPaymentManager.PaymentCallback() {
             @Override
             public void onSuccess() {
                 // Опрос сам остановится внутри менеджера, нам нужно только закрыть UI

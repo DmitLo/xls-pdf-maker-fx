@@ -118,17 +118,27 @@
         </dependency>
 
         <!-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+        <!-- 1. Потоковый модуль (Именно здесь находится BufferRecycler, который вызывал ошибку) -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.18.2</version>
+        </dependency>
+
+        <!-- 2. Аннотации (Выравниваем версию до 2.18.2) -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.21</version>
-            <scope>compile</scope>
+            <version>2.18.2</version>
         </dependency>
+
+        <!-- 3. Основной модуль связывания данных -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.18.2</version> <!-- Актуальная и стабильная версия -->
+            <version>2.18.2</version>
         </dependency>
+
 
 
     </dependencies>

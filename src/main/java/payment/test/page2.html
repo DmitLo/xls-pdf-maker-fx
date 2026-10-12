@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Перенаправление на оплату...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+            color: #333;
+            text-align: center;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0275d8;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 28px;
+            background-color: #0275d8;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<div class="loader"></div>
+<h2>Безопасный переход к оплате WebPay</h2>
+<p>Пожалуйста, подождите, мы открываем платежный шлюз...</p>
+
+<!-- Скрытая POST форма, которая уйдет на WebPay -->
+<form id="webpayForm" action="https://securesandbox.webpay.by/api/v1/payment/" method="POST">
+    <input type="hidden" name="wsb_storeid" value="433329306">
+    <input type="hidden" name="wsb_order_num" value="INV-1791382419541">
+    <input type="hidden" name="wsb_currency_id" value="BYN">
+    <input type="hidden" name="wsb_version" value="2">
+    <input type="hidden" name="wsb_seed" value="1791382419">
+    <input type="hidden" name="wsb_test" value="1">
+    <input type="hidden" name="wsb_invoice_item_name" value="itemName">
+    <input type="hidden" name="wsb_invoice_item_quantity" value="1">
+    <input type="hidden" name="wsb_invoice_item_price" value="">
+    <input type="hidden" name="wsb_total" value="1">
+    <input type="hidden" name="wsb_signature" value="07044c2fdb017438268924ae36afede3">
+    <noscript>
+        <p>JavaScript отключен в вашем браузере. Нажмите кнопку ниже для продолжения:</p>
+        <button type="submit" class="btn">Перейти к оплате</button>
+    </noscript>
+</form>
+
+<script>
+    // Автоматическая отправка формы сразу после загрузки страницы
+    document.getElementById('webpayForm').submit();
+</script>
+</body>
+</html>

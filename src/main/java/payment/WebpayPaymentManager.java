@@ -1,9 +1,15 @@
 package payment;
 
 import java.awt.Desktop;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+import static payment.WebpayPaymentService.PAYMENT_GATEWAY_URL;
 
 public class WebpayPaymentManager {
 
@@ -13,17 +19,19 @@ public class WebpayPaymentManager {
 
     public interface PaymentCallback {
         void onSuccess();
+
         void onFailed(String reason);
     }
 
     public WebpayPaymentManager() {
         // Конфигурационные данные мерчанта
-        String storeId = "433329306";
+//        String storeId = "433329306";
+        Integer storeId = 433329306;
         String apiUsername = "gandal";
         String apiPassword = "Sb67Yp78E";
 
         // Секретный ключ в байтах
-        byte[] encryptedKey = new byte[]{ 55, 32, 19, 21, 50, 62, 50, 61, 48, 62, 108, 111, 104, 110, 108, 109, 50, 61, 60, 41, 45, 48, 50, 29, 18, 30, 28 };
+        byte[] encryptedKey = new byte[]{55, 32, 19, 21, 50, 62, 50, 61, 48, 62, 108, 111, 104, 110, 108, 109, 50, 61, 60, 41, 45, 48, 50, 29, 18, 30, 28};
         byte xorMask = 0x5A;
 
         // Инициализируем сервисы внутри конструктора менеджера
@@ -34,43 +42,93 @@ public class WebpayPaymentManager {
     /**
      * Точка входа для вашего UI
      */
-    public void processPayment(String amount, String currency, PaymentCallback callback) {
+    public void processPayment(String currency, String[] itemName, Integer[] quantity, Float[] itemPrice, Float total, PaymentCallback callback) {
+
         String orderNum = "INV-" + System.currentTimeMillis();
-        String testMode = "1"; // 1 - тест, 0 - боевой
+        Integer testMode = 1; // 1 - тест, 0 - боевой
+        Integer version = 2;
 
         try {
             // 1. Используем первый сервис для генерации ссылки
-            String paymentUrl = paymentService.createPaymentUrl(orderNum, amount, currency, testMode);
+            //String paymentUrl = paymentService.createPaymentUrl(orderNum, amount, currency, testMode);
+            //System.out.println("paymentUrl " + paymentUrl);
+            String json = paymentService.createPaymentUrl(orderNum, currency, version, testMode, itemName, quantity, itemPrice, total);
+            System.out.println("request json " + json);
+            HttpResponse<String> response = post(json);
 
-            // 2. Открываем браузер прямо из менеджера
-            openBrowser(paymentUrl);
+            //открытие в браузе страницы ответа
+            openHtmlInBrowser(response.body());
 
             // 3. Используем второй сервис для запуска слежки за статусом
             statusChecker.startPolling(orderNum, callback);
 
         } catch (Exception e) {
-            callback.onFailed("Ошибка платежной системы: " + e.getMessage());
+            callback.onFailed("Ошибка системы redirect.gandal.by: " + e.getMessage());
         }
     }
 
-    private static void openBrowser(String url) throws IOException, URISyntaxException {
-        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-            Desktop.getDesktop().browse(new URI(url));
-        } else {
-            Runtime runtime = Runtime.getRuntime();
-            String os = System.getProperty("os.name").toLowerCase();
-            if (os.contains("win")) runtime.exec("rundll32 url.dll,FileProtocolHandler " + url);
-            else if (os.contains("mac")) runtime.exec("open " + url);
-            else if (os.contains("nix") || os.contains("nux")) runtime.exec("xdg-open " + url);
-            else throw new IOException("Неподдерживаемая ОС.");
-        }
+
+    public static HttpResponse<String> post(String jsonBody) throws IOException, InterruptedException {
+        // 1. Создаем клиент
+        HttpClient client = HttpClient.newHttpClient();
+
+        // Данные, которые вы хотите отправить (например, JSON)
+        //String jsonBody = paymentUrl;
+        //для отправки
+        //System.out.println(jsonBody);
+
+        // 2. Строим POST-запрос
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(WebpayPaymentService.PAYMENT_GATEWAY_URL)) // Укажите ваш URL
+                .header("Content-Type", "application/json") // Задаем тип контента
+                .POST(HttpRequest.BodyPublishers.ofString(jsonBody)) // Переводим в метод POST и передаем тело
+                .build();
+
+        System.out.println("request post to url " + request);
+
+        // 3. Отправляем запрос и получаем ответ
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        // Выводим результат - код ответа
+        System.out.println("Код ответа redirect.gandal.by: " + response.statusCode());
+        //System.out.println("Тело ответа redirect.gandal.by: " + response.body());
+        return response;
     }
+
 
     //отмена платежа
     public void cancelCurrentPayment() {
         if (statusChecker != null) {
             statusChecker.stopPolling();
             System.out.println("⚠️ Опрос статуса принудительно остановлен из интерфейса приложения.");
+        }
+    }
+
+    //открытие кода html в браузере
+    public static void openHtmlInBrowser(String htmlContent) {
+        try {
+            // 1. Создаем временный HTML-файл (префикс, суффикс)
+            File tempFile = File.createTempFile("server_response_", ".html");
+
+            // Удалить файл автоматически при закрытии Java-программы (по желанию)
+            tempFile.deleteOnExit();
+
+            // 2. Записываем HTML-код в этот файл
+            try (FileWriter writer = new FileWriter(tempFile)) {
+                writer.write(htmlContent);
+            }
+
+            // 3. Открываем файл в системном браузере по умолчанию
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                Desktop.getDesktop().browse(tempFile.toURI());
+                System.out.println("Страница успешно открыта в браузере: " + tempFile.getAbsolutePath());
+            } else {
+                System.out.println("Класс Desktop не поддерживается в данной системе.");
+            }
+
+        } catch (IOException e) {
+            System.err.println("Ошибка при открытии страницы: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
