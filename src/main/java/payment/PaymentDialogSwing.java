@@ -1,7 +1,5 @@
 package payment;
 
-import payment.test.WebPayPaymentService_test;
-
 import javax.swing.JDialog;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -30,13 +28,22 @@ public class PaymentDialogSwing extends JDialog {
 
         // Запуск процесса
         String currency = "BYN";
-        String [] itemName = {"Test Item"};
-        Integer [] quantity = {1};
-        Float [] itemPrice = {10f};
-        Float total = 10f;
+//        String [] itemName = { "Tовар1", "Товар2" };
+//        int [] quantity = { 2, 1 };
+//        float [] itemPrice = { 10f, 0.5f };
+        Item[] items = {
+                new Item(1,"Товар1", 2, 10f),
+                new Item(2, "Товар2", 1, 0.5f)
+        };
+
+        float total = 0f;
+        for (Item item : items) {
+            System.out.println(item.name + ": " + item.sum());
+            total += item.sum();
+        }
 
         //тест оплаты
-        WebPayPaymentService_test3.processPayment();
+        WebPayPaymentService.processPayment(currency, items, total);
 
 //        paymentManager.processPayment(currency, itemName, quantity, itemPrice, total, new WebpayPaymentManager.PaymentCallback() {
 //            @Override

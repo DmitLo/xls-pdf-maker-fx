@@ -1,5 +1,7 @@
 package payment;
 
+import payment.test.WebpayPaymentServ;
+
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
@@ -9,12 +11,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import static payment.WebpayPaymentService.PAYMENT_GATEWAY_URL;
-
 public class WebpayPaymentManager {
 
     // Ссылки на подключаемые сервисы
-    private final WebpayPaymentService paymentService;
+    private final WebpayPaymentServ paymentService;
     private final WebpayStatusChecker statusChecker;
 
     public interface PaymentCallback {
@@ -35,7 +35,7 @@ public class WebpayPaymentManager {
         byte xorMask = 0x5A;
 
         // Инициализируем сервисы внутри конструктора менеджера
-        this.paymentService = new WebpayPaymentService(storeId, encryptedKey, xorMask);
+        this.paymentService = new WebpayPaymentServ(storeId, encryptedKey, xorMask);
         this.statusChecker = new WebpayStatusChecker(apiUsername, apiPassword);
     }
 
@@ -79,7 +79,7 @@ public class WebpayPaymentManager {
 
         // 2. Строим POST-запрос
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(WebpayPaymentService.PAYMENT_GATEWAY_URL)) // Укажите ваш URL
+                .uri(URI.create(WebpayPaymentServ.PAYMENT_GATEWAY_URL)) // Укажите ваш URL
                 .header("Content-Type", "application/json") // Задаем тип контента
                 .POST(HttpRequest.BodyPublishers.ofString(jsonBody)) // Переводим в метод POST и передаем тело
                 .build();

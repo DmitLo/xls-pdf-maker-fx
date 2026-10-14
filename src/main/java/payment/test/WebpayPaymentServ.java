@@ -1,15 +1,14 @@
-package payment;
+package payment.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class WebpayPaymentService {
+public class WebpayPaymentServ {
 
     //private static final String PAYMENT_GATEWAY_URL = "https://webpay.by";
 //    public static final String PAYMENT_GATEWAY_URL = "https://securesandbox.webpay.by/api/v1/payment/";
@@ -23,7 +22,7 @@ public class WebpayPaymentService {
     private final byte xorMask;
 
 //    public WebpayPaymentService(String storeId, byte[] encryptedSecretKey, byte xorMask) {
-public WebpayPaymentService(Integer storeId, byte[] encryptedSecretKey, byte xorMask) {
+public WebpayPaymentServ(Integer storeId, byte[] encryptedSecretKey, byte xorMask) {
 //        this.storeId = storeId;
         this.storeId = storeId;
         this.encryptedSecretKey = encryptedSecretKey;

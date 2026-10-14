@@ -1,8 +1,5 @@
 package payment;
 
-import payment.WebPaySigner;
-
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
@@ -10,7 +7,7 @@ import java.time.Instant;
 import java.time.LocalTime;
 
 
-public class WebPayPaymentService_test3 {
+public class WebPayPaymentService {
 
     // Ссылка на платежный шлюз (Обязательно с закрывающим слэшем)
     private static final String WEBPAY_POST_URL = "https://securesandbox.webpay.by/";
@@ -20,19 +17,17 @@ public class WebPayPaymentService_test3 {
     private static final String SECRET_KEY = "mzIOhdhgjd652467hgfswjhGHDF";
     //private static final String SECRET_KEY = "1";
 
-    public static void processPayment() {
+    public static void processPayment(String currency, Item[] items, float total) {
         try {
             // 1. ПАРАМЕТРЫ ПЛАТЕЖА (Используем только целые числа для 100% прохождения теста)
             String storeId = "433329306";
-            //String storeId = "111111111";
-            //String orderNum = "ORDER-" + Instant.now().getEpochSecond();
             String orderNum = "ORDER-" + Instant.now().getEpochSecond(); // Уникальный ID заказа
-            String currency = "BYN";
+            //String currency = "BYN";
             int testMode = 1;
 
             // Использовать строго круглую сумму без точек (например, "20")
-            String totalAmount = "20.5";
-            LocalTime startSessTime = LocalTime.now();
+            String totalAmount = Float.toString(total);
+            //LocalTime startSessTime = LocalTime.now();
             String seed = String.valueOf(Instant.now().getEpochSecond());
 
             // 2. ГЕНЕРИРУЕМ ХЭШ-ПОДПИСЬ
@@ -60,17 +55,30 @@ public class WebPayPaymentService_test3 {
 
             // Корзина товаров (Индексы прописываем жестко: 0, 1, 2... без пустых скобок)
             // Математика: 10 рублей * 2 штуки = Итого 20 рублей. Идеально совпадает с wsb_total!
-            html.append("<input type='hidden' name='wsb_invoice_item_name[0]' value='Товар1'>");
-            html.append("<input type='hidden' name='wsb_invoice_item_quantity[0]' value='2'>");
-            html.append("<input type='hidden' name='wsb_invoice_item_price[0]' value='10'>");
-            html.append("<input type='hidden' name='wsb_invoice_item_name[1]' value='Товар2'>");
-            html.append("<input type='hidden' name='wsb_invoice_item_quantity[1]' value='1'>");
-            html.append("<input type='hidden' name='wsb_invoice_item_price[1]' value='0.5'>");
+//            html.append("<input type='hidden' name='wsb_invoice_item_name[0]' value='Товар1'>");
+//            html.append("<input type='hidden' name='wsb_invoice_item_quantity[0]' value='2'>");
+//            html.append("<input type='hidden' name='wsb_invoice_item_price[0]' value='10'>");
+//            html.append("<input type='hidden' name='wsb_invoice_item_name[1]' value='Товар2'>");
+//            html.append("<input type='hidden' name='wsb_invoice_item_quantity[1]' value='1'>");
+//            html.append("<input type='hidden' name='wsb_invoice_item_price[1]' value='0.5'>");
+//            html.append("<input type='hidden' name='wsb_total' value='").append(totalAmount).append("'>");
+
+
+            for (Item elements: items) {
+                html.append("<input type='hidden' name='wsb_invoice_item_name[").append(elements.ordinal).append("]' value='").append(elements.name).append("'>");
+                html.append("<input type='hidden' name='wsb_invoice_item_quantity[").append(elements.ordinal).append("]' value='").append(elements.quantity).append("'>");
+                html.append("<input type='hidden' name='wsb_invoice_item_price[").append(elements.ordinal).append("]' value='").append(elements.price).append("'>");
+            }
+
+//            for (int i = 0; i < itemName.length; i++) {
+//                html.append("<input type='hidden' name='wsb_invoice_item_name[").append(i).append("]' value='").append(itemName[i]).append("'>");
+//                html.append("<input type='hidden' name='wsb_invoice_item_quantity[").append(i).append("]' value='").append(quantity[i]).append("'>");
+//                html.append("<input type='hidden' name='wsb_invoice_item_price[").append(i).append("]' value='").append(itemPrice[i]).append("'>");
+//            }
             html.append("<input type='hidden' name='wsb_total' value='").append(totalAmount).append("'>");
 
             html.append("<input type='hidden' name='wsb_signature' value='").append(signature).append("'>");
 
-            //html.append("<input type='submit' value='Купить'>");
             html.append("</form></body></html>");
 
             // 4. ПЕРЕНОСИМ НА ДИСК
