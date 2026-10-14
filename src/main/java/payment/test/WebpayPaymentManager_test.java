@@ -1,7 +1,5 @@
 package payment.test;
 
-import payment.WebpayStatusChecker;
-
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;

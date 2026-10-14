@@ -29,3 +29,8 @@ jpackage --type app-image \
 --input target \
 --main-jar XlsPdfMaker1.jar \
 --java-options "-Dapple.laf.useScreenMenuBar=true"
+
+//туннель
+ssh -p 443 -R 80:localhost:8080 free.pinggy.io
+ssh -p 443 -R 80:localhost:8080 bypass@free.pinggy.io
+ssh -R 80:localhost:8080 localhost.run

@@ -1,8 +1,9 @@
-package payment;
+package payment.test;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import payment.WebpayPaymentManager;
 
 import java.net.URI;
 import java.net.http.HttpClient;

@@ -53,6 +53,8 @@ public class WebPayPaymentService {
             html.append("<input type='hidden' name='wsb_currency_id' value='").append(currency).append("'>");
             html.append("<input type='hidden' name='wsb_seed' value='").append(seed).append("'>");
 
+            html.append("<input type='hidden' name='wsb_return_url' value='http://localhost:8080/payment/success'>");
+
             // Корзина товаров (Индексы прописываем жестко: 0, 1, 2... без пустых скобок)
             // Математика: 10 рублей * 2 штуки = Итого 20 рублей. Идеально совпадает с wsb_total!
 //            html.append("<input type='hidden' name='wsb_invoice_item_name[0]' value='Товар1'>");

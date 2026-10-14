@@ -1,8 +1,9 @@
 package payment;
 
-import javax.swing.JDialog;
+import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class PaymentDialogSwing extends JDialog {
 
@@ -44,6 +45,24 @@ public class PaymentDialogSwing extends JDialog {
 
         //тест оплаты
         WebPayPaymentService.processPayment(currency, items, total);
+
+        // Внутри вашего ActionListener для кнопки "Оплатить" или при старте главного окна:
+        try {
+//            PaymentServer paymentServer = new PaymentServer();
+//            paymentServer.startServer();
+            PaymentManager paymentManager = new PaymentManager();
+            paymentManager.startLocalServer();
+
+            // Дальше ваш код, который открывает браузер с платежной страницей
+            // Desktop.getDesktop().browse(new URI("ссылка_на_оплату"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Не удалось запустить сервер для проверки оплаты.");
+        }
+
+
+
 
 //        paymentManager.processPayment(currency, itemName, quantity, itemPrice, total, new WebpayPaymentManager.PaymentCallback() {
 //            @Override
