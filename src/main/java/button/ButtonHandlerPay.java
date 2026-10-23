@@ -20,6 +20,10 @@ public class ButtonHandlerPay implements ActionListener {
         String title = frame.getTitle();
         System.out.println(title);
 
-        new PaymentDialogSwing();
+        try {
+            new PaymentDialogSwing();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

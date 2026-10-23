@@ -1,5 +1,9 @@
 package payment;
 
+/**
+ * Объект товара
+ */
+
 public class Item {
     int ordinal;
     String name;

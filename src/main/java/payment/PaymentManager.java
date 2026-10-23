@@ -17,6 +17,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * startLocalServer() - запуск сервера приема ответа от webpay,
+ * webPayResponse - проверка ответа,
+ * parseQuery - парсинг ответа
+ */
+
 public class PaymentManager {
 
     private HttpServer server;
@@ -60,7 +66,6 @@ public class PaymentManager {
                     os.write(responseBytes);
                     os.close();
 
-
                     // Внутри метода handle локального сервера:
                     String webPayResponse = checkPaymentInWebPay(transactionId);
 
@@ -71,21 +76,10 @@ public class PaymentManager {
                     if ("success".equals(paymentStatus)) {
                         System.out.println("ПЛАТЕЖ УСПЕШЕН!");
 
-
-
-
-
-
-
-
                         // Здесь обновляем ваше Swing-окно (например, разблокируем функции программы)
                     } else {
                         System.out.println("Платеж отклонен или не найден. Статус: " + paymentStatus);
                     }
-
-
-
-
                 }
             }
         });

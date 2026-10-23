@@ -1,5 +1,9 @@
 package payment;
 
+import guard.HardwareSigner;
+import guard.LicenseGenerator;
+import guard.LicenseGeneratorIn;
+
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -9,7 +13,7 @@ public class PaymentDialogSwing extends JDialog {
 
     private final WebpayPaymentManager paymentManager = new WebpayPaymentManager();
 
-    public PaymentDialogSwing() {
+    public PaymentDialogSwing() throws Exception {
         setTitle("Ожидание оплаты...");
         setSize(400, 200);
 
@@ -29,9 +33,6 @@ public class PaymentDialogSwing extends JDialog {
 
         // Запуск процесса
         String currency = "BYN";
-//        String [] itemName = { "Tовар1", "Товар2" };
-//        int [] quantity = { 2, 1 };
-//        float [] itemPrice = { 10f, 0.5f };
         Item[] items = {
                 new Item(1,"Товар1", 2, 10f),
                 new Item(2, "Товар2", 1, 0.5f)
@@ -43,13 +44,11 @@ public class PaymentDialogSwing extends JDialog {
             total += item.sum();
         }
 
-        //тест оплаты
+        //запуск тест оплаты
         WebPayPaymentService.processPayment(currency, items, total);
 
         // Внутри вашего ActionListener для кнопки "Оплатить" или при старте главного окна:
         try {
-//            PaymentServer paymentServer = new PaymentServer();
-//            paymentServer.startServer();
             PaymentManager paymentManager = new PaymentManager();
             paymentManager.startLocalServer();
 
@@ -61,8 +60,10 @@ public class PaymentDialogSwing extends JDialog {
             JOptionPane.showMessageDialog(null, "Не удалось запустить сервер для проверки оплаты.");
         }
 
-
-
+//        //получение HASH машины
+//        String hash = HardwareSigner.getHWID();
+//        //генерация ключа для локальной программы и сохранение в файле
+//        LicenseGeneratorIn.mainStart(hash);
 
 //        paymentManager.processPayment(currency, itemName, quantity, itemPrice, total, new WebpayPaymentManager.PaymentCallback() {
 //            @Override

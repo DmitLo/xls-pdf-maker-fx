@@ -28,13 +28,8 @@ public class WebPaySigner {
                 if (hex.length() == 1) hexString.append('0');
                 hexString.append(hex);
             }
-//            return hexString.toString(); // Получаем готовую wsb_signature
-            // Измените последнюю строчку в методе computeSignature класса WebPaySigner:
-//            return hexString.toString().toUpperCase(); // <-- ОБЯЗАТЕЛЬНО В ВЕРХНЕМ РЕГИСТРЕ!
-            //System.out.println(hexString);
-            return hexString.toString(); // <-- ОБЯЗАТЕЛЬНО В ВЕРХНЕМ РЕГИСТРЕ!
-
-
+            // Получаем готовую wsb_signature
+            return hexString.toString();
         } catch (Exception e) {
             throw new RuntimeException("Ошибка при подсчете wsb_signature", e);
         }

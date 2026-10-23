@@ -1,5 +1,7 @@
 package payment;
 
+import guard.HardwareSigner;
+import guard.LicenseGeneratorIn;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
@@ -30,6 +32,10 @@ public class XmlParser {
 
             // Если такой тег найден, возвращаем его текстовое содержимое
             if (nodeList.getLength() > 0) {
+                //получение HASH машины
+                String hash = guard.HardwareSigner.getHWID();
+                //генерация ключа для локальной программы и сохранение в файле
+                LicenseGeneratorIn.mainStart(hash);
                 return nodeList.item(0).getTextContent().trim();
             }
 
