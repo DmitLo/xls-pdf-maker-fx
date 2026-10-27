@@ -3,12 +3,10 @@ package guard;
 import button.ButtonHandlerClose;
 import button.ButtonHandlerPay;
 import gui.GuiMain;
-import payment.PaymentDialogSwing;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.nio.file.Path;
 
 public class GuiCheck {
 

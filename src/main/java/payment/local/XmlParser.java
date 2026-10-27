@@ -1,4 +1,4 @@
-package payment;
+package payment.local;
 
 import guard.HardwareSigner;
 import guard.LicenseGeneratorIn;

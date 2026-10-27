@@ -1,7 +1,6 @@
 package button;
 
-import gui.GuiAbout;
-import payment.PaymentDialogSwing;
+import payment.PaymentDialogSwingServ;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -21,7 +20,7 @@ public class ButtonHandlerPay implements ActionListener {
         System.out.println(title);
 
         try {
-            new PaymentDialogSwing();
+            new PaymentDialogSwingServ();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

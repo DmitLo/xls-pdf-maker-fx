@@ -5,19 +5,19 @@ package payment;
  */
 
 public class Item {
-    int ordinal;
-    String name;
-    int quantity;
-    float price;
+    public int ordinal;
+    public String name;
+    public int quantity;
+    public float price;
 
-    Item(int ordinal, String name, int quantity, float price) {
+    public Item(int ordinal, String name, int quantity, float price) {
         this.ordinal = ordinal;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
     }
 
-    float sum() {
+    public float sum() {
         return quantity * price;
     }
 }

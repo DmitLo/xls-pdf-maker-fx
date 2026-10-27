@@ -1,13 +1,12 @@
-package payment;
+package payment.local;
 
-import guard.HardwareSigner;
-import guard.LicenseGenerator;
-import guard.LicenseGeneratorIn;
+import payment.Item;
+import payment.PaymentManagerServ;
+import payment.WebpayPaymentManager;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 
 public class PaymentDialogSwing extends JDialog {
 
@@ -45,22 +44,20 @@ public class PaymentDialogSwing extends JDialog {
         }
 
         //запуск тест оплаты
-        WebPayPaymentService.processPayment(currency, items, total);
+        //WebPayPaymentService.processPayment(currency, items, total);
+        String orderNum = WebPayPaymentService.processPayment(currency, items, total);
 
         // Внутри вашего ActionListener для кнопки "Оплатить" или при старте главного окна:
-        try {
-            PaymentManager paymentManager = new PaymentManager();
-            paymentManager.startLocalServer();
+        //            PaymentManager paymentManager = new PaymentManager();
+//            paymentManager.startLocalServer();
 
-            // Дальше ваш код, который открывает браузер с платежной страницей
-            // Desktop.getDesktop().browse(new URI("ссылка_на_оплату"));
+        PaymentManagerServ paymentManagerServ = new PaymentManagerServ();
+        paymentManagerServ.startPollingPaymentStatus(orderNum);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Не удалось запустить сервер для проверки оплаты.");
-        }
+        // Дальше ваш код, который открывает браузер с платежной страницей
+        // Desktop.getDesktop().browse(new URI("ссылка_на_оплату"));
 
-//        //получение HASH машины
+        //        //получение HASH машины
 //        String hash = HardwareSigner.getHWID();
 //        //генерация ключа для локальной программы и сохранение в файле
 //        LicenseGeneratorIn.mainStart(hash);
